@@ -1,0 +1,899 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<script>document.documentElement.classList.add("js")</script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Raphaël Flipo — Commerce, marketing et produits numériques</title>
+<meta name="description" content="Raphaël Flipo, commercial et marketeur à Lille. Créateur de La Boussole, l'appli qui organise les déplacements des associations, et de Jarvis, un agent IA open source qui tourne en local sur Mac.">
+<link rel="canonical" href="https://raphaelflipo.github.io/">
+<meta name="author" content="Raphaël Flipo">
+<meta name="theme-color" content="#F5F2E9" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0B1311" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="fr_FR">
+<meta property="og:site_name" content="Raphaël Flipo">
+<meta property="og:url" content="https://raphaelflipo.github.io/">
+<meta property="og:title" content="Raphaël Flipo — Je construis les produits que je vends">
+<meta property="og:description" content="Raphaël Flipo, commercial et marketeur à Lille. Créateur de La Boussole, l'appli qui organise les déplacements des associations, et de Jarvis, un agent IA open source qui tourne en local sur Mac.">
+<meta property="og:image" content="https://raphaelflipo.github.io/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Raphaël Flipo — portfolio : La Boussole et Jarvis">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://raphaelflipo.github.io/img/og.jpg">
+<link rel="preload" href="fonts/instrument-serif-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/geist-var.woff2" as="font" type="font/woff2" crossorigin>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Raphaël Flipo", "url": "https://raphaelflipo.github.io/", "image": "https://raphaelflipo.github.io/img/portrait.jpg", "jobTitle": "Commercial, responsable marketing et communication", "worksFor": {"@type": "Organization", "name": "Groupe Florimond Deprez"}, "address": {"@type": "PostalAddress", "addressLocality": "Lille", "addressCountry": "FR"}, "sameAs": ["https://www.linkedin.com/in/raphaelflipo", "https://www.instagram.com/r.flipo/", "https://github.com/raphaelflipo"]}</script>
+
+<style>
+@font-face{font-family:"Instrument Serif"; src:url("fonts/instrument-serif-400.woff2") format("woff2"); font-weight:400; font-style:normal; font-display:swap}
+@font-face{font-family:"Instrument Serif"; src:url("fonts/instrument-serif-400-italic.woff2") format("woff2"); font-weight:400; font-style:italic; font-display:swap}
+@font-face{font-family:"Geist"; src:url("fonts/geist-var.woff2") format("woff2-variations"), url("fonts/geist-var.woff2") format("woff2"); font-weight:100 900; font-style:normal; font-display:swap}
+@font-face{font-family:"Geist Mono"; src:url("fonts/geist-mono-400.woff2") format("woff2"); font-weight:400; font-display:swap}
+@font-face{font-family:"Geist Mono"; src:url("fonts/geist-mono-500.woff2") format("woff2"); font-weight:500; font-display:swap}
+:root{
+  --bg:#F5F2E9; --bg-2:#ECE7DA; --surface:#FFFDF7; --ink:#10261F; --ink-2:#3B5048; --muted:#66756F;
+  --line:rgba(16,38,31,.14); --line-2:rgba(16,38,31,.08); --chip:rgba(0,61,51,.07);
+  --brand:#003D33; --brand-2:#0B4A3E; --brand-ink:#FAF8F0; --brand-muted:#A9C7BC; --accent:#00A985; --accent-ink:#007A60;
+  --shadow:0 1px 2px rgba(16,38,31,.06), 0 12px 32px -12px rgba(16,38,31,.18);
+  --j-bg:#050805; --j-ink:#E8F4DE; --j-muted:#94A88B; --j-green:#7CFC00; --j-line:rgba(124,252,0,.16);
+  --serif:"Instrument Serif", "Iowan Old Style", Georgia, serif;
+  --sans:"Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --gutter:max(16px, env(safe-area-inset-left)); --gutter-r:max(16px, env(safe-area-inset-right));
+  --radius:22px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0B1311; --bg-2:#101A17; --surface:#14201C; --ink:#EDF0E8; --ink-2:#C2CCC6; --muted:#8C9A94;
+    --line:rgba(237,240,232,.13); --line-2:rgba(237,240,232,.07); --chip:rgba(255,255,255,.06);
+    --brand:#0D4A3F; --brand-2:#135A4C; --brand-ink:#F3F1E8; --brand-muted:#9FC2B6; --accent:#27C9A0; --accent-ink:#4FD9B4;
+    --shadow:0 1px 2px rgba(0,0,0,.3), 0 16px 40px -16px rgba(0,0,0,.6);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0B1311; --bg-2:#101A17; --surface:#14201C; --ink:#EDF0E8; --ink-2:#C2CCC6; --muted:#8C9A94;
+  --line:rgba(237,240,232,.13); --line-2:rgba(237,240,232,.07); --chip:rgba(255,255,255,.06);
+  --brand:#0D4A3F; --brand-2:#135A4C; --brand-ink:#F3F1E8; --brand-muted:#9FC2B6; --accent:#27C9A0; --accent-ink:#4FD9B4;
+  --shadow:0 1px 2px rgba(0,0,0,.3), 0 16px 40px -16px rgba(0,0,0,.6);
+  color-scheme:dark;
+}
+
+*{box-sizing:border-box}
+html{scroll-behavior:smooth; -webkit-text-size-adjust:100%}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--sans); font-size:17px; line-height:1.6;
+  -webkit-font-smoothing:antialiased; overflow-x:hidden; transition:background .3s, color .3s}
+img{max-width:100%; height:auto; display:block}
+a{color:inherit}
+button{font:inherit; color:inherit}
+::selection{background:var(--accent); color:#fff}
+.wrap{max-width:1220px; margin:0 auto; padding-left:var(--gutter); padding-right:var(--gutter-r)}
+.mono{font-family:var(--mono); font-size:12.5px; letter-spacing:.06em; text-transform:uppercase}
+.serif{font-family:var(--serif); font-weight:400}
+em{font-family:var(--serif); font-style:italic; font-weight:400}
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)}
+.skip{position:absolute; left:-999px; top:8px; background:var(--ink); color:var(--bg); padding:8px 14px; border-radius:10px; z-index:100}
+.skip:focus{left:16px}
+:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:6px}
+
+/* ───── NAV ───── */
+.nav{position:sticky; top:0; z-index:50; backdrop-filter:saturate(1.4) blur(14px); -webkit-backdrop-filter:saturate(1.4) blur(14px);
+  background:color-mix(in srgb, var(--bg) 78%, transparent); border-bottom:1px solid var(--line-2)}
+.nav .wrap{display:flex; align-items:center; gap:24px; height:64px}
+.logo{display:flex; align-items:center; gap:10px; text-decoration:none; font-family:var(--serif); font-size:24px; letter-spacing:-.01em; white-space:nowrap}
+.logo svg{width:26px; height:26px; flex:none}
+.nav ul{display:flex; gap:4px; list-style:none; margin:0 0 0 auto; padding:0}
+.nav ul a{display:block; padding:8px 12px; border-radius:999px; text-decoration:none; font-size:15px; color:var(--ink-2); transition:background .2s, color .2s}
+.nav ul a:hover{background:var(--chip); color:var(--ink)}
+.nav-actions{display:flex; align-items:center; gap:8px}
+.icon-btn{width:40px; height:40px; border-radius:999px; border:1px solid var(--line); background:transparent; display:grid; place-items:center; cursor:pointer; transition:background .2s}
+.icon-btn:hover{background:var(--chip)}
+.icon-btn svg{width:18px; height:18px}
+.btn{display:inline-flex; align-items:center; gap:10px; padding:12px 20px; border-radius:999px; text-decoration:none; font-weight:500; font-size:15.5px;
+  border:1px solid transparent; cursor:pointer; transition:transform .2s, background .2s, box-shadow .2s, border-color .2s; white-space:nowrap}
+.btn:hover{transform:translateY(-1px)}
+.btn-primary{background:var(--brand); color:var(--brand-ink); box-shadow:var(--shadow)}
+.btn-primary:hover{background:var(--brand-2)}
+.btn-ghost{border-color:var(--line); background:transparent}
+.btn-ghost:hover{background:var(--chip)}
+.btn svg{width:16px; height:16px}
+.nav .btn{padding:9px 16px; font-size:14.5px}
+.menu-btn{display:none}
+.menu-panel{display:none}
+@media (max-width:860px){
+  .nav ul{display:none}
+  .nav-actions{margin-left:auto}
+  .menu-btn{display:grid}
+  .nav .btn-contact{display:none}
+  .menu-panel{position:absolute; left:0; right:0; top:64px; background:var(--bg); border-bottom:1px solid var(--line); padding:8px var(--gutter-r) 18px var(--gutter)}
+  .menu-panel.open{display:block}
+  .menu-panel a{display:block; padding:14px 4px; border-bottom:1px solid var(--line-2); text-decoration:none; font-family:var(--serif); font-size:28px}
+}
+
+/* ───── HERO ───── */
+.hero{position:relative; padding:clamp(48px, 8vw, 104px) 0 clamp(40px, 6vw, 80px); overflow:hidden}
+.hero .rose{position:absolute; right:-180px; top:-120px; width:720px; height:720px; color:var(--ink); opacity:.05; pointer-events:none; animation:spin 160s linear infinite}
+.hero-grid{display:grid; grid-template-columns:1.35fr .8fr; gap:clamp(32px, 6vw, 88px); align-items:end; position:relative}
+.eyebrow{display:flex; align-items:center; gap:10px; color:var(--muted)}
+.eyebrow .dot{width:8px; height:8px; border-radius:50%; background:var(--accent); box-shadow:0 0 0 4px color-mix(in srgb, var(--accent) 20%, transparent)}
+h1.name{font-family:var(--serif); font-weight:400; font-size:clamp(4rem, 11vw, 9.6rem); line-height:.88; letter-spacing:-.025em; margin:22px 0 28px}
+h1.name em{color:var(--accent-ink)}
+.hero .lead{font-size:clamp(18px, 1.6vw, 21px); color:var(--ink-2); max-width:600px; margin:0 0 32px}
+.hero .lead strong{color:var(--ink); font-weight:600}
+.hero-cta{display:flex; flex-wrap:wrap; gap:12px}
+.portrait{position:relative; justify-self:end; width:min(100%, 400px)}
+.portrait .frame{position:relative; border-radius:999px 999px 26px 26px; overflow:hidden; aspect-ratio:3/4; background:var(--brand); box-shadow:var(--shadow)}
+.portrait .frame img{width:100%; height:100%; object-fit:cover; object-position:50% 20%; filter:saturate(.92) contrast(1.02)}
+.portrait::before{content:""; position:absolute; inset:18px -18px -18px 18px; border-radius:999px 999px 26px 26px; border:1px solid var(--line); z-index:-1}
+.badge{position:absolute; display:flex; align-items:center; gap:8px; padding:10px 14px; border-radius:14px; background:var(--surface); box-shadow:var(--shadow);
+  font-size:13.5px; font-weight:500; border:1px solid var(--line-2); white-space:nowrap}
+.badge .mono{font-size:11px; color:var(--muted)}
+.badge.b1{left:-34px; bottom:84px}
+.badge.b2{right:-14px; top:42%}
+.badge .live{width:8px; height:8px; border-radius:50%; background:var(--accent); animation:pulse 2.4s ease-in-out infinite}
+.facts{display:grid; grid-template-columns:repeat(4, 1fr); margin-top:clamp(48px, 7vw, 88px); border-top:1px solid var(--line)}
+.facts div{padding:22px 20px 4px 0}
+.facts div + div{padding-left:20px; border-left:1px solid var(--line)}
+.facts b{display:block; font-family:var(--serif); font-weight:400; font-size:clamp(28px, 3vw, 40px); line-height:1.1}
+.facts span{color:var(--muted); font-size:14.5px}
+@media (max-width:900px){
+  .hero-grid{grid-template-columns:1fr}
+  .portrait{justify-self:start; width:min(78%, 320px); order:-1; margin-left:18px}
+  .badge.b1{left:-18px; bottom:40px}
+  .badge.b2{right:-30px}
+  .facts{grid-template-columns:1fr 1fr}
+  .facts div:nth-child(3){padding-left:0; border-left:0}
+  .facts div:nth-child(n+3){border-top:1px solid var(--line); margin-top:14px}
+}
+
+/* ───── MARQUEE ───── */
+.marquee{border-block:1px solid var(--line); overflow:hidden; padding:16px 0; background:var(--bg-2)}
+.marquee .track{display:flex; gap:44px; width:max-content; animation:slide 48s linear infinite}
+.marquee span{font-family:var(--serif); font-size:26px; white-space:nowrap; display:flex; align-items:center; gap:44px; color:var(--ink-2)}
+.marquee span::after{content:"✦"; font-size:14px; color:var(--accent)}
+
+/* ───── SECTIONS ───── */
+section{scroll-margin-top:72px}
+.sec{padding:clamp(72px, 10vw, 136px) 0}
+.sec-head{display:grid; grid-template-columns:200px 1fr; gap:24px; margin-bottom:clamp(36px, 5vw, 64px)}
+.sec-head .mono{color:var(--muted); padding-top:14px}
+h2{font-family:var(--serif); font-weight:400; font-size:clamp(2.6rem, 6vw, 5rem); line-height:.98; letter-spacing:-.02em; margin:0}
+h2 em{color:var(--accent-ink)}
+h3{font-size:20px; font-weight:600; letter-spacing:-.01em; margin:0 0 8px; line-height:1.3}
+.sub{font-size:clamp(17px, 1.5vw, 20px); color:var(--ink-2); max-width:680px; margin:22px 0 0}
+@media (max-width:760px){ .sec-head{grid-template-columns:1fr; gap:6px} .sec-head .mono{padding-top:0} }
+
+/* Projets index */
+.proj-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px}
+.proj{position:relative; display:flex; flex-direction:column; min-height:440px; padding:28px; border-radius:var(--radius); text-decoration:none; overflow:hidden;
+  transition:transform .35s cubic-bezier(.2,.7,.2,1), box-shadow .35s}
+.proj:hover{transform:translateY(-4px); box-shadow:0 30px 60px -30px rgba(0,0,0,.45)}
+.proj .top{display:flex; justify-content:space-between; align-items:center; gap:12px}
+.proj .num{font-family:var(--mono); font-size:13px; opacity:.7}
+.proj .tag{font-family:var(--mono); font-size:11.5px; letter-spacing:.06em; text-transform:uppercase; padding:6px 10px; border-radius:999px; border:1px solid currentColor; opacity:.85}
+.proj .title{font-family:var(--serif); font-size:clamp(44px, 5vw, 64px); line-height:1; margin:auto 0 12px; letter-spacing:-.02em}
+.proj p{margin:0 0 20px; max-width:440px; opacity:.85}
+.proj .stack{display:flex; flex-wrap:wrap; gap:6px}
+.proj .stack span{font-family:var(--mono); font-size:12px; padding:5px 10px; border-radius:8px; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.12)}
+.proj .arrow{position:absolute; right:26px; bottom:26px; width:48px; height:48px; border-radius:50%; display:grid; place-items:center; border:1px solid currentColor; transition:transform .3s}
+.proj:hover .arrow{transform:rotate(-45deg)}
+.proj .arrow svg{width:18px; height:18px}
+.proj.lb{background:#003D33; color:#FAF8F0}
+.proj .top, .proj .title, .proj p, .proj .stack{position:relative; z-index:1}
+.proj.lb .tag{background:#003D33}
+.proj.jv .tag{background:#050805}
+.proj.lb .art{position:absolute; right:-80px; top:-60px; width:300px; height:300px; opacity:.95; transition:transform 1.2s cubic-bezier(.2,.7,.2,1)}
+.proj.lb:hover .art{transform:rotate(45deg)}
+.proj.jv{background:radial-gradient(120% 90% at 85% 10%, rgba(124,252,0,.22), transparent 55%), #050805; color:#E8F4DE; border:1px solid rgba(124,252,0,.18)}
+.proj.jv .orb{position:absolute; right:40px; top:70px; width:170px; height:170px; border-radius:50%;
+  background:radial-gradient(circle at 34% 28%, #E9FFC9 0 6%, #A6FF4D 18%, #58D600 46%, #1F6B00 78%, #0E3300 100%);
+  box-shadow:0 0 80px rgba(124,252,0,.45), inset -14px -18px 40px rgba(0,0,0,.35); animation:float 6s ease-in-out infinite}
+.proj.jv .orb::after{content:""; position:absolute; inset:-22px; border-radius:50%; border:1px dashed rgba(124,252,0,.3)}
+.proj.jv .stack span{background:rgba(124,252,0,.06); border-color:rgba(124,252,0,.2)}
+@media (max-width:860px){ .proj-grid{grid-template-columns:1fr} .proj{min-height:400px} .proj.lb .art{width:190px; height:190px; right:-50px; top:-40px; opacity:.9} .proj.jv .orb{width:110px; height:110px; right:28px; top:76px} }
+
+/* ───── LA BOUSSOLE ───── */
+.lb-sec{background:var(--bg-2); border-top:1px solid var(--line)}
+.status{display:inline-flex; align-items:center; gap:10px; padding:8px 14px; border-radius:999px; background:var(--surface); border:1px solid var(--line); font-size:14px; margin-top:26px}
+.status .live{width:8px; height:8px; border-radius:50%; background:#E8A400; box-shadow:0 0 0 4px rgba(232,164,0,.18)}
+.audience{display:flex; flex-wrap:wrap; gap:8px; margin-top:22px}
+.audience span{padding:8px 14px; border-radius:999px; background:var(--chip); font-size:14.5px}
+.window{margin-top:clamp(40px, 6vw, 72px); border-radius:18px; overflow:hidden; background:var(--surface); box-shadow:0 40px 80px -40px rgba(0,40,30,.45), 0 0 0 1px var(--line)}
+.window .bar{display:flex; align-items:center; gap:8px; padding:12px 16px; border-bottom:1px solid var(--line-2)}
+.window .bar i{width:11px; height:11px; border-radius:50%; background:var(--line)}
+.window .bar i:nth-child(1){background:#FF5F57}.window .bar i:nth-child(2){background:#FEBC2E}.window .bar i:nth-child(3){background:#28C840}
+.window .bar span{margin-left:10px; color:var(--muted)}
+.caption{display:flex; justify-content:space-between; gap:16px; flex-wrap:wrap; color:var(--muted); font-size:14px; margin-top:14px}
+.steps{display:grid; grid-template-columns:repeat(3, 1fr); gap:0; margin-top:clamp(56px, 8vw, 104px); border-top:1px solid var(--line)}
+.steps > div{padding:28px 28px 0 0}
+.steps > div + div{padding-left:28px; border-left:1px solid var(--line)}
+.steps .n{font-family:var(--serif); font-size:64px; line-height:1; color:var(--accent-ink); margin-bottom:14px}
+.steps p{margin:0; color:var(--ink-2)}
+@media (max-width:860px){ .steps{grid-template-columns:1fr} .steps > div + div{padding-left:0; border-left:0; border-top:1px solid var(--line); margin-top:26px} }
+.features{display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; margin-top:clamp(56px, 8vw, 96px)}
+.feat{padding:26px; border-radius:var(--radius); background:var(--surface); border:1px solid var(--line-2); transition:transform .3s, box-shadow .3s}
+.feat:hover{transform:translateY(-3px); box-shadow:var(--shadow)}
+.feat .ic{width:44px; height:44px; border-radius:12px; display:grid; place-items:center; background:var(--chip); color:var(--accent-ink); margin-bottom:18px}
+.feat .ic svg{width:22px; height:22px}
+.feat p{margin:0; color:var(--ink-2); font-size:15.5px}
+@media (max-width:960px){ .features{grid-template-columns:1fr 1fr} }
+@media (max-width:620px){ .features{grid-template-columns:1fr} }
+
+.tech{margin-top:clamp(56px, 8vw, 96px); border-radius:28px; background:#003D33; color:#FAF8F0; padding:clamp(28px, 5vw, 64px); display:grid; grid-template-columns:1.1fr 1fr; gap:clamp(28px, 5vw, 72px); position:relative; overflow:hidden}
+.tech::after{content:""; position:absolute; right:-120px; bottom:-120px; width:380px; height:380px; border-radius:50%; background:radial-gradient(circle, rgba(0,169,133,.35), transparent 70%)}
+.tech .mono{color:#A9C7BC}
+.tech h3{font-family:var(--serif); font-weight:400; font-size:clamp(34px, 4vw, 48px); line-height:1.05; margin:14px 0 18px; letter-spacing:-.01em}
+.tech p{color:rgba(250,248,240,.82); margin:0 0 14px}
+.tech code{font-family:var(--mono); font-size:.86em; background:rgba(255,255,255,.08); padding:2px 7px; border-radius:6px}
+.tech-stats{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:rgba(250,248,240,.14); border-radius:18px; overflow:hidden; align-self:center; position:relative; z-index:1}
+.tech-stats div{background:#003D33; padding:24px}
+.tech-stats b{display:block; font-family:var(--serif); font-weight:400; font-size:clamp(40px, 4.4vw, 56px); line-height:1}
+.tech-stats span{color:#A9C7BC; font-size:14px}
+.platforms{display:flex; flex-wrap:wrap; gap:8px; margin-top:22px}
+.platforms span{font-family:var(--mono); font-size:12px; padding:6px 11px; border-radius:8px; border:1px solid rgba(250,248,240,.22)}
+@media (max-width:900px){ .tech{grid-template-columns:1fr} }
+
+.pricing{display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; margin-top:clamp(56px, 8vw, 96px); align-items:stretch}
+.plan{display:flex; flex-direction:column; padding:30px; border-radius:var(--radius); background:var(--surface); border:1px solid var(--line-2)}
+.plan .mono{color:var(--muted)}
+.plan .price{font-family:var(--serif); font-size:64px; line-height:1; margin:18px 0 4px}
+.plan .price small{font-family:var(--sans); font-size:15px; color:var(--muted); margin-left:4px}
+.plan .for{color:var(--ink-2); margin:6px 0 20px; font-size:15.5px}
+.plan ul{list-style:none; margin:0; padding:20px 0 0; border-top:1px solid var(--line); display:grid; gap:10px; font-size:15px}
+.plan li{display:flex; gap:10px; align-items:flex-start}
+.plan li::before{content:""; flex:none; width:16px; height:16px; margin-top:4px; border-radius:50%; background:var(--chip) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.5 8.3l2.2 2.2 4.8-5' fill='none' stroke='%2300A985' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E") center/16px no-repeat}
+.plan.hl{background:#003D33; color:#FAF8F0; border-color:transparent; box-shadow:0 30px 60px -30px rgba(0,61,51,.6); position:relative}
+.plan.hl .mono, .plan.hl .price small{color:#A9C7BC}
+.plan.hl .for{color:rgba(250,248,240,.82)}
+.plan.hl ul{border-color:rgba(250,248,240,.18)}
+.plan.hl li::before{background-color:rgba(255,255,255,.1)}
+.plan .pill{position:absolute; top:22px; right:22px; font-family:var(--mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; padding:5px 10px; border-radius:999px; background:#00A985; color:#002A22}
+.fine{color:var(--muted); font-size:14px; margin-top:18px}
+@media (max-width:900px){ .pricing{grid-template-columns:1fr} }
+
+.pilot{margin-top:clamp(56px, 8vw, 96px); display:grid; grid-template-columns:1.2fr .8fr; gap:32px; align-items:center; padding:clamp(28px, 5vw, 56px); border-radius:28px; border:1px solid var(--line); background:var(--surface)}
+.pilot h3{font-family:var(--serif); font-weight:400; font-size:clamp(34px, 4.4vw, 54px); line-height:1.02; letter-spacing:-.015em; margin:12px 0 14px}
+.pilot p{color:var(--ink-2); margin:0}
+.pilot .mono{color:var(--accent-ink)}
+.agenda{display:grid; gap:10px}
+.agenda div{display:grid; grid-template-columns:92px 1fr; gap:14px; align-items:baseline; padding:14px 0; border-bottom:1px solid var(--line-2)}
+.agenda b{font-family:var(--serif); font-weight:400; font-size:28px; color:var(--accent-ink); white-space:nowrap}
+.agenda span{color:var(--ink-2); font-size:15.5px}
+.pilot .btn{margin-top:22px}
+@media (max-width:900px){ .pilot{grid-template-columns:1fr} }
+
+/* ───── JARVIS (toujours sombre) ───── */
+.jv-sec{background:var(--j-bg); color:var(--j-ink); position:relative; overflow:hidden; color-scheme:dark}
+.jv-sec::before{content:""; position:absolute; inset:0; pointer-events:none;
+  background:radial-gradient(60% 50% at 80% 0%, rgba(124,252,0,.16), transparent 70%), radial-gradient(50% 40% at 0% 60%, rgba(124,252,0,.08), transparent 70%)}
+.jv-sec .wrap{position:relative}
+.jv-sec .sec-head .mono{color:var(--j-muted)}
+.jv-sec h2 em{color:var(--j-green)}
+.jv-sec .sub{color:#BFD0B6}
+.jv-sec .sub strong{color:var(--j-ink)}
+.glass{background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02)); border:1px solid var(--j-line); border-radius:var(--radius);
+  backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); box-shadow:inset 0 1px 0 rgba(255,255,255,.06)}
+.tabs{display:flex; gap:6px; flex-wrap:wrap; margin-top:clamp(36px, 5vw, 56px); padding:6px; width:fit-content; max-width:100%; border-radius:999px}
+.tabs button{border:0; background:transparent; padding:9px 16px; border-radius:999px; cursor:pointer; color:var(--j-muted); font-size:14.5px; transition:background .2s, color .2s}
+.tabs button[aria-selected="true"]{background:var(--j-green); color:#0B1A00; font-weight:600}
+.tabs button:not([aria-selected="true"]):hover{color:var(--j-ink); background:rgba(255,255,255,.05)}
+.stage{margin-top:16px; padding:14px; border-radius:26px; position:relative}
+.stage figure{margin:0; display:none}
+.stage figure.on{display:block; animation:fade .5s ease}
+.stage figure img{border-radius:14px; width:100%; aspect-ratio:16/10; object-fit:cover; object-position:top}
+.stage figure.phone{padding:20px 0}
+.stage figure.phone img{width:min(300px, 70%); aspect-ratio:auto; margin:0 auto; border-radius:38px; border:8px solid #1a1f18; box-shadow:0 30px 80px -20px rgba(124,252,0,.35)}
+.stage figure.pic img{aspect-ratio:auto}
+.stage figcaption{color:var(--j-muted); font-size:14px; padding:14px 6px 2px}
+.stage figcaption b{color:var(--j-ink); font-weight:500}
+.jstats{display:grid; grid-template-columns:repeat(5, 1fr); gap:1px; margin-top:clamp(48px, 7vw, 80px); background:var(--j-line); border-radius:22px; overflow:hidden; border:1px solid var(--j-line)}
+.jstats div{background:#070B06; padding:24px 20px}
+.jstats b{display:block; font-family:var(--serif); font-weight:400; font-size:clamp(36px, 3.8vw, 52px); line-height:1; color:var(--j-green)}
+.jstats span{color:var(--j-muted); font-size:14px; display:block; margin-top:8px; line-height:1.4}
+@media (max-width:900px){ .jstats{grid-template-columns:1fr 1fr} .jstats div:last-child{grid-column:span 2} }
+.jgrid{display:grid; grid-template-columns:1fr 1fr; gap:clamp(28px, 5vw, 64px); margin-top:clamp(56px, 8vw, 96px); align-items:start}
+.layers{display:grid; gap:10px; position:relative}
+.layer{padding:18px 20px; display:grid; grid-template-columns:110px 1fr; gap:14px; align-items:baseline; position:relative}
+.layer .mono{color:var(--j-green); font-size:11.5px}
+.layer span{font-size:15px; color:#CFE0C5}
+.layer + .layer::before{content:""; position:absolute; left:42px; top:-11px; width:1px; height:10px; background:var(--j-green); opacity:.5}
+.jfeat{display:grid; gap:0}
+.jfeat > div{padding:20px 0; border-bottom:1px solid var(--j-line)}
+.jfeat > div:first-child{padding-top:0}
+.jfeat h3{color:var(--j-ink); font-size:18px; display:flex; align-items:center; gap:10px}
+.jfeat h3::before{content:""; width:7px; height:7px; border-radius:50%; background:var(--j-green); box-shadow:0 0 12px var(--j-green)}
+.jfeat p{margin:0; color:#AFC2A6; font-size:15.5px}
+.jfeat code{font-family:var(--mono); font-size:.85em; color:var(--j-ink); background:rgba(124,252,0,.08); padding:1px 6px; border-radius:6px}
+@media (max-width:900px){ .jgrid{grid-template-columns:1fr} .layer{grid-template-columns:1fr; gap:4px} }
+.jcta{display:flex; flex-wrap:wrap; align-items:center; gap:14px 24px; margin-top:clamp(48px, 7vw, 80px); padding:26px 28px}
+.jcta .btn{background:var(--j-green); color:#0B1A00; font-weight:600; box-shadow:0 0 40px rgba(124,252,0,.3)}
+.jcta .btn:hover{background:#9BFF3A}
+.jcta p{margin:0; color:var(--j-muted); font-size:15px; flex:1 1 300px}
+.jcta .stackline{font-family:var(--mono); font-size:12.5px; color:#CFE0C5}
+
+/* ───── MÉTHODE ───── */
+.method{display:grid; grid-template-columns:repeat(3, 1fr); gap:clamp(20px, 3vw, 40px)}
+.method > div{border-top:2px solid var(--ink); padding-top:22px}
+.method .mono{color:var(--muted)}
+.method h3{font-family:var(--serif); font-weight:400; font-size:34px; line-height:1.05; margin:14px 0 12px; letter-spacing:-.01em}
+.method p{margin:0; color:var(--ink-2)}
+@media (max-width:860px){ .method{grid-template-columns:1fr} }
+
+/* ───── PARCOURS ───── */
+.cv-sec{background:var(--bg-2); border-top:1px solid var(--line)}
+.cv-tools{display:flex; flex-wrap:wrap; align-items:center; gap:12px; margin-top:26px}
+.seg{display:inline-flex; padding:4px; border-radius:999px; border:1px solid var(--line); background:var(--surface)}
+.seg button{border:0; background:transparent; padding:8px 16px; border-radius:999px; cursor:pointer; font-family:var(--mono); font-size:13px; letter-spacing:.06em; color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--ink); color:var(--bg)}
+.cv-grid{display:grid; grid-template-columns:1.45fr 1fr; gap:clamp(32px, 6vw, 88px)}
+.cv-col h3.mono{font-family:var(--mono); font-size:12.5px; font-weight:500; color:var(--muted); margin:0 0 6px}
+.job{display:grid; grid-template-columns:150px 1fr; gap:20px; padding:26px 0; border-top:1px solid var(--line)}
+.job .when{font-family:var(--mono); font-size:12.5px; color:var(--muted); letter-spacing:.03em; padding-top:4px}
+.job h4{margin:0; font-size:19px; font-weight:600; letter-spacing:-.01em; line-height:1.35}
+.job .org{color:var(--accent-ink); font-weight:500; margin:2px 0 10px; font-size:15.5px}
+.job ul{margin:0; padding:0; list-style:none; display:grid; gap:5px; color:var(--ink-2); font-size:15.5px}
+.job li{padding-left:18px; position:relative}
+.job li::before{content:""; position:absolute; left:0; top:.72em; width:8px; height:1px; background:var(--ink-2)}
+@media (max-width:620px){ .job{grid-template-columns:1fr; gap:6px} }
+.block{padding:24px 0; border-top:1px solid var(--line)}
+.block:first-child{border-top:0; padding-top:0}
+.edu{display:grid; gap:16px; margin-top:10px}
+.edu b{display:block; font-weight:600; font-size:16px; line-height:1.4}
+.edu span{display:block; color:var(--ink-2); font-size:15px}
+.edu small{font-family:var(--mono); font-size:12px; color:var(--muted)}
+.chips{display:flex; flex-wrap:wrap; gap:7px; margin-top:12px}
+.chips span{padding:6px 12px; border-radius:999px; background:var(--surface); border:1px solid var(--line-2); font-size:14px}
+.langs{display:grid; gap:12px; margin-top:12px}
+.langs div{display:grid; grid-template-columns:90px 1fr 40px; gap:12px; align-items:center; font-size:15px}
+.langs .bar{height:6px; border-radius:6px; background:var(--line-2); overflow:hidden}
+.langs .bar i{display:block; height:100%; background:var(--accent); border-radius:6px}
+.langs .mono{font-size:12px; color:var(--muted); text-align:right}
+.interests{display:grid; gap:10px; margin-top:12px; font-size:15.5px; color:var(--ink-2)}
+.interests b{color:var(--ink); font-weight:600}
+@media (max-width:900px){ .cv-grid{grid-template-columns:1fr} }
+[hidden]{display:none !important}
+
+/* ───── CONTACT ───── */
+.contact h2{font-size:clamp(3rem, 9vw, 7.4rem); line-height:.92}
+.paths{display:grid; grid-template-columns:repeat(3, 1fr); gap:16px; margin-top:clamp(40px, 6vw, 64px)}
+.path{padding:26px; border-radius:var(--radius); border:1px solid var(--line); background:var(--surface)}
+.path .mono{color:var(--accent-ink)}
+.path h3{margin:12px 0 8px}
+.path p{margin:0; color:var(--ink-2); font-size:15.5px}
+@media (max-width:860px){ .paths{grid-template-columns:1fr} }
+.mailbox{display:flex; flex-wrap:wrap; align-items:center; gap:14px 18px; margin-top:clamp(40px, 6vw, 64px); padding:clamp(22px, 4vw, 36px); border-radius:28px; background:var(--brand); color:var(--brand-ink)}
+.mailbox .addr{font-family:var(--serif); font-size:clamp(28px, 5vw, 56px); line-height:1.05; user-select:all; -webkit-user-select:all; word-break:break-all; flex:1 1 auto}
+.mailbox .btn{background:var(--brand-ink); color:#003D33}
+.mailbox .mono{flex-basis:100%; color:var(--brand-muted)}
+.socials{display:flex; flex-wrap:wrap; gap:10px; margin-top:22px}
+.socials a{display:inline-flex; align-items:center; gap:10px; padding:12px 18px; border-radius:999px; border:1px solid var(--line); text-decoration:none; font-size:15px; transition:background .2s}
+.socials a:hover{background:var(--chip)}
+.socials svg{width:18px; height:18px}
+footer{border-top:1px solid var(--line); padding:28px 0 calc(28px + env(safe-area-inset-bottom)); color:var(--muted); font-size:14px}
+footer .wrap{display:flex; flex-wrap:wrap; gap:12px; justify-content:space-between; align-items:center}
+
+.legal{flex-basis:100%; font-size:13.5px}
+.legal summary{cursor:pointer; width:fit-content}
+.legal p{margin:10px 0 0; max-width:760px; line-height:1.6}
+/* ───── ANIMATIONS ───── */
+.js .reveal{opacity:0; transform:translateY(22px); transition:opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1)}
+.js .reveal.in{opacity:1; transform:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes slide{to{transform:translateX(-50%)}}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 color-mix(in srgb, var(--accent) 50%, transparent)}50%{box-shadow:0 0 0 6px transparent}}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes fade{from{opacity:0; transform:translateY(8px)}to{opacity:1; transform:none}}
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{animation:none !important; transition:none !important}
+  .js .reveal{opacity:1; transform:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+<a class="skip" href="#main">Aller au contenu</a>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Raphaël Flipo, retour en haut">
+      <svg viewBox="0 0 108 108" aria-hidden="true"><rect width="108" height="108" rx="26" fill="#003D33"/><polygon points="54,17 66,42 91,54 66,66 54,91 42,66 17,54 42,42" fill="#FAF8F0"/><polygon points="54,31 61,47 77,54 54,54" fill="#00A985"/></svg>
+      Raphaël Flipo
+    </a>
+    <nav aria-label="Navigation principale" style="display:contents">
+      <ul>
+        <li><a href="#projets">Projets</a></li>
+        <li><a href="#la-boussole">La Boussole</a></li>
+        <li><a href="#jarvis">Jarvis</a></li>
+        <li><a href="#parcours">Parcours</a></li>
+      </ul>
+    </nav>
+    <div class="nav-actions">
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Changer de thème">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2M12 19.5v2M2.5 12h2M19.5 12h2M5.3 5.3l1.4 1.4M17.3 17.3l1.4 1.4M5.3 18.7l1.4-1.4M17.3 6.7l1.4-1.4"/></svg>
+      </button>
+      <a class="btn btn-primary btn-contact" href="#contact">Me contacter</a>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Ouvrir le menu" aria-expanded="false" aria-controls="menuPanel">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg>
+      </button>
+    </div>
+  </div>
+  <div class="menu-panel" id="menuPanel">
+    <a href="#projets">Projets</a>
+    <a href="#la-boussole">La Boussole</a>
+    <a href="#jarvis">Jarvis</a>
+    <a href="#parcours">Parcours</a>
+    <a href="#contact">Contact</a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ═════════ HERO ═════════ -->
+<section class="hero" id="top">
+  <svg class="rose" viewBox="0 0 200 200" aria-hidden="true" fill="none" stroke="currentColor">
+    <circle cx="100" cy="100" r="96" stroke-width=".6"/><circle cx="100" cy="100" r="78" stroke-width=".6"/><circle cx="100" cy="100" r="40" stroke-width=".6"/>
+    <polygon points="100,6 112,88 194,100 112,112 100,194 88,112 6,100 88,88" fill="currentColor" stroke="none"/>
+    <polygon points="100,40 105,95 160,100 105,105 100,160 95,105 40,100 95,95" transform="rotate(45 100 100)" fill="currentColor" stroke="none" opacity=".6"/>
+  </svg>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div>
+        <div class="eyebrow mono"><span class="dot"></span>Portfolio · Métropole lilloise</div>
+        <h1 class="name">Raphaël<br><em>Flipo.</em></h1>
+        <p class="lead">Commercial et marketeur de métier, <strong>je construis aussi les produits que je vends.</strong> En alternance en BUT Techniques de commercialisation et chez Florimond Deprez, je lance deux projets : <strong>La Boussole</strong>, l'appli qui organise les déplacements des associations, et <strong>Jarvis</strong>, un agent IA qui travaille en local sur Mac.</p>
+        <div class="hero-cta">
+          <a class="btn btn-primary" href="#projets">Voir mes projets
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 3v10M3.5 8.5L8 13l4.5-4.5"/></svg></a>
+          <a class="btn btn-ghost" href="#contact">Travailler ensemble</a>
+        </div>
+      </div>
+      <div class="portrait reveal">
+        <div class="frame"><img src="img/portrait.jpg" alt="Portrait de Raphaël Flipo, bras croisés, pull marine" width="605" height="807"></div>
+        <div class="badge b1"><span class="live"></span>La Boussole · bêta v0.9</div>
+        <div class="badge b2"><span class="mono">EN</span>Anglais C1</div>
+      </div>
+    </div>
+    <div class="facts reveal">
+      <div><b>2</b><span>produits en développement</span></div>
+      <div><b>3</b><span>expériences commerciales et marketing</span></div>
+      <div><b>4</b><span>plateformes visées par La Boussole</span></div>
+      <div><b>0 €</b><span>pour faire tourner Jarvis</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="marquee" aria-hidden="true">
+  <div class="track">
+    <span>Prospection BtoB</span><span>Stratégie marketing</span><span>Swift · C++</span><span>Réseaux sociaux</span><span>Produit SaaS</span><span>IA locale</span><span>Photo & vidéo</span><span>Management d'équipe</span>
+    <span>Prospection BtoB</span><span>Stratégie marketing</span><span>Swift · C++</span><span>Réseaux sociaux</span><span>Produit SaaS</span><span>IA locale</span><span>Photo & vidéo</span><span>Management d'équipe</span>
+  </div>
+</div>
+
+<!-- ═════════ PROJETS ═════════ -->
+<section class="sec" id="projets">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="mono">Projets</div>
+      <div>
+        <h2>Deux produits,<br><em>une même idée :</em> faire gagner du temps.</h2>
+      </div>
+    </div>
+    <div class="proj-grid">
+      <a class="proj lb reveal" href="#la-boussole">
+        <svg class="art" viewBox="0 0 108 108" aria-hidden="true"><circle cx="54" cy="54" r="50" fill="none" stroke="rgba(250,248,240,.18)" stroke-width=".6"/><polygon points="54,17 66,42 91,54 66,66 54,91 42,66 17,54 42,42" fill="#FAF8F0"/><polygon points="54,31 61,47 77,54 54,54" fill="#00A985"/></svg>
+        <div class="top"><span class="num">01</span><span class="tag">Produit SaaS · bêta</span></div>
+        <div class="title">La Boussole</div>
+        <p>Les déplacements qui rassemblent : événements, covoiturage et réservation de places pour les clubs, associations et groupes scouts.</p>
+        <div class="stack"><span>C++17</span><span>Qt 6 / QML</span><span>Firebase</span><span>OpenStreetMap</span></div>
+        <span class="arrow" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 8h10M8.5 3.5L13 8l-4.5 4.5"/></svg></span>
+      </a>
+      <a class="proj jv reveal" href="#jarvis">
+        <span class="orb" aria-hidden="true"></span>
+        <div class="top"><span class="num">02</span><span class="tag">Open source · v3.1</span></div>
+        <div class="title">Jarvis</div>
+        <p>Un agent IA autonome qui tourne sur le Mac : il planifie, utilise de vrais outils, vérifie son travail. Gratuit, privé, pilotable depuis l'iPhone.</p>
+        <div class="stack"><span>Python</span><span>Swift</span><span>MLX</span><span>FastAPI</span></div>
+        <span class="arrow" aria-hidden="true"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 8h10M8.5 3.5L13 8l-4.5 4.5"/></svg></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ LA BOUSSOLE ═════════ -->
+<section class="sec lb-sec" id="la-boussole">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="mono">01 — La Boussole</div>
+      <div>
+        <h2>Moins d'organisation.<br><em>Plus de moments à partager.</em></h2>
+        <p class="sub">Une sortie, des conducteurs volontaires, des places à réserver. La Boussole rassemble les déplacements d'une association dans un espace privé, pour ne plus recouper les messages et les tableaux à la dernière minute.</p>
+        <div class="audience"><span>Clubs sportifs</span><span>Associations locales</span><span>Groupes scouts</span><span>Collectifs et réseaux</span></div>
+        <div class="status"><span class="live"></span>Bêta v0.9 · à la recherche d'associations pilotes</div>
+      </div>
+    </div>
+
+    <figure class="reveal" style="margin:0">
+      <div class="window">
+        <img src="img/boussole-app.jpg" alt="Écran Covoiturages de La Boussole : un trajet avec 2 places sur 3 et le bouton Réserver 1 place" width="1800" height="862" loading="lazy">
+      </div>
+      <figcaption class="caption"><span>Réserver une place dans un trajet partagé.</span><span class="mono">Données de test fictives</span></figcaption>
+    </figure>
+
+    <div class="steps reveal">
+      <div><div class="n">01</div><h3>Préparer</h3><p>Un titre, une date, un lieu de rendez-vous public et un groupe. Les responsables rendent le départ lisible pour tout le monde.</p></div>
+      <div><div class="n">02</div><h3>Partager</h3><p>Une invitation, une adhésion approuvée. Les membres retrouvent leur association, même s'ils en suivent plusieurs.</p></div>
+      <div><div class="n">03</div><h3>Réserver</h3><p>Les conducteurs proposent leurs places, les participants réservent et peuvent annuler. Les disponibilités suivent en direct.</p></div>
+    </div>
+
+    <div class="features">
+      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5" width="17" height="15" rx="3"/><path d="M3.5 10h17M8 3v4M16 3v4"/></svg></div><h3>Événements clairs</h3><p>Date, lieu, consignes utiles. Les activités sont classées par groupe pour s'y retrouver.</p></div>
+      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M5 16l1.5-5a2 2 0 0 1 1.9-1.4h7.2a2 2 0 0 1 1.9 1.4L19 16"/><rect x="3.5" y="16" width="17" height="3.5" rx="1.5"/><circle cx="7.5" cy="19.5" r="1"/><circle cx="16.5" cy="19.5" r="1"/></svg></div><h3>Covoiturage et places</h3><p>Proposer un trajet, réserver, annuler. La dernière place ne peut pas être attribuée deux fois.</p></div>
+      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4L3.5 6v14L9 18l6 2 5.5-2V4L15 6 9 4z"/><path d="M9 4v14M15 6v14"/></svg></div><h3>Carte des trajets</h3><p>Départs et points de rendez-vous sur une carte OpenStreetMap, sans service payant.</p></div>
+      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7.5 3v5.5c0 4.5-3.2 8.2-7.5 9.5-4.3-1.3-7.5-5-7.5-9.5V6L12 3z"/><path d="M9 12l2.2 2.2L15.5 10"/></svg></div><h3>Rôles et accès</h3><p>Propriétaire, administrateur, coordinateur, membre. Invitations révocables, adhésions approuvées.</p></div>
+      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8.5" r="3.2"/><path d="M3.5 19c.6-3 2.8-4.8 5.5-4.8s4.9 1.8 5.5 4.8"/><circle cx="17" cy="9.5" r="2.4"/><path d="M15.8 14.6c2.3.1 4 1.6 4.7 4.4"/></svg></div><h3>Plusieurs associations</h3><p>Un seul compte pour rejoindre plusieurs associations ; chaque espace reste privé et cloisonné.</p></div>
+      <div class="feat reveal"><div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6 16V11a6 6 0 1 1 12 0v5l1.5 2h-15L6 16z"/><path d="M10 20.5a2 2 0 0 0 4 0"/></svg></div><h3>Rappels intégrés</h3><p>Les rappels restent dans l'application, sans SMS ni e-mail envoyé en masse.</p></div>
+    </div>
+
+    <div class="tech reveal">
+      <div style="position:relative; z-index:1">
+        <div class="mono">Sous le capot</div>
+        <h3>Une seule base de code, quatre plateformes.</h3>
+        <p>L'application est écrite en <code>C++17</code> avec <code>Qt 6</code> et <code>QML</code>, pour viser macOS, Windows, iOS et Android depuis le même code.</p>
+        <p>Les comptes et les données passent par <code>Firebase Auth</code> et <code>Firestore</code>, avec des règles de sécurité par association. La réservation de la dernière place se fait dans une <strong>transaction</strong> : si deux personnes cliquent en même temps, une seule l'obtient.</p>
+        <div class="platforms"><span>macOS</span><span>Windows</span><span>iOS</span><span>Android · expérimental</span></div>
+      </div>
+      <div class="tech-stats">
+        <div><b>1</b><span>base de code partagée</span></div>
+        <div><b>4</b><span>plateformes visées</span></div>
+        <div><b>15</b><span>fonctionnalités dans la bêta</span></div>
+        <div><b>0 €</b><span>pour démarrer avec l'offre Découverte</span></div>
+      </div>
+    </div>
+
+    <div class="sec-head reveal" style="margin:clamp(72px,10vw,120px) 0 0">
+      <div class="mono">Offres de lancement</div>
+      <div><h2 style="font-size:clamp(2.2rem,4.6vw,3.8rem)">Le bon cadre,<br><em>à la taille du groupe.</em></h2></div>
+    </div>
+    <div class="pricing" style="margin-top:clamp(32px,5vw,48px)">
+      <div class="plan reveal">
+        <div class="mono">Découverte</div>
+        <div class="price">0 €</div>
+        <p class="for">Essayer le parcours à petite échelle.</p>
+        <ul><li>30 membres · 1 groupe</li><li>5 événements · 20 trajets</li><li>1 responsable propriétaire</li><li>Réservations et annulations</li><li>Export de ses données personnelles</li></ul>
+      </div>
+      <div class="plan hl reveal">
+        <span class="pill">Recommandé</span>
+        <div class="mono">Association</div>
+        <div class="price">19 €<small>/ mois</small></div>
+        <p class="for">Pour les clubs et associations actifs.</p>
+        <ul><li>150 membres · 5 groupes</li><li>100 événements · 300 trajets</li><li>Gestion avancée des membres</li><li>Tableau de bord et indicateurs</li><li>Rappels dans l'application</li></ul>
+      </div>
+      <div class="plan reveal">
+        <div class="mono">Organisation</div>
+        <div class="price">49 €<small>/ mois</small></div>
+        <p class="for">Pour plusieurs groupes et responsables.</p>
+        <ul><li>500 membres · 20 groupes</li><li>500 événements · 1 000 trajets</li><li>Jusqu'à 5 responsables</li><li>Coordinateurs et permissions avancées</li><li>Exports des données de l'association</li></ul>
+      </div>
+    </div>
+    <p class="fine">Tarifs de lancement indicatifs, par association. Aucun paiement n'est encore actif pendant la bêta.</p>
+
+    <div class="pilot reveal">
+      <div>
+        <div class="mono">Programme pilote</div>
+        <h3>Votre association veut <em>essayer&nbsp;?</em></h3>
+        <p>Je cherche quelques structures pilotes — un club sportif, une association locale, un groupe scout — pour tester La Boussole sur une vraie sortie et l'améliorer avec vous.</p>
+        <a class="btn btn-primary" href="#contact">Proposer mon association
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M3 8h10M8.5 3.5L13 8l-4.5 4.5"/></svg></a>
+      </div>
+      <div class="agenda" aria-label="Déroulé d'une démonstration de 20 minutes">
+        <div><b>5 min</b><span>Comprendre le déplacement à organiser.</span></div>
+        <div><b>10 min</b><span>Essayer l'invitation, la réservation et l'annulation.</span></div>
+        <div><b>5 min</b><span>Noter les difficultés et décider de la suite.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ JARVIS ═════════ -->
+<section class="sec jv-sec" id="jarvis">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="mono">02 — Jarvis · open source</div>
+      <div>
+        <h2>Un agent IA autonome<br>qui vit <em>sur ton Mac.</em></h2>
+        <p class="sub">Jarvis reçoit une demande en langage naturel, <strong>planifie, utilise de vrais outils</strong> — fichiers, terminal, Word, Excel, PowerPoint, navigateur, Git, Calendrier — <strong>vérifie son propre travail</strong>, puis rend le résultat. Les modèles tournent en local, gratuitement ; un renfort en ligne gratuit n'intervient qu'avec ton accord.</p>
+      </div>
+    </div>
+
+    <div class="tabs glass reveal" role="tablist" aria-label="Captures de Jarvis">
+      <button role="tab" aria-selected="true" aria-controls="shot-accueil" data-shot="accueil">Accueil</button>
+      <button role="tab" aria-selected="false" aria-controls="shot-recherche" data-shot="recherche">Recherche sourcée</button>
+      <button role="tab" aria-selected="false" aria-controls="shot-iphone" data-shot="iphone">iPhone</button>
+      <button role="tab" aria-selected="false" aria-controls="shot-renfort" data-shot="renfort">Renfort gratuit</button>
+      <button role="tab" aria-selected="false" aria-controls="shot-image" data-shot="image">Image générée</button>
+    </div>
+    <div class="stage glass reveal">
+      <figure class="on" id="shot-accueil" role="tabpanel"><img src="img/jarvis-accueil.jpg" alt="Écran d'accueil de Jarvis : sphère verte, champ de demande et raccourcis de tâches" width="1800" height="1125">
+        <figcaption><b>L'app Mac native.</b> Interface en verre translucide, raccourci global ⌥ Espace, plusieurs tâches en parallèle.</figcaption></figure>
+      <figure id="shot-recherche" role="tabpanel"><img src="img/jarvis-recherche.jpg" alt="Rapport de recherche de Jarvis avec sections et citations numérotées" width="1800" height="1125" loading="lazy">
+        <figcaption><b>Recherche approfondie.</b> Sous-requêtes en parallèle, lecture des pages, rapport rédigé avec ses sources numérotées.</figcaption></figure>
+      <figure id="shot-iphone" class="phone" role="tabpanel"><img src="img/jarvis-iphone.jpg" alt="Jarvis ouvert sur un iPhone" width="800" height="1341" loading="lazy">
+        <figcaption><b>Depuis l'iPhone.</b> Application web installable, raccourcis Siri, accès sécurisé via Tailscale — le Mac fait le travail.</figcaption></figure>
+      <figure id="shot-renfort" role="tabpanel"><img src="img/jarvis-renfort.jpg" alt="Réglages de Jarvis, onglet Renfort, avec le service Google Gemini" width="1800" height="1125" loading="lazy">
+        <figcaption><b>Renfort gratuit, sur accord.</b> Quand le modèle local bloque, Jarvis peut passer la main à un modèle en ligne gratuit, puis revenir en local.</figcaption></figure>
+      <figure id="shot-image" class="pic" role="tabpanel"><img src="img/jarvis-image.jpg" alt="Image générée par Jarvis : un groupe de scouts autour d'un feu de camp sous les étoiles" width="1200" height="837" loading="lazy">
+        <figcaption><b>Images générées en local.</b> Modèle Z-Image-Turbo sur la puce Apple, sans abonnement.</figcaption></figure>
+    </div>
+
+    <div class="jstats reveal">
+      <div><b>~14k</b><span>lignes de code (Python, Swift, JavaScript)</span></div>
+      <div><b>63</b><span>outils, dans un bac à sable</span></div>
+      <div><b>260+</b><span>tests automatiques</span></div>
+      <div><b>10/10</b><span>au banc d'essai de tâches réelles</span></div>
+      <div><b>2–6 s</b><span>avant la 1<sup>re</sup> action, contre 45 s au départ</span></div>
+    </div>
+
+    <div class="jgrid">
+      <div class="reveal">
+        <div class="mono" style="color:var(--j-muted); margin-bottom:16px">Architecture</div>
+        <div class="layers">
+          <div class="layer glass"><span class="mono">Interface</span><span>App Swift native (AppKit + WebKit) · iPhone en application web</span></div>
+          <div class="layer glass"><span class="mono">Serveur</span><span>FastAPI + WebSocket · jeton 256 bits · clé révocable par appareil</span></div>
+          <div class="layer glass"><span class="mono">Agent</span><span>Boucle outil ⇄ modèle · plan · auto-vérification · sous-agents parallèles</span></div>
+          <div class="layer glass"><span class="mono">Modèles</span><span>MLX gpt-oss-20b · Ollama · renfort Gemini, relais Mistral, modèle Apple</span></div>
+          <div class="layer glass"><span class="mono">Outils</span><span>Fichiers, terminal, Office, navigateur, Git, Calendrier… sous Seatbelt</span></div>
+        </div>
+      </div>
+      <div class="jfeat reveal">
+        <div><h3>Moteur local sur Apple Silicon</h3><p>gpt-oss-20b via MLX, environ 40 jetons/s. La sortie brute au format Harmony est analysée en streaming, pour un texte en direct sans fragments.</p></div>
+        <div><h3>Seulement les outils utiles</h3><p>15 outils de base, puis les familles détectées dans la demande. Le préfixe reste dans le cache du modèle : la première action passe de 45 s à 2–6 s.</p></div>
+        <div><h3>Il vérifie avant de rendre la main</h3><p>Un contrôleur relit la demande et l'état réel du disque (fichiers, taille, diapos…). S'il manque quelque chose, l'agent repart avec la consigne précise.</p></div>
+        <div><h3>Notifications chiffrées, codées à la main</h3><p>Web Push <code>RFC 8291</code> (ECDH P-256, HKDF, AES-GCM) et <code>VAPID</code> en JWT ES256, sans bibliothèque de push.</p></div>
+        <div><h3>Sécurité par défaut</h3><p>Commandes en bac à sable, secrets dans le Trousseau macOS, journal d'audit et bouton « Annuler les modifications ».</p></div>
+      </div>
+    </div>
+
+    <div class="jcta glass reveal">
+      <a class="btn" href="https://github.com/raphaelflipo/jarvis" target="_blank" rel="noopener">
+        <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 .2a8 8 0 0 0-2.5 15.6c.4 0 .5-.2.5-.4v-1.5c-2.2.5-2.7-1-2.7-1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.3 1.9.9 2.4.7 0-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8a7.4 7.4 0 0 1 4 0c1.5-1 2.2-.8 2.2-.8.4 1.1.2 1.9.1 2.1.5.6.8 1.3.8 2.1 0 3.1-1.9 3.7-3.6 3.9.3.3.5.8.5 1.5v2.2c0 .2.1.5.6.4A8 8 0 0 0 8 .2z"/></svg>
+        Voir le code sur GitHub</a>
+      <p>Licence MIT. Installateur fourni pour les Mac Apple Silicon.</p>
+      <span class="stackline">Python · FastAPI · Swift · JavaScript · MLX · Ollama · Playwright</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ MÉTHODE ═════════ -->
+<section class="sec" id="methode">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="mono">Ma façon de travailler</div>
+      <div><h2>Du terrain <em>au produit.</em></h2></div>
+    </div>
+    <div class="method">
+      <div class="reveal"><div class="mono">01</div><h3>Partir du client</h3><p>Je viens de la vente. Je commence par le problème de la personne en face — un responsable bénévole, un commercial, un client — avant de penser technique.</p></div>
+      <div class="reveal"><div class="mono">02</div><h3>Construire vite, avec l'IA</h3><p>Je conçois le produit et l'expérience, et je pilote des assistants IA de code pour passer rapidement de l'idée à une version qui tourne.</p></div>
+      <div class="reveal"><div class="mono">03</div><h3>Prouver que ça marche</h3><p>Tests automatiques, bancs d'essai, mesures de vitesse : je présente ce qui a été vérifié, et je dis clairement ce qui reste en bêta.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ PARCOURS / CV ═════════ -->
+<section class="sec cv-sec" id="parcours">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <div class="mono" data-cv-label>Parcours</div>
+      <div>
+        <h2 lang="fr" data-cv="fr">Vendre, communiquer,<br><em>encadrer.</em></h2>
+        <h2 lang="en" data-cv="en" hidden>Selling, communicating,<br><em>leading.</em></h2>
+        <div class="cv-tools">
+          <div class="seg" role="group" aria-label="Langue du CV">
+            <button type="button" data-lang="fr" aria-pressed="true">FR</button>
+            <button type="button" data-lang="en" aria-pressed="false">EN</button>
+          </div>
+          <a class="btn btn-ghost" href="cv/CV-Raphael-Flipo.pdf" target="_blank" rel="noopener" data-cv="fr">
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 1.8H4.5A1.5 1.5 0 0 0 3 3.3v9.4a1.5 1.5 0 0 0 1.5 1.5h7a1.5 1.5 0 0 0 1.5-1.5V5.8L9 1.8z"/><path d="M9 1.8v4h4"/></svg>
+            CV en PDF</a>
+          <a class="btn btn-ghost" href="cv/CV-Raphael-Flipo-EN.pdf" target="_blank" rel="noopener" data-cv="en" hidden>
+            <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 1.8H4.5A1.5 1.5 0 0 0 3 3.3v9.4a1.5 1.5 0 0 0 1.5 1.5h7a1.5 1.5 0 0 0 1.5-1.5V5.8L9 1.8z"/><path d="M9 1.8v4h4"/></svg>
+            CV in PDF</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- FR -->
+    <div class="cv-grid" lang="fr" data-cv="fr">
+      <div class="cv-col reveal">
+        <h3 class="mono">Expérience professionnelle</h3>
+        <div class="job"><div class="when">Sept. 2026 — auj.</div><div>
+          <h4>Commercial, responsable marketing et communication</h4><div class="org">Groupe Florimond Deprez · Capelle-en-Pévèle</div>
+          <ul><li>Responsable de projets marketing internes</li><li>Assistant commercial BtoB, spécialité betterave fourragère et sucrière</li><li>Développement d'un CRM, code en Swift et C/C++</li><li>Montage photo et vidéo</li><li>Organisation de réunions et de présentations</li></ul></div></div>
+        <div class="job"><div class="when">Juin 2025 — juin 2026</div><div>
+          <h4>Commercial et directeur communication / marketing</h4><div class="org">Brasserie des Lys · Roubaix</div>
+          <ul><li>Prospection commerciale</li><li>Vente terrain BtoB et BtoC, sur site et sédentaire</li><li>Direction de la communication</li><li>Mise en place des stratégies commerciale, communication et marketing</li></ul></div></div>
+        <div class="job"><div class="when">Déc. 2024 — janv. 2025</div><div>
+          <h4>Stage commercial</h4><div class="org">Renault Roubaix · concession</div>
+          <ul><li>Prospection commerciale</li><li>Accueil des clients</li><li>Remise des véhicules</li></ul></div></div>
+        <div class="job"><div class="when">Août 2025 — auj.</div><div>
+          <h4>Chef de troupe scout</h4><div class="org">Scouts d'Europe et SUF</div>
+          <ul><li>Direction et responsabilité d'un groupe de jeunes</li><li>Encadrement et management de chefs assistants</li></ul></div></div>
+      </div>
+      <div class="cv-col reveal">
+        <div class="block"><h3 class="mono">Formation</h3>
+          <div class="edu">
+            <div><small>2026 — 2027</small><b>BUT Techniques de commercialisation, alternance</b><span>Université de Lille · marketing digital, e-business et entrepreneuriat</span></div>
+            <div><small>2024 — 2026</small><b>BUT Techniques de commercialisation, alternance</b><span>Université Polytechnique Hauts-de-France · commerce, vente, marketing, communication</span></div>
+            <div><small>2021 — 2024</small><b>Baccalauréat général</b><span>Lycée Ozanam, Lille · spécialités SES et sciences de l'ingénieur</span></div>
+          </div></div>
+        <div class="block"><h3 class="mono">Compétences</h3>
+          <div class="chips"><span>Prospection et vente</span><span>Stratégie marketing</span><span>Gestion des réseaux sociaux</span><span>Encadrement et management</span><span>Photo et vidéo</span><span>Swift, C, C++</span><span>Modélisation et animation 3D</span><span>Office</span><span>Adobe Creative Cloud</span><span>Apple Creator</span><span>Xcode</span><span>Visual Studio</span><span>Permis B</span></div></div>
+        <div class="block"><h3 class="mono">Langues</h3>
+          <div class="langs">
+            <div><span>Anglais</span><span class="bar"><i style="width:85%"></i></span><span class="mono">C1</span></div>
+            <div><span>Espagnol</span><span class="bar"><i style="width:35%"></i></span><span class="mono">A2</span></div>
+          </div></div>
+        <div class="block"><h3 class="mono">Centres d'intérêt</h3>
+          <div class="interests">
+            <div><b>Sport automobile</b> — F1, MotoGP, WEC</div>
+            <div><b>Tennis</b> — classé 2/6</div>
+            <div><b>Scoutisme</b> — chef de troupe</div>
+            <div><b>Informatique</b> — code, montage de PC</div>
+          </div></div>
+      </div>
+    </div>
+
+    <!-- EN -->
+    <div class="cv-grid" lang="en" data-cv="en" hidden>
+      <div class="cv-col">
+        <h3 class="mono">Professional experience</h3>
+        <div class="job"><div class="when">Sep 2026 — present</div><div>
+          <h4>Salesperson, Marketing &amp; Communication Manager</h4><div class="org">Groupe Florimond Deprez · Capelle-en-Pévèle</div>
+          <ul><li>Internal marketing project manager</li><li>B2B sales assistant, specialising in fodder and sugar beet</li><li>CRM development, coding in Swift and C/C++</li><li>Photo and video editing</li><li>Organising meetings and presentations</li></ul></div></div>
+        <div class="job"><div class="when">Jun 2025 — Jun 2026</div><div>
+          <h4>Sales Representative &amp; Communication / Marketing Director</h4><div class="org">Brasserie des Lys · Roubaix</div>
+          <ul><li>Business prospecting</li><li>Field sales B2B and B2C, on-site and office-based</li><li>Communication management</li><li>Implementation of the sales, communication and marketing strategies</li></ul></div></div>
+        <div class="job"><div class="when">Dec 2024 — Jan 2025</div><div>
+          <h4>Sales Intern</h4><div class="org">Renault Roubaix · dealership</div>
+          <ul><li>Sales prospecting</li><li>Customer reception</li><li>Vehicle handover</li></ul></div></div>
+        <div class="job"><div class="when">Aug 2025 — present</div><div>
+          <h4>Scout Troop Leader</h4><div class="org">Scouts d'Europe and SUF</div>
+          <ul><li>Youth leader and supervisor</li><li>Supervising and managing assistant leaders</li></ul></div></div>
+      </div>
+      <div class="cv-col">
+        <div class="block"><h3 class="mono">Education</h3>
+          <div class="edu">
+            <div><small>2026 — 2027</small><b>BUT Marketing &amp; Sales Techniques, work-study</b><span>University of Lille · digital marketing, e-business and entrepreneurship</span></div>
+            <div><small>2024 — 2026</small><b>BUT Marketing &amp; Sales Techniques, work-study</b><span>Université Polytechnique Hauts-de-France · business, sales, marketing, communication</span></div>
+            <div><small>2021 — 2024</small><b>French general baccalaureate</b><span>Lycée Ozanam, Lille · Economics &amp; Social Sciences and Engineering Science</span></div>
+          </div></div>
+        <div class="block"><h3 class="mono">Skills</h3>
+          <div class="chips"><span>Prospecting and sales</span><span>Marketing strategy</span><span>Social media management</span><span>Leadership and management</span><span>Photo and video</span><span>Swift, C, C++</span><span>3D modelling and animation</span><span>Office</span><span>Adobe Creative Cloud</span><span>Apple Creator</span><span>Xcode</span><span>Visual Studio</span><span>Driving licence (B)</span></div></div>
+        <div class="block"><h3 class="mono">Languages</h3>
+          <div class="langs">
+            <div><span>English</span><span class="bar"><i style="width:85%"></i></span><span class="mono">C1</span></div>
+            <div><span>Spanish</span><span class="bar"><i style="width:35%"></i></span><span class="mono">A2</span></div>
+          </div></div>
+        <div class="block"><h3 class="mono">Interests</h3>
+          <div class="interests">
+            <div><b>Motorsport</b> — F1, MotoGP, WEC</div>
+            <div><b>Tennis</b> — ranked 2/6 (French ranking)</div>
+            <div><b>Scouting</b> — troop leader</div>
+            <div><b>IT</b> — coding, PC building</div>
+          </div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═════════ CONTACT ═════════ -->
+<section class="sec contact" id="contact">
+  <div class="wrap">
+    <div class="mono reveal" style="color:var(--muted)">Contact</div>
+    <h2 class="reveal" style="margin-top:18px">Un projet&nbsp;?<br><em>Parlons-en.</em></h2>
+    <div class="paths">
+      <div class="path reveal"><div class="mono">Associations et clubs</div><h3>Tester La Boussole</h3><p>Une démonstration de 20 minutes, puis un pilote sur une vraie sortie de votre structure.</p></div>
+      <div class="path reveal"><div class="mono">Entreprises</div><h3>Commerce et marketing</h3><p>Prospection, stratégie de communication, réseaux sociaux, contenus photo et vidéo.</p></div>
+      <div class="path reveal"><div class="mono">Projets numériques</div><h3>Outils sur mesure</h3><p>Une appli, un outil interne ou une automatisation avec l'IA, du besoin jusqu'à la version qui tourne.</p></div>
+    </div>
+    <div class="mailbox reveal">
+      <span class="mono">Écrivez-moi</span>
+      <span class="addr" id="mailAddr">r.flipob@gmail.com</span>
+      <button class="btn" type="button" id="copyMail">
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="5" width="9" height="9" rx="2"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5"/></svg>
+        <span>Copier l'adresse</span></button>
+    </div>
+    <div class="socials reveal">
+      <a href="https://www.linkedin.com/in/raphaelflipo" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4v11H3v-11zm6.5 0h3.8v1.5h.06c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.77 2.65 4.77 6.1v5.45h-4v-4.83c0-1.15-.02-2.63-1.6-2.63-1.6 0-1.85 1.25-1.85 2.55v4.91h-4v-11z"/></svg>LinkedIn</a>
+      <a href="https://www.instagram.com/r.flipo/" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>Instagram</a>
+      <a href="https://github.com/raphaelflipo" target="_blank" rel="noopener"><svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 .2a8 8 0 0 0-2.5 15.6c.4 0 .5-.2.5-.4v-1.5c-2.2.5-2.7-1-2.7-1-.4-.9-.9-1.2-.9-1.2-.7-.5.1-.5.1-.5.8.1 1.2.8 1.2.8.7 1.3 1.9.9 2.4.7 0-.5.3-.9.5-1.1-1.8-.2-3.6-.9-3.6-4 0-.9.3-1.6.8-2.1-.1-.2-.4-1 .1-2.1 0 0 .7-.2 2.2.8a7.4 7.4 0 0 1 4 0c1.5-1 2.2-.8 2.2-.8.4 1.1.2 1.9.1 2.1.5.6.8 1.3.8 2.1 0 3.1-1.9 3.7-3.6 3.9.3.3.5.8.5 1.5v2.2c0 .2.1.5.6.4A8 8 0 0 0 8 .2z"/></svg>GitHub</a>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>© <span id="year">2026</span> Raphaël Flipo · Métropole lilloise</span>
+    <a href="#top" style="text-decoration:none">Retour en haut ↑</a>
+    <details class="legal">
+      <summary>Mentions légales et confidentialité</summary>
+      <p><strong>Éditeur :</strong> Raphaël Flipo, métropole lilloise — r.flipob@gmail.com.<br>
+      <strong>Hébergement :</strong> GitHub, Inc., 88 Colin P. Kelly Jr. Street, San Francisco, CA 94107, États-Unis.<br>
+      <strong>Confidentialité :</strong> ce site ne dépose aucun cookie et n'utilise aucun outil de mesure d'audience ni service tiers ; les polices sont hébergées avec le site. Seuls vos choix de thème et de langue du CV sont gardés dans votre navigateur.<br>
+      Les noms, lieux et associations visibles dans les captures de La Boussole sont fictifs. Tarifs indicatifs, sans engagement.</p>
+    </details>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var root = document.documentElement;
+  function store(k, v){ try{ if(v === undefined) return localStorage.getItem(k); localStorage.setItem(k, v); }catch(e){ return null; } }
+
+  /* Thème */
+  var saved = store('rf-theme');
+  if(saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+  document.getElementById('themeBtn').addEventListener('click', function(){
+    var cur = root.getAttribute('data-theme') || (matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+    var next = cur === 'dark' ? 'light' : 'dark';
+    root.setAttribute('data-theme', next); store('rf-theme', next);
+  });
+
+  /* Menu mobile */
+  var mb = document.getElementById('menuBtn'), mp = document.getElementById('menuPanel');
+  mb.addEventListener('click', function(){
+    var open = mp.classList.toggle('open'); mb.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  mp.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ mp.classList.remove('open'); mb.setAttribute('aria-expanded', 'false'); }); });
+
+  /* Galerie Jarvis */
+  var tabs = document.querySelectorAll('[data-shot]');
+  tabs.forEach(function(t){
+    t.addEventListener('click', function(){
+      tabs.forEach(function(x){ x.setAttribute('aria-selected', x === t ? 'true' : 'false'); });
+      document.querySelectorAll('.stage figure').forEach(function(f){ f.classList.toggle('on', f.id === 'shot-' + t.dataset.shot); });
+    });
+  });
+
+  /* CV FR / EN */
+  function setLang(l){
+    document.querySelectorAll('[data-cv]').forEach(function(el){ el.hidden = el.getAttribute('data-cv') !== l; });
+    document.querySelectorAll('[data-lang]').forEach(function(b){ b.setAttribute('aria-pressed', b.dataset.lang === l ? 'true' : 'false'); });
+    var lab = document.querySelector('[data-cv-label]'); if(lab) lab.textContent = l === 'en' ? 'Career' : 'Parcours';
+    store('rf-cv', l);
+  }
+  document.querySelectorAll('[data-lang]').forEach(function(b){ b.addEventListener('click', function(){ setLang(b.dataset.lang); }); });
+  if(store('rf-cv') === 'en') setLang('en');
+
+  /* Copier l'e-mail */
+  var cb = document.getElementById('copyMail'), addr = document.getElementById('mailAddr');
+  cb.addEventListener('click', function(){
+    var txt = addr.textContent.trim(), label = cb.querySelector('span');
+    function done(ok){ label.textContent = ok ? 'Adresse copiée ✓' : 'Sélectionnez l’adresse'; setTimeout(function(){ label.textContent = 'Copier l’adresse'; }, 2200); }
+    function fallback(){
+      try{ var r = document.createRange(); r.selectNodeContents(addr); var s = getSelection(); s.removeAllRanges(); s.addRange(r); done(document.execCommand('copy')); }
+      catch(e){ done(false); }
+    }
+    if(navigator.clipboard && navigator.clipboard.writeText){ navigator.clipboard.writeText(txt).then(function(){ done(true); }, fallback); }
+    else fallback();
+  });
+
+  /* Apparitions au défilement */
+  var els = document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+    }, {rootMargin:'0px 0px -8% 0px', threshold:.08});
+    els.forEach(function(el){ io.observe(el); });
+  } else els.forEach(function(el){ el.classList.add('in'); });
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+})();
+</script>
+</body>
+</html>

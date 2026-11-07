@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://raphaelflipo.github.io/sitemap.xml
