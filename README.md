@@ -12,7 +12,8 @@ Les polices et images sont hébergées dans ce dépôt.
 - `assets/site.css` : couleurs, typographie, mise en page, mobile et impression.
 - `assets/site.js` : menu mobile, thème, copie de l'adresse, galerie et impression.
 - `assets/theme.js` : lecture du thème enregistré, avant l'affichage.
-- `jarvis/index.html` : présentation de Jarvis.
+- `jarvis/index.html` : présentation et installation des deux éditions de Jarvis.
+- `jarvis/app/` : application autonome Jarvis Local, moteur et licences inclus.
 - `cv/index.html` et `cv/en/index.html` : CV consultables en ligne.
 - `cv/*.docx` : CV modifiables dans Word ou un logiciel compatible.
 - `cv/*.pdf` : versions diffusées, à remplacer après export des fichiers Word.
@@ -23,10 +24,32 @@ parcours, modifier les deux pages HTML, les deux Word, puis réexporter les PDF.
 Conserver les noms des fichiers PDF pour préserver les liens déjà partagés.
 
 Les variables de couleur sont au début de `assets/site.css`. Le thème suit
-le système sauf choix explicite du visiteur. Ce choix est la seule préférence
-enregistrée dans le stockage local du navigateur (`rf-theme`). Les éléments
-essentiels restent accessibles sans JavaScript. Les animations respectent
+le système sauf choix explicite du visiteur, enregistré dans le stockage local
+du navigateur (`rf-theme`). Jarvis Local conserve aussi ses modèles et la
+conversation sur l'appareil ; ses réglages permettent de les effacer. Les
+éléments essentiels du portfolio restent accessibles sans JavaScript ;
+l'inférence de Jarvis nécessite JavaScript et WebAssembly. Les animations respectent
 la préférence de réduction des mouvements.
+
+## Jarvis Local
+
+L'application est accessible à `https://raphaelflipo.github.io/jarvis/app/`.
+Il s'agit d'une bêta web installable, autonome sur l'appareil. Elle ne dépend
+pas du serveur Python de l'édition Mac. Le premier téléchargement du modèle
+nécessite Internet ; le service worker conserve ensuite l'interface et le
+moteur pour le mode hors connexion.
+
+Les sources principales sont maintenues dans `raphaelflipo/jarvis/local-app/`
+et copiées ici sans étape de compilation. Pour une mise à jour, copier le
+dossier complet, y compris `vendor/`, les licences, le manifeste et le service
+worker. Incrémenter la version du cache dans `sw.js` lorsque des fichiers
+distribués changent. Ne jamais copier un profil utilisateur ou des modèles
+privés dans ce dépôt public.
+
+Le guide et les limites sont dans `jarvis/app/README.md`, les essais réalisés
+dans `jarvis/app/VERIFICATION.md`. Les archives publiques sont publiées dans
+les releases du dépôt Jarvis. L'édition Mac et la version conversationnelle
+installable ont des fonctions et des prérequis distincts.
 
 ## La Boussole est un site séparé
 
