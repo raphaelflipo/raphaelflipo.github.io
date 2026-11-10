@@ -388,3 +388,10 @@ a{text-decoration:none}
 p,li{orphans:2;widows:2}
 }
 
+
+/* Jarvis : choix d’installation */
+.jarvis-platforms{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px;margin:32px 0}
+.jarvis-platform{padding:30px;border:1px solid var(--line);border-radius:24px;background:var(--wash)}
+.jarvis-platform h3{font-size:1.65rem;margin:12px 0}.jarvis-platform p{color:var(--muted);margin-bottom:24px}
+.jarvis-mac-preview{margin:0;align-self:center}.jarvis-mac-preview img{width:100%;border-radius:22px}.jarvis-mac-preview figcaption{color:var(--muted);font-size:.85rem;margin-top:10px}
+@media(max-width:650px){.jarvis-platforms{grid-template-columns:1fr}.jarvis-platform{padding:24px}}

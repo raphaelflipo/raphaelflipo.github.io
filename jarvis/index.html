@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Jarvis — Agent IA personnel sur Mac | Raphaël Flipo</title>
-<meta name="description" content="Jarvis, projet personnel d’agent IA avec Ollama et MLX sur Mac : interface liquid glass, modèles locaux et code source public.">
+<title>Jarvis — IA locale sur téléphone et ordinateur | Raphaël Flipo</title>
+<meta name="description" content="Jarvis Local : assistant IA autonome et gratuit, installable sur iPhone, Android, Mac et Windows. Une bêta de conversation locale, sans ordinateur distant.">
 <meta name="author" content="Raphaël Flipo">
 <meta name="theme-color" content="#78e044">
 <meta name="color-scheme" content="light dark">
@@ -16,8 +16,8 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="fr_FR">
 <meta property="og:site_name" content="Raphaël Flipo">
-<meta property="og:title" content="Jarvis — Agent IA personnel sur Mac | Raphaël Flipo">
-<meta property="og:description" content="Jarvis, projet personnel d’agent IA avec Ollama et MLX sur Mac : interface liquid glass, modèles locaux et code source public.">
+<meta property="og:title" content="Jarvis — IA locale sur téléphone et ordinateur | Raphaël Flipo">
+<meta property="og:description" content="Jarvis Local : assistant IA autonome et gratuit, installable sur iPhone, Android, Mac et Windows. Une bêta de conversation locale, sans ordinateur distant.">
 <meta property="og:url" content="https://raphaelflipo.github.io/jarvis/">
 <meta property="og:image" content="https://raphaelflipo.github.io/img/og.jpg">
 <meta property="og:image:alt" content="Raphaël Flipo — commerce, marketing et projets numériques">
@@ -58,82 +58,27 @@
 <div class="wrap breadcrumb">
 <a href="../index.html">Portfolio</a> / Jarvis</div>
 <section class="detail-hero wrap">
-<span class="eyebrow">
-<span class="status-dot">
-</span>Projet personnel · Code ouvert</span>
-<h1>Jarvis.<br>
-<em>L’IA, côté Mac.</em>
-</h1>
-<p class="lead">Explorer ce qu’un agent personnel peut faire avec des modèles qui tournent sur mon propre ordinateur. Jarvis associe Ollama et MLX à une interface inspirée du liquid glass.</p>
-<div class="actions">
-<a class="btn" href="https://github.com/raphaelflipo/jarvis">Voir le code et l’installation <span aria-hidden="true">↗</span>
-</a>
-<a class="btn btn-secondary" href="#apercu">Découvrir l’interface ↓</a>
-</div>
-<dl class="project-summary">
-<div>
-<dt>Intention</dt>
-<dd>Un assistant personnel local</dd>
-</div>
-<div>
-<dt>Environnement</dt>
-<dd>MacBook Air M5 · Ollama / MLX</dd>
-</div>
-<div>
-<dt>Approche</dt>
-<dd>Expérimentation · Licence MIT</dd>
-</div>
-</dl>
+<span class="eyebrow"><span class="status-dot"></span>Préversion publique · Gratuit · Code ouvert</span>
+<h1>Jarvis.<br><em>Votre IA. Sur votre appareil.</em></h1>
+<p class="lead">Une conversation qui reste près de vous. Jarvis Local fait tourner son modèle directement sur votre téléphone ou votre ordinateur, sans compte et sans abonnement.</p>
+<div class="actions"><a class="btn" href="app/">Ouvrir Jarvis Local <span aria-hidden="true">↗</span></a><a class="btn btn-secondary" href="#installer">Installer sur mon appareil ↓</a></div>
+<dl class="project-summary"><div><dt>Autonome</dt><dd>Aucun ordinateur distant</dd></div><div><dt>Quatre systèmes</dt><dd>iOS · Android · macOS · Windows</dd></div><div><dt>Après téléchargement</dt><dd>Conversation hors connexion</dd></div></dl>
 </section>
-<section class="wrap" id="apercu" aria-label="Aperçus de Jarvis">
-<div class="gallery-controls" role="tablist" aria-label="Captures de Jarvis" data-gallery-controls hidden>
-<button type="button" id="tab-home" role="tab" aria-selected="true" aria-controls="panel-home" data-panel="panel-home">L’interface</button>
-<button type="button" id="tab-research" role="tab" aria-selected="false" aria-controls="panel-research" data-panel="panel-research" tabindex="-1">La recherche</button>
+<section class="section wrap" id="installer">
+<div class="section-heading"><div><span class="eyebrow">Jarvis Local · bêta 1</span><h2>Installez-le.<br><em>Emportez vos idées.</em></h2></div></div>
+<p class="lead">La même application web installable, sur les quatre systèmes. Installez-la d’abord, puis ouvrez-la pour télécharger le modèle sur l’appareil.</p>
+<div class="jarvis-platforms">
+<article class="jarvis-platform" id="ios"><span class="eyebrow">01 / iPhone &amp; iPad</span><h3>iOS</h3><p>Ouvrez Jarvis dans Safari. Choisissez <strong>Partager → Sur l’écran d’accueil</strong>, puis « Ouvrir comme app web » si proposé.</p><a class="btn btn-secondary" href="app/">Ouvrir sur iPhone ↗</a></article>
+<article class="jarvis-platform" id="android"><span class="eyebrow">02 / Téléphone &amp; tablette</span><h3>Android</h3><p>Ouvrez Jarvis dans Chrome. Dans le menu du navigateur, choisissez <strong>Installer l’application</strong> ou « Ajouter à l’écran d’accueil ».</p><a class="btn btn-secondary" href="app/">Ouvrir sur Android ↗</a></article>
+<article class="jarvis-platform" id="macos"><span class="eyebrow">03 / Ordinateur Apple</span><h3>macOS</h3><p>Utilisez <strong>Ajouter au Dock</strong> dans Safari, ou le bouton d’installation de Chrome ou Edge. Aucun moteur à installer séparément.</p><a class="btn btn-secondary" href="app/">Ouvrir sur Mac ↗</a></article>
+<article class="jarvis-platform" id="windows"><span class="eyebrow">04 / PC</span><h3>Windows</h3><p>Ouvrez Jarvis dans Edge ou Chrome, puis choisissez <strong>Installer l’application</strong> dans le menu du navigateur.</p><a class="btn btn-secondary" href="app/">Ouvrir sur Windows ↗</a></article>
 </div>
-<div class="gallery">
-<figure id="panel-home" role="tabpanel" aria-labelledby="tab-home" tabindex="0">
-<img src="../img/jarvis-accueil.jpg" width="1800" height="1125" alt="Écran d’accueil de Jarvis : sphère verte, champ de demande et raccourcis">
-<figcaption>Capture du projet : une interface Mac avec des surfaces translucides.</figcaption>
-</figure>
-<figure id="panel-research" role="tabpanel" aria-labelledby="tab-research" tabindex="0">
-<img src="../img/jarvis-recherche.jpg" width="1800" height="1125" loading="lazy" alt="Aperçu d’un rapport de recherche dans Jarvis, avec ses références">
-<figcaption>Exemple de rapport affiché dans Jarvis. Une recherche web implique une connexion à Internet.</figcaption>
-</figure>
-</div>
+<div class="notice"><strong>Une bêta, avec des limites claires.</strong> Cette édition fait de la conversation texte. Elle ne contrôle pas vos autres applications et n’utilise pas les outils de l’agent Mac. Elle s’installe depuis le navigateur ; elle n’est pas publiée sur l’App Store ou Google Play. Un navigateur récent et assez de mémoire sont nécessaires. Les performances sur téléphone réel restent à valider.</div>
 </section>
-<section class="section wrap">
-<div class="detail-columns">
-<div>
-<span class="eyebrow">Pourquoi ce projet</span>
-<h2>Garder la main.<br>
-<em>Apprendre en créant.</em>
-</h2>
-<p>Jarvis me permet d’explorer l’IA locale, la conception d’interfaces et l’automatisation de tâches. L’objectif est de rendre ces outils plus accessibles dans un environnement personnel.</p>
-<p>Mon fil conducteur : une demande formulée simplement, des actions compréhensibles et une expérience cohérente sur Mac.</p>
-</div>
-<div>
-<span class="eyebrow">Ce que j’explore</span>
-<h2>Du modèle<br>
-<em>à l’usage.</em>
-</h2>
-<ul>
-<li>Exécution de modèles sur Apple Silicon avec MLX et Ollama.</li>
-<li>Interaction avec des outils et des fichiers dans un agent personnel.</li>
-<li>Interface en verre translucide, lisible et adaptée au Mac.</li>
-<li>Conception et développement assistés par l’IA.</li>
-</ul>
-</div>
-</div>
-<div class="notice">
-<strong>Local, avec un périmètre clair.</strong> Les modèles peuvent s’exécuter sur le Mac sans abonnement à une API payante. Les fonctions web utilisent Internet et le dépôt prévoit un renfort en ligne facultatif. Le projet ne promet donc pas que tous les usages restent hors ligne. Les conditions d’installation et les limites actuelles sont décrites dans le dépôt.</div>
-</section>
-<section class="wrap">
-<div class="next-project">
-<a class="back-link" href="../index.html#projets">← Tous les projets</a>
-<a class="text-link" href="../la-boussole/">
-<span>La Boussole</span> ↗</a>
-</div>
-</section>
+<section class="section wrap"><div class="detail-columns"><div><span class="eyebrow">Deux modèles, à votre rythme</span><h2>Petit téléchargement.<br><em>Calcul local.</em></h2><p><strong>SmolLM2 135M · environ 140 Mo.</strong> Le plus léger pour commencer. Il répond surtout en anglais ; son français est limité.</p><p><strong>Qwen3 0.6B · environ 628 Mo.</strong> Plus adapté au français, avec davantage de mémoire et de temps de calcul.</p><p>Ajoutez environ 23 Mo pour le moteur et l’interface. La taille téléchargée ne représente pas toute la mémoire nécessaire. Ces petits modèles peuvent se tromper et ne remplacent pas les grands modèles de bureau.</p></div><div><span class="eyebrow">Votre appareil, vos échanges</span><h2>Sans compte.<br><em>Sans serveur d’IA.</em></h2><p>Le premier téléchargement nécessite Internet. Une fois l’application et le modèle conservés, Jarvis peut être rechargé hors connexion. Aucun Mac ni PC ne doit rester allumé pour l’utiliser sur téléphone.</p><p>Les messages et l’historique restent dans le navigateur. Le téléchargement initial contacte GitHub Pages et Hugging Face. Si le navigateur libère son stockage, il faudra télécharger le modèle à nouveau.</p><p><a class="text-link" href="https://github.com/raphaelflipo/jarvis/blob/main/local-app/VERIFICATION.md">Lire les tests et les limites ↗</a></p></div></div></section>
+<section class="section wrap" id="edition-mac"><div class="detail-columns"><div><span class="eyebrow">L’édition agent · Mac uniquement</span><h2>Jarvis pour Mac.<br><em>Les outils en plus.</em></h2><p>L’édition originale associe Ollama et MLX à une interface native. Elle explore les tâches, les fichiers et les intégrations macOS. Ses fonctions et ses besoins diffèrent de Jarvis Local.</p><p>Préversion pour Apple Silicon, macOS 14+, 16 Go de RAM et 30 Go libres. Homebrew et les outils Apple sont nécessaires. L’installateur compile l’application sur le Mac et télécharge les dépendances.</p><div class="actions"><a class="btn" href="https://github.com/raphaelflipo/jarvis/releases/download/v3.2.0-beta.1/Jarvis-v3.2.0-beta.1-macOS-arm64.zip">Télécharger l’installateur Mac ↓</a><a class="text-link" href="https://github.com/raphaelflipo/jarvis/blob/main/packaging/MACOS-INSTALL.txt">Lire la notice ↗</a></div><p>Sans notarisation Apple : macOS peut bloquer l’ouverture. L’installation complète sur un Mac neuf n’a pas encore été validée. Les fonctions web et le renfort cloud facultatif nécessitent Internet.</p></div><figure class="jarvis-mac-preview"><img src="../img/jarvis-accueil.jpg" width="1800" height="1125" loading="lazy" alt="Interface de l’édition Jarvis pour Mac avec sa sphère verte"><figcaption>L’édition Mac originale, distincte de Jarvis Local.</figcaption></figure></div></section>
+<section class="section wrap"><div class="notice"><strong>Le code vous appartient aussi.</strong> Les sources de Jarvis sont publiques et modifiables, sous licence MIT. Les bibliothèques et modèles conservent leurs licences respectives. <a href="https://github.com/raphaelflipo/jarvis/releases/download/v3.2.0-beta.1/Jarvis-Local-1.0.0-beta.1.zip">Télécharger les fichiers de Jarvis Local</a> ou <a href="https://github.com/raphaelflipo/jarvis">consulter le dépôt</a>.</div></section>
+<section class="wrap"><div class="next-project"><a class="back-link" href="../index.html#projets">← Tous les projets</a><a class="text-link" href="../la-boussole/"><span>La Boussole</span> ↗</a></div></section>
 </main>
 <footer class="site-footer">
 <div class="wrap">
@@ -145,7 +90,7 @@
 <details class="legal">
 <summary>À propos du site et confidentialité</summary>
 <p>Éditeur : Raphaël Flipo. Contact : <a href="mailto:r.flipob@gmail.com">r.flipob@gmail.com</a>. Hébergement : GitHub Pages.</p>
-<p>Ce portfolio n’utilise aucun outil de mesure d’audience ni cookie publicitaire. Les polices et les images sont hébergées avec le site. Seul le choix du thème est conservé dans votre navigateur. Les liens externes et les échanges par e-mail relèvent des services concernés. <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">Confidentialité chez GitHub</a>.</p>
+<p>Ce portfolio n’utilise aucun outil de mesure d’audience ni cookie publicitaire. Les polices et les images sont hébergées avec le site. Le portfolio conserve votre choix de thème dans le navigateur. Si vous utilisez Jarvis Local, ses modèles et votre conversation y sont aussi enregistrés ; ils peuvent être effacés dans ses réglages. Les liens externes et les échanges par e-mail relèvent des services concernés. <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">Confidentialité chez GitHub</a>.</p>
 </details>
 </div>
 </footer>
