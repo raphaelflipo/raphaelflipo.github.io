@@ -1,6 +1,7 @@
 'use strict';
 (() => {
   const root = document.documentElement;
+  const english = root.lang === 'en';
   const menu = document.getElementById('site-nav');
   const menuButton = document.getElementById('menu-toggle');
   if (menu && menuButton) {
@@ -16,7 +17,9 @@
       menuButton.setAttribute('aria-expanded', String(open));
       menu.classList.toggle('is-open', open);
     });
-    menu.addEventListener('click', event => { if (event.target.closest('a')) closeMenu(); });
+    menu.addEventListener('click', event => {
+      if (event.target.closest('a')) closeMenu();
+    });
     document.addEventListener('keydown', event => {
       if (event.key === 'Escape' && menu.classList.contains('is-open')) closeMenu(true);
     });
@@ -32,63 +35,99 @@
   const themeButton = document.getElementById('theme-toggle');
   const darkPreference = matchMedia('(prefers-color-scheme: dark)');
   const isDark = () => root.dataset.theme ? root.dataset.theme === 'dark' : darkPreference.matches;
-  const updateThemeLabel = () => {
-    if (!themeButton) return;
-    const english = root.lang === 'en';
-    themeButton.setAttribute('aria-label', english ? (isDark() ? 'Use light theme' : 'Use dark theme') : (isDark() ? 'Activer le thème clair' : 'Activer le thème sombre'));
-    themeButton.setAttribute('aria-pressed', String(isDark()));
+  const updateTheme = () => {
+    if (themeButton) {
+      const label = english ? (isDark() ? 'Use light theme' : 'Use dark theme') : (isDark() ? 'Activer le thème clair' : 'Activer le thème sombre');
+      themeButton.setAttribute('aria-label', label);
+      themeButton.title = label;
+      themeButton.setAttribute('aria-pressed', String(isDark()));
+    }
+    const meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.content = isDark() ? '#111b16' : '#f7f7f2';
   };
   if (themeButton) {
     themeButton.hidden = false;
-    updateThemeLabel();
     themeButton.addEventListener('click', () => {
       root.dataset.theme = isDark() ? 'light' : 'dark';
       try { localStorage.setItem('rf-theme', root.dataset.theme); } catch (_) {}
-      updateThemeLabel();
+      updateTheme();
     });
-    darkPreference.addEventListener('change', updateThemeLabel);
   }
+  updateTheme();
+  darkPreference.addEventListener('change', updateTheme);
 
   const copy = document.getElementById('copy-email');
-  if (copy && navigator.clipboard && window.isSecureContext) {
+  const copyStatus = document.getElementById('copy-status');
+  const mailLink = document.querySelector('.contact-email');
+  if (copy && copyStatus && mailLink && navigator.clipboard && window.isSecureContext) {
     copy.hidden = false;
     copy.addEventListener('click', async () => {
-      const status = document.getElementById('copy-status');
+      const address = mailLink.getAttribute('href').replace(/^mailto:/, '').split('?')[0];
       try {
-        await navigator.clipboard.writeText('r.flipob@gmail.com');
-        status.textContent = 'Adresse copiée.';
+        await navigator.clipboard.writeText(address);
+        copyStatus.textContent = 'Adresse copiée : ' + address;
       } catch (_) {
-        status.textContent = 'Copie indisponible. Vous pouvez sélectionner l’adresse ou ouvrir votre messagerie.';
+        copyStatus.textContent = 'Vous pouvez sélectionner l’adresse ci-dessus ou cliquer dessus pour ouvrir votre messagerie.';
       }
     });
   }
+
   document.querySelectorAll('[data-print]').forEach(button => {
     button.hidden = false;
     button.addEventListener('click', () => window.print());
   });
-  const tabs = [...document.querySelectorAll('[role="tab"][data-panel]')];
-  if (tabs.length) {
-    const activate = tab => {
-      tabs.forEach(item => {
-        const selected = item === tab;
-        item.setAttribute('aria-selected', String(selected));
-        item.tabIndex = selected ? 0 : -1;
-        document.getElementById(item.dataset.panel).hidden = !selected;
+
+  const path = location.pathname.replace(/index\.html$/, '');
+  document.querySelectorAll('.site-nav a').forEach(link => {
+    const url = new URL(link.href);
+    if (!url.hash && url.pathname.replace(/index\.html$/, '') === path && path !== '/') link.setAttribute('aria-current', 'page');
+  });
+  const sectionLinks = [...document.querySelectorAll('.site-nav [data-section]')];
+  const sections = sectionLinks.map(link => document.getElementById(link.dataset.section)).filter(Boolean);
+  if (sections.length && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        const link = sectionLinks.find(item => item.dataset.section === entry.target.id);
+        if (!link) return;
+        if (entry.isIntersecting) {
+          sectionLinks.forEach(item => item.removeAttribute('aria-current'));
+          link.setAttribute('aria-current', 'location');
+        } else if (link.getAttribute('aria-current') === 'location') {
+          link.removeAttribute('aria-current');
+        }
       });
-    };
-    document.querySelector('[data-gallery-controls]').hidden = false;
-    activate(tabs[0]);
-    tabs.forEach((tab, index) => {
-      tab.addEventListener('click', () => activate(tab));
-      tab.addEventListener('keydown', event => {
-        let next;
-        if (event.key === 'ArrowRight') next = (index + 1) % tabs.length;
-        if (event.key === 'ArrowLeft') next = (index + tabs.length - 1) % tabs.length;
-        if (event.key === 'Home') next = 0;
-        if (event.key === 'End') next = tabs.length - 1;
-        if (next === undefined) return;
-        event.preventDefault(); tabs[next].focus(); activate(tabs[next]);
+    }, { rootMargin: '-15% 0px -60% 0px', threshold: 0 });
+    sections.forEach(section => observer.observe(section));
+  }
+
+  const dialog = document.getElementById('image-dialog');
+  if (dialog && typeof dialog.showModal === 'function') {
+    const full = document.getElementById('image-full');
+    const caption = document.getElementById('image-caption');
+    let opener;
+    document.querySelectorAll('[data-lightbox]').forEach(link => {
+      link.setAttribute('aria-haspopup', 'dialog');
+      link.addEventListener('click', event => {
+        if (event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+        event.preventDefault();
+        const preview = link.querySelector('img');
+        full.src = link.href;
+        full.alt = preview.alt;
+        full.width = preview.width;
+        full.height = preview.height;
+        caption.textContent = link.dataset.caption;
+        opener = link;
+        dialog.showModal();
+        document.body.classList.add('dialog-open');
       });
+    });
+    dialog.querySelector('.lightbox-close').addEventListener('click', () => dialog.close());
+    dialog.addEventListener('click', event => {
+      if (event.target === dialog) dialog.close();
+    });
+    dialog.addEventListener('close', () => {
+      document.body.classList.remove('dialog-open');
+      if (opener) opener.focus({ preventScroll: true });
     });
   }
 })();
