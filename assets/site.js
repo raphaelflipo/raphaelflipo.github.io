@@ -18,7 +18,21 @@
       menu.classList.toggle('is-open', open);
     });
     menu.addEventListener('click', event => {
-      if (event.target.closest('a')) closeMenu();
+      const link = event.target.closest('a');
+      if (!link || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+      const url = new URL(link.href);
+      const samePage = url.origin === location.origin && url.pathname === location.pathname;
+      const target = samePage && url.hash ? document.getElementById(decodeURIComponent(url.hash.slice(1))) : null;
+      const wasOpen = menu.classList.contains('is-open');
+      closeMenu();
+      if (wasOpen && target) {
+        const temporaryFocus = !target.hasAttribute('tabindex');
+        if (temporaryFocus) {
+          target.setAttribute('tabindex', '-1');
+          target.addEventListener('blur', () => target.removeAttribute('tabindex'), { once: true });
+        }
+        target.focus({ preventScroll: true });
+      }
     });
     document.addEventListener('keydown', event => {
       if (event.key === 'Escape' && menu.classList.contains('is-open')) closeMenu(true);
@@ -131,3 +145,4 @@
     });
   }
 })();
+
