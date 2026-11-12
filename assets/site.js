@@ -57,7 +57,7 @@
       themeButton.setAttribute('aria-pressed', String(isDark()));
     }
     const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.content = isDark() ? '#111b16' : '#f7f7f2';
+    if (meta) meta.content = isDark() ? '#17251f' : '#f7f5ef';
   };
   if (themeButton) {
     themeButton.hidden = false;
@@ -145,4 +145,5 @@
     });
   }
 })();
+
 
