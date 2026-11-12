@@ -79,3 +79,7 @@ les liens vers les deux projets et la console du navigateur. Les contrôles du
 portfolio ne remplacent pas les essais des applications présentées.
 
 Polices sous SIL Open Font License : voir `fonts/licences/`.
+
+## Distribution native Jarvis 3.3.0-rc.1
+
+La page `/jarvis/` présente les paquets Mac, Windows et Android, leurs prérequis, les environnements de test et leurs limites de signature. Elle indique explicitement l'absence de canal iOS public. Les téléchargements pointent vers les releases de `raphaelflipo/jarvis` ; la version web dans `/jarvis/app/` reste complémentaire. Sa source se trouve dans `local-app/` du dépôt Jarvis : ne pas maintenir une copie différente à la main. Les CV et le reste du portfolio sont conservés.
