@@ -1,0 +1,42 @@
+name: Préparer la visionneuse 3D
+on:
+  push:
+    branches: [refonte-portfolio-vert-2026]
+    paths:
+      - .github/workflows/visionneuse.yml
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  installer:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: refonte-portfolio-vert-2026
+          persist-credentials: true
+      - name: Récupérer la version fixée de model-viewer
+        run: |
+          mkdir -p aileron-f1/vendor
+          mkdir -p /tmp/model-viewer
+          cd /tmp/model-viewer
+          npm pack @google/model-viewer@4.1.0 --ignore-scripts --silent
+          tar xzf google-model-viewer-4.1.0.tgz
+          cp package/dist/model-viewer.min.js "$GITHUB_WORKSPACE/aileron-f1/vendor/model-viewer.min.js"
+          if [ -f package/LICENSE ]; then
+            cp package/LICENSE "$GITHUB_WORKSPACE/aileron-f1/vendor/LICENSE"
+          else
+            curl --fail --location --silent --show-error https://raw.githubusercontent.com/google/model-viewer/v4.1.0/LICENSE -o "$GITHUB_WORKSPACE/aileron-f1/vendor/LICENSE"
+          fi
+          test "$(wc -c < "$GITHUB_WORKSPACE/aileron-f1/vendor/model-viewer.min.js")" -gt 100000
+      - name: Enregistrer la bibliothèque dans la branche
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add aileron-f1/vendor/model-viewer.min.js aileron-f1/vendor/LICENSE
+          if ! git diff --cached --quiet; then
+            git commit -m "Héberger model-viewer localement avec sa licence"
+            git push origin HEAD:refonte-portfolio-vert-2026
+          fi
