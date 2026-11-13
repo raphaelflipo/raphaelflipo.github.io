@@ -1,6 +1,7 @@
 'use strict';
 
 const input = document.querySelector('#wing-file');
+const openButton = document.querySelector('#wing-open');
 const viewer = document.querySelector('#wing-model');
 const status = document.querySelector('#wing-status');
 const container = document.querySelector('#wing-viewport');
@@ -37,10 +38,13 @@ async function validateModel(file) {
   }
 }
 
+openButton.addEventListener('click', () => input.click());
+
 input.addEventListener('change', async () => {
   const file = input.files?.[0];
   if (!file) return;
   input.disabled = true;
+  openButton.disabled = true;
   setStatus('Vérification du fichier…');
   try {
     await validateModel(file);
@@ -60,6 +64,7 @@ input.addEventListener('change', async () => {
     setStatus(error instanceof Error ? error.message : 'Impossible de charger le modèle.');
   } finally {
     input.disabled = false;
+    openButton.disabled = false;
   }
 });
 
