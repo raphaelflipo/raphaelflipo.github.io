@@ -40,6 +40,18 @@ try {
         width: document.documentElement.scrollWidth
       }));
       assert(dimensions.width <= dimensions.viewport + 2, name + ' à ' + width + 'px : débordement ' + dimensions.width);
+      if (name === 'f1') {
+        assert.equal(await page.locator('#wing-model').getAttribute('src'), './aileron-F1-2019.glb');
+        const glb = await page.request.get(origin + '/aileron-f1/aileron-F1-2019.glb');
+        assert.equal(glb.status(), 200, 'Le modèle GLB doit être disponible localement');
+        assert.equal((await glb.body()).byteLength, 1754320, 'La taille du modèle doit être conservée');
+        await page.waitForFunction(() => Boolean(customElements.get('model-viewer')), null, { timeout: 20000 });
+        const canRender = await page.evaluate(() => Boolean(document.createElement('canvas').getContext('webgl2')));
+        if (canRender) {
+          await page.waitForFunction(() => document.getElementById('wing-model')?.loaded === true, null, { timeout: 20000 });
+          assert(await page.locator('#wing-viewport').evaluate(el => el.classList.contains('rf-wing-viewer--ready')), 'Le modèle F1 ne s’affiche pas');
+        }
+      }
       await page.screenshot({ path: 'screenshots/' + name + '-' + width + '.png', fullPage: true });
     }
     await page.goto(origin, { waitUntil: 'load' });
