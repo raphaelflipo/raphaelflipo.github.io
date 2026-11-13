@@ -1,0 +1,20 @@
+name: Qualité du site
+on:
+  push:
+    branches: [refonte-portfolio-vert-2026, main]
+  pull_request:
+    paths:
+      - '**/*.html'
+      - '**/*.js'
+      - '**/*.css'
+      - 'scripts/audit.mjs'
+      - '.github/workflows/qualite.yml'
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/audit.mjs
