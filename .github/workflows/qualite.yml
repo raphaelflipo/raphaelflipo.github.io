@@ -1,0 +1,40 @@
+name: Qualité du site
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - '**/*.html'
+      - '**/*.js'
+      - '**/*.css'
+      - 'scripts/visual-check.mjs'
+      - 'scripts/audit.mjs'
+      - '.github/workflows/qualite.yml'
+permissions:
+  contents: read
+
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: node scripts/audit.mjs
+  visuel:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install --no-save playwright@1.55.1
+      - run: npx playwright install --with-deps chromium
+      - run: node scripts/visual-check.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: captures-responsive
+          path: screenshots/
+          if-no-files-found: ignore

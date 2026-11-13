@@ -6,8 +6,8 @@ let worker, ready = false, busy = false, loadedKey, generating = false, installP
 let operation = 0;
 let deleting = false;
 let messages = [];
-try { messages = restoreHistory(JSON.parse(localStorage.getItem(storeKey) || '[]')); } catch { /* Storage is optional. */ }
-try { const selected = localStorage.getItem('jarvis-local-model'); if (MODELS[selected]) $('model-select').value = selected; } catch { /* Optional preference. */ }
+try { messages = restoreHistory(JSON.parse(localStorage.getItem(storeKey) || '[]')); } catch {  }
+try { const selected = localStorage.getItem('jarvis-local-model'); if (MODELS[selected]) $('model-select').value = selected; } catch {  }
 const modelNote = document.createElement('p');
 modelNote.className = 'muted'; modelNote.id = 'model-note';
 $('model-select').parentElement.after(modelNote);
@@ -82,7 +82,7 @@ async function load() {
       busy = false; controls(); error('L’espace de stockage disponible est insuffisant. Libérez de la place ou choisissez le modèle léger.'); return;
     }
     await navigator.storage?.persist?.();
-  } catch { /* Some browsers do not expose storage estimates. */ }
+  } catch {  }
   if (attempt !== operation) return;
   worker?.terminate(); ready = false; busy = true; generating = false;
   loadedKey = key; modelCached = false; controls();
@@ -103,7 +103,7 @@ async function load() {
       error('Le modèle n’a pas pu être conservé. Libérez du stockage pour l’utiliser hors connexion.');
     } else if (data.type === 'ready') {
       ready = true; busy = false; modelCached = data.cached;
-      try { localStorage.setItem('jarvis-local-model', loadedKey); } catch { /* Optional preference. */ }
+      try { localStorage.setItem('jarvis-local-model', loadedKey); } catch {  }
       $('progress').hidden = true; $('progress-label').textContent = 'Le modèle est prêt. Le premier message peut demander un peu de temps.';
       readyStatus(); controls(); $('prompt').focus({ preventScroll: true });
     } else if (data.type === 'token') {
