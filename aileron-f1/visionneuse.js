@@ -5,7 +5,7 @@ const container = document.getElementById('wing-viewport');
 const status = document.getElementById('wing-status');
 
 if (matchMedia('(max-width: 640px)').matches) {
-  viewer.setAttribute('camera-orbit', '35deg 70deg 2.05m');
+  viewer.setAttribute('camera-orbit', '35deg 70deg 2.6m');
 }
 
 viewer.addEventListener('load', () => {
