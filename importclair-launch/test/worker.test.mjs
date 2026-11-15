@@ -77,3 +77,74 @@ test('billing portal stays accessible with a valid cookie even after cancellatio
 test('seller text is escaped',async()=>{
   const r=await makeWorker().fetch(request('/conditions'),{SELLER_NAME:'<script>bad</script>'});const body=await r.text();assert.ok(!body.includes('<script>bad'));assert.match(body,/&lt;script&gt;/);
 });
+
+test('closing new sales and removing seller fields preserves paid access, recovery and billing',async()=>{
+  const worker=makeWorker(html);
+  const closed={...env,SALES_ENABLED:'false',SELLER_NAME:'',SELLER_ADDRESS:'',SELLER_SIREN:'',SUPPORT_EMAIL:'',TERMS_TEXT:'',PRIVACY_TEXT:''};
+  let calls=0;
+  const fetcher=async url=>{calls++;return ok(url.includes('/billing_portal/')?{url:'https://billing.stripe.com/test'}:sub());};
+  assert.equal(configured(closed,html),false);
+  const checkout=await worker.fetch(request('/checkout',{method:'POST',headers:{Origin:origin,'Content-Type':'application/x-www-form-urlencoded'},body:'professional=yes'}),{...closed,fetcher});
+  assert.equal(checkout.status,503);assert.equal(calls,0);
+  const authenticated={Cookie:cookie(await session())};
+  assert.equal((await worker.fetch(request('/app',{headers:authenticated}),{...closed,fetcher})).status,200);
+  const token=await sign({aud:'recovery',sub:'sub_123',customer:'cus_123',exp:Date.now()/1000+3600},secret);
+  const recovered=await worker.fetch(request('/recover',{method:'POST',headers:{Origin:origin,'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({token})}),{...closed,fetcher});
+  assert.equal(recovered.status,200);
+  const portal=await worker.fetch(request('/portal',{method:'POST',headers:{Origin:origin,...authenticated}}),{...closed,fetcher});
+  assert.equal(portal.status,303);assert.equal(portal.headers.get('Location'),'https://billing.stripe.com/test');
+});
+
+test('already paid checkout can complete after new sales close',async()=>{
+  const state=await sign({aud:'checkout',nonce:'123',exp:Date.now()/1000+3600},secret);
+  const fetcher=async url=>ok(url.includes('/checkout/sessions/')?{client_reference_id:'123',mode:'subscription',status:'complete',payment_status:'paid',subscription:'sub_123',customer:'cus_123'}:sub());
+  const r=await makeWorker(html).fetch(request('/complete?session_id=cs_test_123',{headers:{Cookie:'__Host-importclair-state='+state}}),{...env,SALES_ENABLED:'false',TERMS_TEXT:'',fetcher});
+  assert.equal(r.status,200);assert.equal(r.headers.getSetCookie().length,2);
+});
+
+test('inactive subscribers recover billing access without gaining product access',async()=>{
+  const worker=makeWorker(html);
+  const token=await sign({aud:'recovery',sub:'sub_123',customer:'cus_123',exp:Date.now()/1000+3600},secret);
+  for(const status of ['canceled','past_due','unpaid']){
+    const value=sub();value.status=status;
+    const fetcher=async url=>ok(url.includes('/billing_portal/')?{url:'https://billing.stripe.com/test'}:value);
+    const settings={...env,SALES_ENABLED:'false',fetcher};
+    const r=await worker.fetch(request('/recover',{method:'POST',headers:{Origin:origin,'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({token})}),settings);
+    assert.equal(r.status,200,status);
+    const recoveredPage=await r.text();assert.match(recoveredPage,/Votre abonnement n’est pas actif/);assert.ok(!recoveredPage.includes('Ouvrir ImportClair Pro'));
+    const headers={Cookie:r.headers.get('Set-Cookie').split(';')[0]};
+    assert.equal((await worker.fetch(request('/app',{headers}),settings)).status,303,status);
+    const account=await worker.fetch(request('/account',{headers}),settings);
+    assert.equal(account.status,200,status);
+    const accountPage=await account.text();assert.match(accountPage,/Votre abonnement n’est pas actif/);assert.match(accountPage,/Factures et résiliation/);assert.ok(!accountPage.includes('Ouvrir ImportClair Pro'));
+    const portal=await worker.fetch(request('/portal',{method:'POST',headers:{Origin:origin,...headers}}),settings);
+    assert.equal(portal.status,303,status);assert.equal(portal.headers.get('Location'),'https://billing.stripe.com/test');
+  }
+});
+
+test('billing recovery still rejects a mismatched customer, product or price',async()=>{
+  const token=await sign({aud:'recovery',sub:'sub_123',customer:'cus_123',exp:Date.now()/1000+3600},secret);
+  for(const mutate of [s=>s.customer='cus_other',s=>s.items.data[0].price.product.metadata.product_code='another',s=>s.items.data[0].price.unit_amount=1]){
+    const value=sub();value.status='canceled';mutate(value);
+    const r=await makeWorker(html).fetch(request('/recover',{method:'POST',headers:{Origin:origin,'Content-Type':'application/x-www-form-urlencoded'},body:new URLSearchParams({token})}),{...env,fetcher:async()=>ok(value)});
+    assert.equal(r.status,403);assert.equal(r.headers.get('Set-Cookie'),null);
+  }
+});
+
+test('page form policy permits only the exact Stripe destinations and own origin',async()=>{
+  const r=await makeWorker(html).fetch(request('/'),env);
+  const policy=r.headers.get('Content-Security-Policy');
+  const action=policy.split(';').map(part=>part.trim()).find(part=>part.startsWith('form-action '));
+  assert.equal(action,"form-action 'self' https://checkout.stripe.com https://billing.stripe.com");
+});
+
+test('account shows the active product link only for the matching subscriber',async()=>{
+  const worker=makeWorker(html),headers={Cookie:cookie(await session())};
+  const active=await worker.fetch(request('/account',{headers}),{...env,fetcher:async()=>ok(sub())});
+  assert.equal(active.status,200);assert.match(await active.text(),/Ouvrir ImportClair Pro/);
+  for(const mutate of [s=>s.customer='cus_other',s=>s.items.data[0].price.product.metadata.product_code='another',s=>s.items.data[0].price.unit_amount=1]){
+    const value=sub();mutate(value);
+    const r=await worker.fetch(request('/account',{headers}),{...env,fetcher:async()=>ok(value)});
+    assert.equal(r.status,303);assert.equal(r.headers.get('Location'),'/recover');
+  }
+});
