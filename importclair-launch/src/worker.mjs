@@ -11,7 +11,7 @@ const baseHeaders = {
   'X-Content-Type-Options': 'nosniff',
   'X-Frame-Options': 'DENY',
   'Strict-Transport-Security': 'max-age=31536000',
-  'Content-Security-Policy': "default-src 'none'; style-src 'self'; form-action 'self'; frame-ancestors 'none'; base-uri 'none'",
+  'Content-Security-Policy': "default-src 'none'; style-src 'self'; form-action 'self' https://checkout.stripe.com https://billing.stripe.com; frame-ancestors 'none'; base-uri 'none'",
   'Permissions-Policy': 'camera=(), microphone=(), geolocation=()'
 };
 function response(body,status=200,extra={}) { return new Response(body,{status,headers:{...baseHeaders,'Content-Type':'text/html; charset=utf-8',...extra}}); }
@@ -24,7 +24,8 @@ function unb64(text){if(!/^[A-Za-z0-9_-]+$/.test(text))throw Error('encoding');r
 async function key(secret){if(!secret||secret.length<32)throw Error('secret');return crypto.subtle.importKey('raw',encoder.encode(secret),{name:'HMAC',hash:'SHA-256'},false,['sign','verify']);}
 export async function sign(payload,secret){const body=b64(encoder.encode(JSON.stringify(payload)));return body+'.'+b64(new Uint8Array(await crypto.subtle.sign('HMAC',await key(secret),encoder.encode(body))));}
 export async function verify(token,secret,aud){try{if(token.length>4096)return null;const [body,sig,extra]=token.split('.');if(extra||!body||!sig)return null;if(!await crypto.subtle.verify('HMAC',await key(secret),unb64(sig),encoder.encode(body)))return null;const value=JSON.parse(new TextDecoder().decode(unb64(body)));if(value.aud!==aud||!Number.isFinite(value.exp)||value.exp<=Date.now()/1000)return null;return value;}catch{return null;}}
-export function configured(env,html=PRO_HTML){return env.SALES_ENABLED==='true' && Boolean(html) && /^https:\/\/[^/]+$/.test(env.PUBLIC_ORIGIN??'') && env.SESSION_SECRET?.length>=32 && /^sk_(test|live)_/.test(env.STRIPE_SECRET_KEY??'') && ['SELLER_NAME','SELLER_ADDRESS','SELLER_SIREN','SUPPORT_EMAIL','TERMS_TEXT','PRIVACY_TEXT'].every(k=>typeof env[k]==='string'&&env[k].trim().length>0);}
+function serviceReady(env,html){return Boolean(html) && /^https:\/\/[^/]+$/.test(env.PUBLIC_ORIGIN??'') && env.SESSION_SECRET?.length>=32 && /^sk_(test|live)_/.test(env.STRIPE_SECRET_KEY??'');}
+export function configured(env,html=PRO_HTML){return env.SALES_ENABLED==='true' && serviceReady(env,html) && ['SELLER_NAME','SELLER_ADDRESS','SELLER_SIREN','SUPPORT_EMAIL','TERMS_TEXT','PRIVACY_TEXT'].every(k=>typeof env[k]==='string'&&env[k].trim().length>0);}
 async function stripe(env,path,parameters){
   const result=await (env.fetcher??fetch)('https://api.stripe.com/v1'+path,{
     method:parameters?'POST':'GET',
@@ -35,16 +36,18 @@ async function stripe(env,path,parameters){
   if(!result.ok)throw Error('payment provider unavailable');
   return result.json();
 }
-export function subscriptionAllowed(sub,customer){
+function subscriptionMatches(sub,customer){
   const items=sub?.items?.data??[];
-  return /^sub_[A-Za-z0-9]+$/.test(sub?.id??'') && sub.status==='active' && sub.customer===customer && items.length===1 && items[0].quantity===1 && items[0].price?.currency==='eur' && items[0].price?.unit_amount===4900 && items[0].price?.recurring?.interval==='year' && items[0].price?.recurring?.interval_count===1 && items[0].price?.metadata?.product_code==='importclair-pro';
+  return /^sub_[A-Za-z0-9]+$/.test(sub?.id??'') && sub.customer===customer && items.length===1 && items[0].quantity===1 && items[0].price?.currency==='eur' && items[0].price?.unit_amount===4900 && items[0].price?.recurring?.interval==='year' && items[0].price?.recurring?.interval_count===1 && items[0].price?.metadata?.product_code==='importclair-pro';
 }
-async function entitled(req,env){
+export function subscriptionAllowed(sub,customer){return sub?.status==='active' && subscriptionMatches(sub,customer);}
+async function accountAccess(req,env){
   const claims=await verify(readCookie(req,cookieName),env.SESSION_SECRET,'session');
   if(!claims||!/^sub_[A-Za-z0-9]+$/.test(claims.sub)||!/^cus_[A-Za-z0-9]+$/.test(claims.customer))return null;
   const sub=await readSubscription(env,claims.sub);
-  return subscriptionAllowed(sub,claims.customer)?claims:null;
+  return subscriptionMatches(sub,claims.customer)?{claims,active:sub.status==='active'}:null;
 }
+async function entitled(req,env){const access=await accountAccess(req,env);return access?.active?access.claims:null;}
 async function readSubscription(env,id){
   const sub=await stripe(env,'/subscriptions/'+id+'?expand[]=items.data.price.product');
   const price=sub?.items?.data?.[0]?.price;
@@ -74,9 +77,10 @@ export function makeWorker(html=PRO_HTML){return {async fetch(req,env){
     if(path==='/confidentialite'&&req.method==='GET')return response(page('Confidentialité',`<h1>Confidentialité</h1><pre>${escape(env.PRIVACY_TEXT||'Préversion : aucun compte ou paiement activé. La version commerciale nécessitera une information complète sur les traitements liés aux paiements et aux accès.')}</pre>`));
     if(path==='/recover'&&req.method==='GET')return response(recoveryPage());
     if(path==='/logout'&&req.method==='POST')return redirect('/',{'Set-Cookie':cookie(cookieName,'',0)});
-    if(!configured(env,html))return problem('La vente et l’accès Pro ne sont pas encore ouverts.',503);
+    if(!serviceReady(env,html))return problem('Le service Pro n’est pas encore disponible.',503);
     if(url.origin!==env.PUBLIC_ORIGIN)return problem('Adresse non autorisée.',403);
     if(path==='/checkout'&&req.method==='POST'){
+      if(!configured(env,html))return problem('Les nouvelles souscriptions sont temporairement fermées.',503);
       if(await entitled(req,env))return redirect('/account');
       const data=await form(req);if(data.get('professional')!=='yes')return problem('L’achat doit être professionnel et les conditions acceptées.');
       const nonce=crypto.randomUUID().replaceAll('-','');
@@ -111,14 +115,14 @@ export function makeWorker(html=PRO_HTML){return {async fetch(req,env){
       const data=await form(req),claims=await verify(data.get('token')??'',env.SESSION_SECRET,'recovery');
       if(!claims||!/^sub_[A-Za-z0-9]+$/.test(claims.sub)||!/^cus_[A-Za-z0-9]+$/.test(claims.customer))return problem('Code invalide ou expiré.',403);
       const sub=await readSubscription(env,claims.sub);
-      if(!subscriptionAllowed(sub,claims.customer))return problem('Votre abonnement n’est pas actif.',403);
-      const tokens=await credentials(claims,env);return response(accessPage(tokens.recovery),200,{'Set-Cookie':cookie(cookieName,tokens.session,86400*30)});
+      if(!subscriptionMatches(sub,claims.customer))return problem('Cet abonnement ne correspond pas à votre accès.',403);
+      const tokens=await credentials(claims,env);return response(accessPage(tokens.recovery,sub.status==='active'),200,{'Set-Cookie':cookie(cookieName,tokens.session,86400*30)});
     }
     if(path==='/app'&&req.method==='GET'){
       if(!await entitled(req,env))return redirect('/recover');
       return response(html,200,{'Content-Security-Policy':"default-src 'none'; script-src 'unsafe-inline'; style-src 'unsafe-inline'; img-src data: blob:; worker-src blob:; connect-src 'none'; form-action 'none'; frame-ancestors 'none'; base-uri 'none'; sandbox allow-scripts allow-downloads"});
     }
-    if(path==='/account'&&req.method==='GET'){if(!await entitled(req,env))return redirect('/recover');return response(accessPage());}
+    if(path==='/account'&&req.method==='GET'){const access=await accountAccess(req,env);if(!access)return redirect('/recover');return response(accessPage('',access.active));}
     if(path==='/portal'&&req.method==='POST'){
       // Billing remains accessible after cancellation and delinquency.
       const claims=await verify(readCookie(req,cookieName),env.SESSION_SECRET,'session');
