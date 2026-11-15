@@ -1,0 +1,11 @@
+import { readFileSync,writeFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
+import { resolve } from 'node:path';
+const path=process.argv[2];
+if(!path)throw Error('Provide the absolute path of the existing self-contained RC1 Pro HTML.');
+const html=readFileSync(resolve(path),'utf8');
+if(!/<html\b/i.test(html)||!/<script\b/i.test(html)||html.length<1000)throw Error('Expected the complete existing Pro HTML, not a placeholder.');
+if(/<(?:script|link)\b[^>]*(?:src|href)\s*=\s*["'][^"']+/i.test(html))throw Error('External dependencies detected: inspect and package them before integration.');
+writeFileSync(new URL('../src/pro.generated.mjs',import.meta.url),`export const PRO_HTML = ${JSON.stringify(html)};\n`);
+writeFileSync(new URL('../src/pro.mjs',import.meta.url),"export { PRO_HTML } from './pro.generated.mjs';\n");
+console.log('Private RC1 integrated; SHA256 '+createHash('sha256').update(html).digest('hex'));
