@@ -11,7 +11,7 @@ Le prix et la demande restent à valider. Aucune vente, aucun revenu, aucun taux
 - Historique accessible interrogé et code actuel du portfolio consulté via GitHub. L’intégralité des conversations n’est pas exportée ni accessible comme un dossier exhaustif.
 - Archive source RC1 identifiée ; le téléchargement local a échoué sur une erreur DNS. Le moteur Pro existant n’a donc pas été récupéré, inspecté ou retesté pendant cette phase.
 - Couche commerciale construite : vitrine, souscription annuelle Stripe, contrôle serveur de l’abonnement à chaque accès, cookies signés, code de récupération, portail de facturation/résiliation, refus des accès non autorisés.
-- 14 tests Node passent avec une API Stripe simulée. Aucun appel Stripe réel, aucune transaction, aucun déploiement Cloudflare effectué.
+- 22 tests Node passent : 20 tests du Worker avec Stripe simulé et 2 tests de l’adaptateur de prévisualisation. Aucun appel Stripe réel, aucune transaction, aucun déploiement Cloudflare effectué.
 - Le logiciel Pro est absent de cette livraison publique ; sa place reste explicitement vide. Aucun code Pro, clé, base clients FD ou renseignement juridique privé n’est publié.
 - Vente désactivée par défaut. Le précontrôle doit échouer dans cet état.
 
@@ -21,7 +21,9 @@ Navigateur → Worker Cloudflare → Stripe Checkout et vérification d’abonne
 
 Le Worker sert le HTML Pro seulement après vérification. Une fois servi, le logiciel traite les fichiers localement. Le serveur ne reçoit pas les fichiers contacts. Aucun stockage payant, aucune base de données, aucun envoi d’email, aucune API de génération ou d’enrichissement. Le serveur appelle Stripe pour les droits d’accès et la facturation.
 
-L’accès de session dure 30 jours ; le code de récupération dure 400 jours et est renouvelé lors d’une récupération. Une résiliation en fin de période conserve l’accès tant que Stripe indique `active`. Un statut impayé, annulé ou inconnu ferme l’accès. Le portail de facturation reste accessible avec un cookie valide, même après la fin d’un abonnement.
+L’accès de session dure 30 jours ; le code de récupération dure 400 jours et est renouvelé lors d’une récupération. Une résiliation en fin de période conserve l’accès tant que Stripe indique `active`. Un statut impayé, annulé ou inconnu ferme l’accès au logiciel. Le code de récupération permet aussi de retrouver la facturation d’un abonnement inactif, sans rétablir l’accès au logiciel. L’espace compte affiche alors l’inactivité et le bouton de facturation/résiliation.
+
+`SALES_ENABLED=false` ferme uniquement les nouvelles souscriptions. Les abonnés conservent leur accès et leur facturation ; un paiement déjà commencé peut encore être activé. Ces routes restent protégées par les clés, l’origine configurée et les contrôles d’identité. La présence des informations vendeur est exigée pour ouvrir les ventes, sans bloquer la résiliation si un champ vendeur devient temporairement absent.
 
 Les cookies sont HttpOnly, Secure et SameSite=Lax. Les POST exigent la même origine. Le retour de paiement est lié au navigateur qui a commencé l’achat. L’application privée est isolée sans réseau dans un document sandboxé. Les journaux de requêtes Cloudflare sont désactivés dans la configuration fournie.
 
@@ -34,7 +36,9 @@ npm test
 npm run preview
 ```
 
-La prévisualisation écoute sur `http://127.0.0.1:8787` et ne permet aucun paiement. `GET /health` indique séparément l’intégration du produit et l’activation de la vente.
+La prévisualisation écoute sur `http://127.0.0.1:8787` et ne permet aucun paiement. Les requêtes POST transmettent leur corps au Worker ; les erreurs de requête sont contenues. `GET /health` indique séparément l’intégration du produit et l’activation de la vente.
+
+Dans l’environnement utilisé pour cette reprise, l’écoute sur localhost est refusée (`listen EPERM`) et le téléchargement de l’archive Pro échoue toujours par DNS. Les tests de prévisualisation exercent donc l’adaptateur de requête sans ouvrir de port. Aucun essai du logiciel Pro dans un navigateur ni parcours réel Stripe TEST n’est déclaré validé. Les onglets Cloudflare et Stripe affichent encore leurs pages de connexion.
 
 ## Raccorder la RC1
 
@@ -87,5 +91,6 @@ L’activation `SALES_ENABLED=true` n’est admise qu’après ces essais, le ra
 - Sessions Checkout : https://docs.stripe.com/api/checkout/sessions/create
 - Récupération d’une session : https://docs.stripe.com/api/checkout/sessions/retrieve
 - Tarifs Stripe France, y compris offre Billing à l’utilisation : https://stripe.com/fr/pricing
+- Directive CSP `form-action` : https://www.w3.org/TR/CSP/#directive-form-action — la politique des pages de facturation autorise les origines exactes Stripe Checkout et Billing, sans autoriser le réseau dans le logiciel privé.
 
 Ne pas fusionner les fichiers privés du logiciel dans le site GitHub Pages. Le code de lancement est proposé sur une branche dédiée pour revue ; le site commercial doit être déployé sur Cloudflare après levée des blocages.
