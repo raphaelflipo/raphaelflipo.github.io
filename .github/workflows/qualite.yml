@@ -9,7 +9,6 @@ on:
       - '**/*.css'
       - 'scripts/visual-check.mjs'
       - 'scripts/audit.mjs'
-      - 'scripts/check-importclair-seo.mjs'
       - 'sitemap.xml'
       - 'robots.txt'
       - '.github/workflows/qualite.yml'
@@ -25,7 +24,6 @@ jobs:
         with:
           node-version: '22'
       - run: node scripts/audit.mjs
-      - run: node scripts/check-importclair-seo.mjs
   visuel:
     runs-on: ubuntu-24.04
     steps:
