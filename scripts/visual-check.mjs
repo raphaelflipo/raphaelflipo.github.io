@@ -60,7 +60,19 @@ try {
       assert(await menu.isVisible(), 'Menu mobile absent à ' + width + 'px');
       await menu.locator('summary').click();
       assert.equal(await menu.getAttribute('open'), '', 'Menu mobile non ouvert à ' + width + 'px');
-      assert(await menu.locator('nav a').first().isVisible(), 'Liens mobiles non visibles');
+      const projectsLink = menu.getByRole('link', { name: 'Projets', exact: true });
+      assert(await projectsLink.isVisible(), 'Lien vers les projets absent');
+      await projectsLink.click();
+      assert.equal(await menu.getAttribute('open'), null, 'Le menu doit se refermer après sélection');
+      assert.equal(new URL(page.url()).hash, '#projets');
+      await menu.locator('summary').click();
+      await page.keyboard.press('Escape');
+      assert.equal(await menu.getAttribute('open'), null, 'Échap doit refermer le menu');
+      if (width === 390) {
+        await page.goto(origin, { waitUntil: 'load' });
+        const contact = await page.locator('.rf-hero').getByRole('link', { name: 'M’écrire' }).boundingBox();
+        assert(contact && contact.y + contact.height <= 720, 'Le contact doit être visible dès le premier écran mobile');
+      }
     } else {
       assert(await page.locator('.rf-nav--desktop').isVisible(), 'Navigation ordinateur absente');
     }
