@@ -1,0 +1,148 @@
+.w13 { padding-top: clamp(1.3rem, 4vw, 3.4rem); }
+.w13-intro { margin-bottom: clamp(1.35rem, 3vw, 2.1rem); }
+.w13-back {
+  display: inline-block;
+  margin-bottom: clamp(1.3rem, 3vw, 2rem);
+  color: var(--rf-green);
+  font-size: .88rem;
+  font-weight: 670;
+}
+.w13-intro .rf-eyebrow { margin-bottom: .48rem; }
+.w13-intro h1 {
+  margin: 0;
+  font-size: clamp(2.35rem, 6.2vw, 5.2rem);
+  line-height: 1.03;
+  letter-spacing: -.067em;
+  font-weight: 750;
+}
+.w13-subtitle {
+  margin: .65rem 0 0;
+  font-size: clamp(.9rem, 1.8vw, 1.12rem);
+  color: var(--rf-muted);
+}
+
+.w13-viewer {
+  --stage-background: radial-gradient(ellipse at 45% 31%, #35464c, #1a272c 75%);
+  overflow: hidden;
+  border: 1px solid var(--rf-border);
+  border-radius: clamp(.95rem, 2.2vw, 1.5rem);
+  background: var(--rf-paper);
+}
+.w13-stage {
+  position: relative;
+  min-height: 230px;
+  aspect-ratio: 1.82;
+  background: var(--stage-background);
+}
+.w13-stage model-viewer, .w13-poster {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+.w13-poster { object-fit: cover; pointer-events: none; }
+.w13-stage model-viewer {
+  visibility: hidden;
+  --poster-color: transparent;
+  --progress-bar-color: #91d9ca;
+  --progress-bar-height: 4px;
+}
+.w13-viewer.is-ready model-viewer { visibility: visible; }
+.w13-viewer.is-ready .w13-poster { visibility: hidden; }
+.w13-expand {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  color: #fff;
+  background: #16262be8;
+  border: 1px solid #849b9f;
+  border-radius: .65rem;
+  cursor: pointer;
+}
+.w13-viewer:fullscreen {
+  display: flex;
+  flex-direction: column;
+  border: 0;
+  border-radius: 0;
+}
+.w13-viewer:fullscreen .w13-stage { flex: 1 1 0; min-height: 0; aspect-ratio: auto; }
+.w13-controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: .75rem 1.5rem;
+  padding: .85rem clamp(.75rem, 2vw, 1.25rem);
+  border-top: 1px solid var(--rf-border);
+}
+.w13-viewer [hidden] { display: none; }
+.w13-angles { display: flex; flex-wrap: wrap; gap: 4px; }
+.w13-angles button {
+  min-height: 44px;
+  padding: .43rem .72rem;
+  border: 1px solid transparent;
+  border-radius: .6rem;
+  background: transparent;
+  color: var(--rf-muted);
+  cursor: pointer;
+  font-size: .85rem;
+  font-weight: 620;
+}
+.w13-angles button:hover, .w13-angles button[aria-pressed="true"] {
+  border-color: var(--rf-border);
+  background: var(--rf-soft);
+  color: var(--rf-green);
+}
+.w13-drs {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  font-size: .83rem;
+  font-weight: 650;
+  color: var(--rf-muted);
+}
+.w13-drs input { width: 6.5rem; min-height: 44px; accent-color: var(--rf-green); }
+.w13-drs output { width: 2.2rem; color: var(--rf-text); font-variant-numeric: tabular-nums; }
+.w13-status {
+  margin: 0;
+  padding: .7rem clamp(.75rem, 2vw, 1.25rem) .8rem;
+  border-top: 1px solid var(--rf-border);
+  color: var(--rf-muted);
+  font-size: .83rem;
+}
+
+.w13-detail { margin-top: clamp(2.8rem, 7vw, 5.8rem); }
+.w13-detail__intro { max-width: 740px; margin-bottom: 1.6rem; }
+.w13-detail h2 {
+  margin: 0;
+  font-size: clamp(1.75rem, 4.5vw, 3.15rem);
+  letter-spacing: -.05em;
+  line-height: 1.12;
+}
+.w13-detail__intro p { margin: .75rem 0 0; color: var(--rf-muted); }
+.w13-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: clamp(1rem, 2.5vw, 1.75rem); }
+.w13-gallery figure {
+  overflow: hidden;
+  margin: 0;
+  border: 1px solid var(--rf-border);
+  border-radius: 1rem;
+  background: var(--rf-paper);
+}
+.w13-gallery a { display: block; background: radial-gradient(ellipse at 45% 30%, #304047, #202c33 75%); }
+.w13-gallery a:focus-visible { outline-offset: -5px; }
+.w13-gallery img { display: block; width: 100%; aspect-ratio: 1.65; object-fit: contain; }
+.w13-gallery figcaption { display: grid; gap: .2rem; padding: .9rem 1rem 1rem; }
+.w13-gallery figcaption span { color: var(--rf-muted); font-size: .88rem; }
+
+@media (max-width: 620px) {
+  .w13-stage { min-height: 0; aspect-ratio: 1.25; }
+  .w13-poster { object-fit: contain; background: #222d34; }
+  .w13-gallery { grid-template-columns: 1fr; }
+  .w13-controls { gap: .4rem 1rem; }
+  .w13-drs input { width: clamp(5.5rem, 35vw, 12rem); }
+}

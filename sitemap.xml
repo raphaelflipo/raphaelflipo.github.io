@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://raphaelflipo.github.io/</loc>
-    <lastmod>2026-11-18</lastmod>
+    <lastmod>2026-11-19</lastmod>
   </url>
   <url>
     <loc>https://raphaelflipo.github.io/cv/</loc>
@@ -25,5 +25,9 @@
   <url>
     <loc>https://raphaelflipo.github.io/aileron-f1/</loc>
     <lastmod>2026-11-18</lastmod>
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/mercedes-w13/</loc>
+    <lastmod>2026-11-19</lastmod>
   </url>
 </urlset>
