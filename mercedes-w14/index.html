@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'sha256-yhlpZVZMy2vXExwTGihUWVSrOxyhMuvj+Ygg7pyBWek='; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' blob:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#163c2a">
+  <meta name="description" content="Explore la Mercedes-AMG W14 n° 44 à Monaco en 2023. Retrouve ses nouveaux pontons et actionne son volet DRS sur le modèle Blender en 3D.">
+  <meta name="author" content="Raphaël Flipo">
+  <title>Mercedes-AMG W14 en 3D | Raphaël Flipo</title>
+  <link rel="canonical" href="https://raphaelflipo.github.io/mercedes-w14/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/refonte.css">
+  <link rel="stylesheet" href="/mercedes-w13/w13.css">
+  <link rel="stylesheet" href="/assets/monoplaces.css">
+  <script src="/assets/menu.js" defer></script>
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="Raphaël Flipo">
+  <meta property="og:title" content="Mercedes-AMG W14 en 3D | Raphaël Flipo">
+  <meta property="og:description" content="La W14 de Lewis Hamilton à Monaco, à explorer dans le navigateur à partir du modèle Blender.">
+  <meta property="og:url" content="https://raphaelflipo.github.io/mercedes-w14/">
+  <meta property="og:image" content="https://raphaelflipo.github.io/mercedes-w14/studio.webp">
+  <meta property="og:image:alt" content="Rendu Blender de la Mercedes-AMG W14 n° 44 de trois quarts avant">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="module" src="/assets/visionneuse-monoplace.js"></script>
+</head>
+<body>
+  <a class="rf-skip" href="#contenu">Aller au contenu</a>
+  <header class="rf-header">
+    <div class="rf-shell rf-header__inner">
+      <a class="rf-brand" href="/">Raphaël <span>Flipo.</span></a>
+      <nav class="rf-nav rf-nav--desktop" aria-label="Navigation principale">
+        <a href="/#projets">Projets</a><a href="/#competences">Compétences</a><a href="/#parcours">Parcours</a><a href="/cv/">CV</a><a href="/#contact" class="rf-nav__contact">Contact</a>
+      </nav>
+      <details class="rf-menu">
+        <summary>Menu</summary>
+        <nav aria-label="Navigation mobile">
+          <a href="/#projets">Projets</a><a href="/#competences">Compétences</a><a href="/#parcours">Parcours</a><a href="/cv/">CV</a><a href="/#contact">Contact</a>
+        </nav>
+      </details>
+    </div>
+  </header>
+  <main id="contenu" class="rf-shell w13">
+    <section aria-labelledby="titre">
+      <div class="w13-intro">
+        <div class="car-navigation"><a class="w13-back" href="/#projets">← Mes projets</a><nav class="car-switch" aria-label="Choisir une monoplace"><a href="/mercedes-w13/">W13 <span>· 2022</span></a><a href="/mercedes-w14/" aria-current="page">W14 <span>· 2023</span></a></nav></div>
+        <p class="rf-eyebrow">Formule 1 · Blender</p>
+        <h1 id="titre">Mercedes-AMG W14</h1>
+        <p class="w13-subtitle">Lewis Hamilton n° 44 · Grand Prix de Monaco 2023</p>
+      </div>
+      <div class="w13-viewer" id="car-viewer" data-model="./mercedes-w14.glb">
+        <div class="w13-stage">
+          <img class="w13-poster" src="./studio.webp" srcset="./studio-800.webp 800w, ./studio.webp 1920w" sizes="(max-width: 900px) 100vw, (max-width: 1320px) 94vw, 1240px" alt="Mercedes-AMG W14 noire et turquoise, vue de trois quarts avant dans Blender" width="1920" height="1080" fetchpriority="high">
+          <model-viewer id="car-model" aria-describedby="car-status" alt="W14 de Lewis Hamilton à Monaco. Utilise les flèches du clavier pour pivoter."
+            camera-controls touch-action="pan-y" disable-pan interaction-prompt="none"
+            camera-target="-0.15m 0.48m 0m" camera-orbit="-47deg 69deg 7.8m"
+            min-camera-orbit="auto 1deg 0.8m" max-camera-orbit="auto 179deg 30m"
+            field-of-view="28deg" max-field-of-view="38deg" exposure="1.12" shadow-intensity="0.65" shadow-softness="0.78" environment-image="neutral" tone-mapping="neutral"></model-viewer>
+          <button class="w13-expand" id="car-expand" type="button" hidden aria-label="Passer en plein écran" title="Plein écran">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" width="20" height="20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H4v5m11-5h5v5M4 15v5h5m11-5v5h-5"/></svg>
+          </button>
+        </div>
+        <div class="w13-controls" id="car-controls" hidden>
+          <div class="w13-angles" role="group" aria-label="Points de vue">
+            <button type="button" data-view="studio" data-target="-0.15m 0.48m 0m" data-orbit="-47deg 69deg 7.8m">Trois quarts</button>
+            <button type="button" data-view="side" data-target="-0.15m 0.48m 0m" data-orbit="0deg 84deg 10.8m">Profil</button>
+            <button type="button" data-view="front" data-target="-0.8m 0.38m 0m" data-orbit="-90deg 84deg 7m">Face</button>
+            <button type="button" data-view="top" data-target="-0.15m 0.35m 0m" data-orbit="0deg 1deg 10.5m">Dessus</button>
+            <button type="button" data-view="rear" data-target="2m 0.66m 0m" data-orbit="63deg 74deg 4m">DRS</button>
+            <button type="button" data-view="under" data-target="0m 0.26m 0m" data-orbit="26deg 154deg 9.8m">Dessous</button>
+          </div>
+          <div class="w13-drs" hidden>
+            <label for="car-drs">Ouverture du DRS</label>
+            <input id="car-drs" type="range" min="0" max="22" value="0" step="1">
+            <output for="car-drs" id="car-opening">0°</output>
+          </div>
+        </div>
+        <div class="w13-status car-statusbar">
+          <span id="car-status" role="status">Rendu de la W14 réalisé dans Blender.</span>
+          <button class="rf-btn car-load" id="car-load" type="button" hidden>Explorer en 3D</button>
+        </div>
+      </div>
+    </section>
+    <section class="w13-detail" aria-labelledby="details">
+      <div class="w13-detail__intro">
+        <h2 id="details">La W14 de Monaco</h2>
+        <p>À Monaco, en mai 2023, Mercedes abandonne les pontons étroits du début de saison. Sur cette version, leur partie supérieure s’élargit puis descend vers le train arrière. L’équipe relève aussi l’ancrage avant du triangle supérieur de suspension.</p>
+      </div>
+      <div class="w13-gallery car-gallery">
+        <figure>
+          <a href="./profil.webp" aria-label="Agrandir la vue de profil"><img src="./profil.webp" alt="Silhouette de la W14 de profil, de l’aileron avant au diffuseur" width="1440" height="810" loading="lazy" decoding="async"></a>
+          <figcaption><strong>Vue de profil</strong><span>La ligne turquoise permet de suivre la pente de la carrosserie derrière les roues avant.</span></figcaption>
+        </figure>
+        <figure>
+          <a href="./ponton.webp" aria-label="Agrandir le détail du ponton"><img src="./ponton.webp" alt="Gros plan sur la prise d’air et le flanc du ponton" width="1440" height="810" loading="lazy" decoding="async"></a>
+          <figcaption><strong>Ponton de Monaco</strong><span>L’entrée surélevée laisse un passage sous le bord avant du ponton.</span></figcaption>
+        </figure>
+        <figure>
+          <a href="./arriere.webp" aria-label="Agrandir la vue arrière"><img src="./arriere.webp" alt="Train arrière de la W14 et aileron à volet mobile" width="1440" height="810" loading="lazy" decoding="async"></a>
+          <figcaption><strong>Aileron arrière</strong><span>Le volet supérieur est mobile. Sélectionne la vue DRS dans la visionneuse pour observer son ouverture.</span></figcaption>
+        </figure>
+      </div>
+      <div class="car-reference">
+        <p>Reconstruction à partir de photographies publiques. Les dimensions non publiées, les conduits internes et le dessous du plancher sont estimés. Le débattement de 22° du DRS est illustratif.</p>
+        <a class="rf-link" href="https://www.formula1.com/en/latest/article/tech-tuesday-the-intriguing-design-details-behind-mercedes-major-w14-upgrade.5eTDAzSewyhT5HM7pejqDf" lang="en" hreflang="en">Formula 1 · Tech Tuesday</a>
+      </div>
+    </section>
+  </main>
+  <footer class="rf-footer">
+    <div class="rf-shell rf-footer__inner"><span>© 2026 Raphaël Flipo</span><a href="/#contact">Me contacter</a></div>
+  </footer>
+</body>
+</html>

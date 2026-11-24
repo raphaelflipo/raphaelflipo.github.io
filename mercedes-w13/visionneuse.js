@@ -48,7 +48,9 @@ viewer.addEventListener('camera-change', event => {
 
 drs.addEventListener('input', () => {
   const angle = Number(drs.value);
-  viewer.currentTime = viewer.duration * angle / Number(drs.max);
+  // La fin exacte du clip boucle sur sa première image dans le moteur 3D.
+  const fraction = Math.min(angle / Number(drs.max), 1 - 1e-6);
+  viewer.currentTime = viewer.duration * fraction;
   drsAngle.value = `${angle}°`;
   drs.setAttribute('aria-valuetext', `${angle} degrés`);
 });
