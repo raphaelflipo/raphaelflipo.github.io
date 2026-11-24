@@ -18,7 +18,131 @@ async function ready() {
   throw new Error('Serveur local indisponible');
 }
 
-const browser = await chromium.launch({ headless: true });
+async function measureRenderRate(viewer) {
+  return viewer.evaluate(async model => {
+    let context;
+    const proto = WebGL2RenderingContext.prototype;
+    const methods = ['drawElements', 'drawArrays', 'drawElementsInstanced', 'drawArraysInstanced'];
+    const original = new Map(methods.map(key => [key, proto[key]]));
+    let submitted = false;
+    let drawnFrames = 0;
+    for (const key of methods) {
+      proto[key] = function (...args) {
+        if (args[0] === this.TRIANGLES) {
+          submitted = true;
+          context = this;
+        }
+        return original.get(key).apply(this, args);
+      };
+    }
+    try {
+      const orbit = model.getCameraOrbit();
+      const frame = () => new Promise(resolve => requestAnimationFrame(resolve));
+      const start = await frame();
+      let timestamp = start;
+      while (timestamp - start < 4000) {
+        const angle = orbit.theta + (timestamp - start) * 0.00055;
+        model.cameraOrbit = angle + 'rad ' + orbit.phi + 'rad ' + orbit.radius + 'm';
+        model.jumpCameraToGoal();
+        submitted = false;
+        timestamp = await frame();
+        if (submitted) drawnFrames++;
+      }
+      const sampleMs = Math.round(timestamp - start);
+      const info = context?.getExtension('WEBGL_debug_renderer_info');
+      const renderer = info ? context.getParameter(info.UNMASKED_RENDERER_WEBGL) : null;
+      return { renderer, sampleMs, drawnFrames, drawnFps: +(drawnFrames * 1000 / sampleMs).toFixed(1) };
+    } finally {
+      for (const [key, value] of original) proto[key] = value;
+    }
+  });
+}
+
+async function checkCars(page, width) {
+  const errors = [];
+  const requests = [];
+  const onError = err => errors.push(err.message);
+  const onResponse = response => {
+    if (response.status() >= 400) errors.push(response.status() + ' ' + response.url());
+  };
+  const onRequest = req => requests.push(new URL(req.url()).pathname);
+  page.on('pageerror', onError);
+  page.on('response', onResponse);
+  page.on('request', onRequest);
+  try {
+    await page.goto(origin + '/#projets');
+    await page.locator('main a[href="/mercedes-w14/"]').first().click();
+    for (const car of ['w14', 'w13']) {
+      const route = '/mercedes-' + car + '/';
+      assert.equal(new URL(page.url()).pathname, route);
+      assert.equal(await page.locator('.car-switch [aria-current="page"]').getAttribute('href'), route);
+      assert.equal(await page.locator('h1').innerText(), 'Mercedes-AMG ' + car.toUpperCase());
+      assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+      const viewer = page.locator('model-viewer');
+      const poster = page.locator('.w13-poster');
+      assert(await poster.evaluate(async el => { await el.decode(); return el.naturalWidth > 0; }));
+      const start = Date.now();
+      if (car === 'w14') {
+        assert.equal(await viewer.getAttribute('src'), null, 'Modèle différé');
+        assert(!requests.some(path => path.endsWith('.glb')), 'GLB demandé avant le clic');
+        await page.locator('#car-load').click();
+      }
+      await page.waitForFunction(() => document.querySelector('model-viewer')?.loaded === true, null, { timeout: 90000 });
+      const loadMs = Date.now() - start;
+      const details = await viewer.evaluate(model => ({
+        animations: model.availableAnimations,
+        materials: model.model.materials.length,
+        version: navigator.userAgent
+      }));
+      assert(details.materials > 1);
+      assert(details.animations.includes('DRS'));
+      for (const name of ['front', 'side', 'top', 'under', 'rear', 'studio']) {
+        const preset = page.locator('[data-view="' + name + '"]');
+        await preset.click();
+        assert.equal(await preset.getAttribute('aria-pressed'), 'true');
+      }
+      const drs = page.getByRole('slider', { name: 'Ouverture du DRS' });
+      await drs.focus();
+      await drs.press('End');
+      assert.equal(await drs.inputValue(), '22');
+      assert.match(await drs.getAttribute('aria-valuetext'), /22/);
+      const opening = await viewer.evaluate(model => ({ current: model.currentTime, duration: model.duration }));
+      assert(opening.duration > 0 && opening.current > opening.duration * .99, 'Ouverture de l’animation');
+      await drs.press('Home');
+      assert.equal(await drs.inputValue(), '0');
+      assert.equal(await viewer.evaluate(model => model.currentTime), 0);
+      if (car === 'w14') {
+        const expand = page.locator('#car-expand');
+        await expand.click();
+        await page.waitForFunction(() => document.fullscreenElement || document.querySelector('#car-viewer.is-expanded'));
+        await expand.click();
+        await page.waitForFunction(() => !document.fullscreenElement && !document.querySelector('#car-viewer.is-expanded'));
+      }
+      await viewer.scrollIntoViewIfNeeded();
+      const metrics = await measureRenderRate(viewer);
+      assert(metrics.drawnFrames > 0, 'Aucune image WebGL dessinée pendant l’orbite');
+      console.log('MESURE_3D ' + JSON.stringify({ car, width, loadMs, ...details, ...metrics }));
+      await page.locator('[data-view="studio"]').click();
+      await viewer.evaluate(el => el.jumpCameraToGoal());
+      await page.locator('.w13-stage').screenshot({ path: 'screenshots/' + car + '-3d-' + width + '.png' });
+      for (const photo of await page.locator('.w13-gallery img').all()) {
+        await photo.scrollIntoViewIfNeeded();
+        assert(await photo.evaluate(async el => { await el.decode(); return Boolean(el.naturalWidth && el.alt); }));
+      }
+      await page.screenshot({ path: 'screenshots/' + car + '-page-' + width + '.png', fullPage: true });
+      const other = car === 'w14' ? 'w13' : 'w14';
+      await page.locator('.car-switch a[href="/mercedes-' + other + '/"]').click();
+      await page.waitForURL(origin + '/mercedes-' + other + '/');
+    }
+    assert.deepEqual(errors, []);
+  } finally {
+    page.off('pageerror', onError);
+    page.off('response', onResponse);
+    page.off('request', onRequest);
+  }
+}
+
+const browser = await chromium.launch({ headless: true, args: ['--use-angle=swiftshader', '--enable-unsafe-swiftshader'] });
 mkdirSync('screenshots', { recursive: true });
 try {
   await ready();
@@ -76,9 +200,10 @@ try {
     } else {
       assert(await page.locator('.rf-nav--desktop').isVisible(), 'Navigation ordinateur absente');
     }
+    await checkCars(page, width);
     await page.close();
   }
-  console.log('Tests visuels terminés : 15 captures, menus et débordements vérifiés.');
+  console.log('Tests visuels terminés : monoplaces, DRS, rendus, menus et débordements vérifiés.');
 } finally {
   await browser.close();
   server.kill('SIGTERM');
