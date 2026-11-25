@@ -28,15 +28,15 @@
 .car-switch a[aria-current="page"] { background: var(--rf-dark); color: #fff; }
 .rf-project__image .car-preview { aspect-ratio: 16 / 9; object-fit: contain; }
 .car-load { min-height: 44px; padding: .55rem 1.1rem; cursor: pointer; }
-.car-load:disabled { opacity: .75; cursor: progress; }
+.car-load[aria-disabled="true"] { opacity: .75; cursor: progress; }
 .car-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .car-gallery img { aspect-ratio: 16 / 9; }
 .car-reference { max-width: 740px; margin-top: 1.5rem; }
 .car-reference p { margin: 0 0 .4rem; color: var(--rf-muted); }
 #car-viewer { --stage-background: radial-gradient(ellipse at 45% 30%, #536169, #29353b 82%); }
 #car-viewer .w13-poster { object-fit: contain; background: #dbdcdd; }
-#car-viewer .w13-drs output { min-width: 3.1rem; }
-#car-viewer.is-expanded {
+.w13-viewer .w13-drs output { min-width: 3.1rem; }
+.w13-viewer.is-expanded {
   position: fixed;
   z-index: 80;
   inset: 0;
@@ -47,8 +47,8 @@
   padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   overscroll-behavior: contain;
 }
-#car-viewer.is-expanded .w13-stage { flex: 1; min-height: 0; aspect-ratio: auto; }
-body:has(#car-viewer.is-expanded) { overflow: hidden; }
+.w13-viewer.is-expanded .w13-stage { flex: 1; min-height: 0; aspect-ratio: auto; }
+body:has(.w13-viewer.is-expanded) { overflow: hidden; }
 @media (max-width: 760px) {
   .car-gallery { grid-template-columns: 1fr; }
 }
@@ -62,4 +62,8 @@ body:has(#car-viewer.is-expanded) { overflow: hidden; }
 .car-light legend { float: left; padding: 0; margin-right: .85rem; font-weight: 650; }
 .car-light label { display: inline-flex; align-items: center; gap: .25rem; min-height: 44px; cursor: pointer; }
 .car-light input { accent-color: var(--rf-green); }
-#car-viewer:fullscreen #car-controls, #car-viewer.is-expanded #car-controls { max-height: 40vh; overflow-y: auto; }
+.w13-viewer:fullscreen .w13-controls, .w13-viewer.is-expanded .w13-controls { max-height: 40vh; overflow-y: auto; }
+
+@media (max-height: 500px) {
+  .w13-viewer:fullscreen .w13-stage, .w13-viewer.is-expanded .w13-stage { min-height: 35vh; }
+}

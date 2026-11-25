@@ -13,7 +13,7 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/refonte.css">
   <link rel="stylesheet" href="/mercedes-w13/w13.css">
-  <link rel="stylesheet" href="/assets/monoplaces.css?v=2">
+  <link rel="stylesheet" href="/assets/monoplaces.css">
   <script src="/assets/menu.js" defer></script>
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
@@ -24,7 +24,7 @@
   <meta property="og:image" content="https://raphaelflipo.github.io/mercedes-w14/studio.webp">
   <meta property="og:image:alt" content="Rendu Blender de la Mercedes-AMG W14 n° 44 de trois quarts avant">
   <meta name="twitter:card" content="summary_large_image">
-  <script type="module" src="/assets/visionneuse-monoplace.js?v=2"></script>
+  <script type="module" src="/assets/visionneuse-monoplace.js"></script>
 </head>
 <body>
   <a class="rf-skip" href="#contenu">Aller au contenu</a>
@@ -50,7 +50,7 @@
         <h1 id="titre">Mercedes-AMG W14</h1>
         <p class="w13-subtitle">Lewis Hamilton n° 44 · Grand Prix de Monaco 2023</p>
       </div>
-      <div class="w13-viewer" id="car-viewer" data-light="dark" data-model="./mercedes-w14.glb?v=2">
+      <div class="w13-viewer" id="car-viewer" data-car="W14" data-camera-scale="1.25" data-light="dark" data-model="./mercedes-w14.glb?v=2">
         <div class="w13-stage">
           <img class="w13-poster" src="./studio.webp?v=2" srcset="./studio-800.webp?v=2 800w, ./studio.webp?v=2 1920w" sizes="(max-width: 900px) 100vw, (max-width: 1320px) 94vw, 1240px" alt="Mercedes-AMG W14 noire et turquoise, vue de trois quarts avant dans Blender" width="1920" height="1080" fetchpriority="high">
           <model-viewer id="car-model" aria-describedby="car-status" alt="W14 de Lewis Hamilton à Monaco. Utilise les flèches du clavier pour pivoter."
@@ -58,7 +58,7 @@
             camera-target="-0.15m 0.48m 0m" camera-orbit="-47deg 69deg 7.8m"
             min-camera-orbit="auto 1deg 0.8m" max-camera-orbit="auto 179deg 30m"
             field-of-view="28deg" max-field-of-view="38deg" exposure="1.12" shadow-intensity="0.65" shadow-softness="0.78" environment-image="neutral" tone-mapping="neutral"></model-viewer>
-          <button class="w13-expand" id="car-expand" type="button" hidden aria-label="Passer en plein écran" title="Plein écran">
+          <button class="w13-expand" id="car-expand" type="button" hidden aria-label="Passer en plein écran" title="Passer en plein écran" aria-pressed="false">
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" width="20" height="20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H4v5m11-5h5v5M4 15v5h5m11-5v5h-5"/></svg>
           </button>
         </div>

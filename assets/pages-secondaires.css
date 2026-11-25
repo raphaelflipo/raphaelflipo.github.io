@@ -1,0 +1,94 @@
+.rf-secondary-header .rf-nav--desktop {
+  margin-left: auto;
+}
+
+.rf-secondary-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-left: auto;
+}
+
+.rf-secondary-tools .rf-menu {
+  margin-left: 0;
+}
+
+.rf-secondary-tools summary,
+.rf-theme-button {
+  min-height: 44px;
+}
+
+.rf-theme-button {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  padding: 0;
+  border: 1px solid var(--rf-border);
+  border-radius: 50%;
+  background: var(--rf-paper);
+  color: var(--rf-green);
+  cursor: pointer;
+}
+
+.rf-theme-button[hidden] {
+  display: none;
+}
+
+.rf-theme-button:hover,
+.rf-secondary-tools .rf-menu a[aria-current="page"] {
+  background: var(--rf-soft);
+  color: var(--rf-green);
+}
+
+:focus-visible {
+  outline-color: var(--rf-green);
+}
+
+.rf-error-legal {
+  max-width: 68ch;
+  margin-top: 14px;
+}
+
+.rf-error-legal summary {
+  min-height: 44px;
+  width: fit-content;
+  padding-block: 10px;
+  cursor: pointer;
+}
+
+.rf-error-legal a,
+.jarvis-page .notice a,
+.jarvis-page #confidentialite a,
+.jarvis-platform .fine a,
+.cv-contact a {
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+
+.cv-toolbar .language-switch a,
+.jarvis-page .product-anchor-nav a {
+  min-height: 44px;
+}
+
+@media (min-width: 841px) {
+  .rf-secondary-tools {
+    margin-left: 0;
+  }
+}
+
+@media print {
+  .cv-page .rf-secondary-header,
+  .cv-page .rf-skip {
+    display: none;
+  }
+
+  .cv-page .cv-document {
+    --muted: #455448;
+    --green: #386840;
+    --line: #cdd6cb;
+  }
+
+  .cv-page .cv-contact a {
+    text-decoration: none;
+  }
+}

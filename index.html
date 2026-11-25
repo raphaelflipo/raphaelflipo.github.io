@@ -9,19 +9,19 @@
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#163c2a">
   <title>Raphaël Flipo | Commercial et développeur à Lille</title>
-  <meta name="description" content="Basé à Lille, je travaille chez Florimond Desprez et je développe La Boussole et Jarvis. Découvrez mon parcours commercial, mes applications et mon CV.">
+  <meta name="description" content="Portfolio de Raphaël Flipo, commercial et développeur à Lille. Découvrez La Boussole, Jarvis, les Mercedes W13 et W14 modélisées sur Blender et mon CV.">
   <meta name="author" content="Raphaël Flipo">
   <link rel="canonical" href="https://raphaelflipo.github.io/">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/fonts/geist-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/refonte.css">
-  <link rel="stylesheet" href="/assets/monoplaces.css">
+  <link rel="stylesheet" href="/assets/accueil.css">
   <meta property="og:type" content="profile">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:site_name" content="Raphaël Flipo">
   <meta property="og:title" content="Raphaël Flipo | Commercial et développeur à Lille">
-  <meta property="og:description" content="De la vente terrain à Roubaix à la création de La Boussole pour ma troupe scoute. Mon parcours, mes projets et mon CV.">
+  <meta property="og:description" content="Commerce, développement et modélisation 3D à Lille. Découvrez La Boussole, Jarvis et mes modèles de Formule 1.">
   <meta property="og:url" content="https://raphaelflipo.github.io/">
   <meta property="og:image" content="https://raphaelflipo.github.io/img/og.jpg">
   <meta property="og:image:width" content="1200">
@@ -30,7 +30,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <script src="/assets/menu.js" integrity="sha256-9aHWmYybVXjEE7jvnLunMXDaRYWmeRQYxsleQINMKJY=" defer></script>
 </head>
-<body>
+<body class="portfolio">
   <a class="rf-skip" href="#contenu">Aller au contenu</a>
   <header class="rf-header">
     <div class="rf-shell rf-header__inner">
@@ -49,10 +49,11 @@
   <main id="contenu" tabindex="-1" itemscope itemtype="https://schema.org/ProfilePage">
     <section class="rf-shell rf-hero" aria-labelledby="titre" itemprop="mainEntity" itemscope itemtype="https://schema.org/Person" itemref="profils-publics">
       <link itemprop="url" href="https://raphaelflipo.github.io/">
-      <p class="rf-eyebrow rf-hero__name" itemprop="name">Raphaël Flipo</p>
       <div class="rf-hero__copy">
-        <h1 id="titre">Commercial à Lille,<br><span>développeur d’applications.</span></h1>
-        <p class="rf-lead" itemprop="description">Chez Florimond Desprez, je travaille sur le suivi commercial des semences de betterave. En dehors de mon alternance, je développe La Boussole pour organiser les trajets de ma troupe scoute.</p>
+        <meta itemprop="name" content="Raphaël Flipo">
+        <h1 id="titre">Raphaël Flipo<span>.</span></h1>
+        <p class="portfolio-hero__role">Commercial et développeur à Lille</p>
+        <p class="rf-lead" itemprop="description">En alternance chez Florimond Desprez, je participe au suivi commercial des semences de betterave. Je développe aussi des applications et je modélise des monoplaces de Formule 1 sur Blender.</p>
         <div class="rf-actions">
           <a class="rf-btn" href="#projets">Voir mes projets</a>
           <a class="rf-btn rf-btn--outline" href="/cv/">Lire mon CV</a>
@@ -60,62 +61,81 @@
         </div>
       </div>
       <figure class="rf-portrait">
-        <img itemprop="image" src="/img/portrait.jpg" alt="Portrait de Raphaël Flipo" width="605" height="807" fetchpriority="high">
+        <picture>
+          <source srcset="/img/portrait.webp" type="image/webp">
+          <img itemprop="image" src="/img/portrait.jpg" alt="Portrait de Raphaël Flipo" width="605" height="807" fetchpriority="high">
+        </picture>
       </figure>
     </section>
 
     <section class="rf-shell rf-section rf-projects" id="projets" aria-labelledby="titre-projets">
       <div class="rf-section__head"><h2 id="titre-projets">Mes projets</h2></div>
-      <article class="rf-project">
-        <div class="rf-project__copy">
-          <p class="rf-smalltitle">Covoiturage associatif</p>
-          <h3>La Boussole</h3>
-          <p>Avant un week-end scout, il faut savoir qui conduit, qui a besoin d’une place et où se retrouver. J’ai créé La Boussole pour réunir les trajets, les participants et les événements au même endroit.</p>
-          <ul class="rf-tags"><li>C++17</li><li>Qt / QML</li><li>Firebase</li><li>OpenStreetMap</li></ul>
-          <a class="rf-link" href="/la-boussole/">Découvrir La Boussole</a>
+      <section class="portfolio-group" aria-labelledby="titre-applications">
+        <h3 class="portfolio-group__title" id="titre-applications">Applications</h3>
+        <div class="portfolio-grid">
+          <article class="portfolio-card">
+            <div class="portfolio-card__media portfolio-card__media--app">
+              <picture>
+                <source srcset="/img/boussole-apercu.webp" type="image/webp">
+                <img src="/img/boussole-app.jpg" alt="Un exemple de trajet en covoiturage dans La Boussole" width="1800" height="862" loading="lazy" decoding="async">
+              </picture>
+            </div>
+            <div class="portfolio-card__copy">
+              <h4><a href="/la-boussole/">La Boussole</a></h4>
+              <p>Une application de covoiturage pour savoir qui conduit, qui a besoin d’une place et où se retrouver avant un week-end scout.</p>
+              <p class="portfolio-card__tools">C++ · Qt / QML · Firebase</p>
+            </div>
+          </article>
+          <article class="portfolio-card">
+            <div class="portfolio-card__media portfolio-card__media--jarvis">
+              <picture>
+                <source srcset="/img/jarvis-apercu.webp" type="image/webp">
+                <img src="/img/jarvis-accueil.jpg" alt="L’écran d’accueil de Jarvis sur Mac" width="1800" height="1125" loading="lazy" decoding="async">
+              </picture>
+            </div>
+            <div class="portfolio-card__copy">
+              <h4><a href="/jarvis/">Jarvis</a></h4>
+              <p>Un assistant conversationnel qui s’exécute sur l’appareil, sans compte. La version Mac permet aussi de travailler sur des fichiers.</p>
+              <p class="portfolio-card__tools">Swift · Python · MLX</p>
+            </div>
+          </article>
         </div>
-        <a class="rf-project__image" href="/la-boussole/" aria-label="Découvrir La Boussole"><img src="/img/boussole-app.jpg" alt="Un exemple de trajet en covoiturage dans La Boussole" width="1800" height="862" loading="lazy"></a>
-      </article>
-      <article class="rf-project">
-        <div class="rf-project__copy">
-          <p class="rf-smalltitle">Logiciel libre</p>
-          <h3>Jarvis</h3>
-          <p>Je voulais pouvoir discuter avec un modèle qui tourne sur mon propre appareil, sans créer de compte. C’est le point de départ de Jarvis. Sur Mac, je peux aussi lui faire lire un fichier.</p>
-          <ul class="rf-tags"><li>Python</li><li>Swift</li><li>MLX</li><li>FastAPI</li></ul>
-          <a class="rf-link" href="/jarvis/">Voir les versions de Jarvis</a>
+      </section>
+      <section class="portfolio-group" aria-labelledby="titre-modeles">
+        <h3 class="portfolio-group__title" id="titre-modeles">Modélisation 3D</h3>
+        <div class="portfolio-grid portfolio-grid--models">
+          <article class="portfolio-card">
+            <div class="portfolio-card__media">
+              <img src="/mercedes-w14/studio-800.webp" alt="Rendu Blender de la Mercedes-AMG W14 noire et turquoise à Monaco" width="800" height="450" loading="lazy" decoding="async">
+            </div>
+            <div class="portfolio-card__copy">
+              <h4><a href="/mercedes-w14/">Mercedes-AMG W14</a></h4>
+              <p>Monaco 2023. Examine les nouveaux pontons, la suspension et le cockpit dans la visionneuse.</p>
+              <p class="portfolio-card__tools">Blender · Visionneuse interactive</p>
+            </div>
+          </article>
+          <article class="portfolio-card">
+            <div class="portfolio-card__media">
+              <img src="/img/mercedes-w13.webp" alt="Rendu Blender de la Mercedes-AMG W13 n° 44, vue de trois quarts avant" width="1152" height="633" loading="lazy" decoding="async">
+            </div>
+            <div class="portfolio-card__copy">
+              <h4><a href="/mercedes-w13/">Mercedes-AMG W13</a></h4>
+              <p>Bahreïn 2022. Fais pivoter la monoplace pour observer ses pontons étroits et actionner son DRS.</p>
+              <p class="portfolio-card__tools">Blender · Visionneuse interactive</p>
+            </div>
+          </article>
+          <article class="portfolio-card">
+            <div class="portfolio-card__media">
+              <img src="/img/aileron-apercu.jpg" alt="Vue en perspective de mon modèle 3D d’aileron arrière de Formule 1" width="1200" height="630" loading="lazy" decoding="async">
+            </div>
+            <div class="portfolio-card__copy">
+              <h4><a href="/aileron-f1/">Aileron arrière de F1</a></h4>
+              <p>Un projet de sciences de l’ingénieur pour examiner l’assemblage des profils et des dérives latérales.</p>
+              <p class="portfolio-card__tools">CAO · STEP · GLB</p>
+            </div>
+          </article>
         </div>
-        <a class="rf-project__image" href="/jarvis/" aria-label="Découvrir Jarvis"><img src="/img/jarvis-accueil.jpg" alt="L’écran d’accueil de Jarvis sur Mac" width="1800" height="1125" loading="lazy"></a>
-      </article>
-      <article class="rf-project">
-        <div class="rf-project__copy">
-          <p class="rf-smalltitle">Modélisation 3D sur Blender</p>
-          <h3>Mercedes-AMG W14</h3>
-          <p>À Monaco en 2023, Mercedes redessine les pontons de la monoplace de Lewis Hamilton. La vue de profil permet de suivre leur nouvelle ligne jusqu’à l’aileron arrière.</p>
-          <ul class="rf-tags"><li>Blender</li><li>Formule 1</li><li>Aérodynamique</li></ul>
-          <a class="rf-link" href="/mercedes-w14/">Explorer la W14 en 3D</a>
-        </div>
-        <a class="rf-project__image" href="/mercedes-w14/" aria-label="Explorer la Mercedes-AMG W14 en 3D"><img class="car-preview" src="/mercedes-w14/studio-800.webp" alt="Mercedes-AMG W14 n° 44 de Monaco en livrée noire" width="1920" height="1080" loading="lazy" decoding="async"></a>
-      </article>
-      <article class="rf-project">
-        <div class="rf-project__copy">
-          <p class="rf-smalltitle">Modélisation 3D sur Blender</p>
-          <h3>Mercedes-AMG W13</h3>
-          <p>La monoplace n° 44 de Lewis Hamilton au Grand Prix de Bahreïn 2022. Fais-la pivoter, examine ses pontons étroits et actionne le volet DRS de l’aileron arrière.</p>
-          <ul class="rf-tags"><li>Blender</li><li>Formule 1</li><li>Aérodynamique</li></ul>
-          <a class="rf-link" href="/mercedes-w13/">Explorer la W13 en 3D</a>
-        </div>
-        <a class="rf-project__image" href="/mercedes-w13/" aria-label="Explorer la Mercedes-AMG W13 en 3D"><img src="/img/mercedes-w13.webp" alt="Rendu Blender de la Mercedes-AMG W13 n° 44, vue de trois quarts avant" width="1152" height="633" loading="lazy" decoding="async"></a>
-      </article>
-      <article class="rf-project">
-        <div class="rf-project__copy">
-          <p class="rf-smalltitle">Conception mécanique</p>
-          <h3>Un aileron de Formule 1 en 3D</h3>
-          <p>En terminale, j’ai choisi un aileron arrière de F1 comme sujet en sciences de l’ingénieur. On peut faire pivoter mon modèle dans le navigateur pour examiner l’assemblage sous tous les angles.</p>
-          <ul class="rf-tags"><li>CAO</li><li>STEP</li><li>GLB</li></ul>
-          <a class="rf-link" href="/aileron-f1/">Examiner l’aileron en 3D</a>
-        </div>
-        <a class="rf-project__image" href="/aileron-f1/" aria-label="Examiner l’aileron arrière de Formule 1"><img src="/img/aileron-apercu.jpg" alt="Vue en perspective de mon modèle 3D d’aileron arrière de Formule 1" width="1200" height="630" loading="lazy"></a>
-      </article>
+      </section>
     </section>
 
     <section class="rf-section rf-section--tint" id="competences" aria-labelledby="titre-competences">

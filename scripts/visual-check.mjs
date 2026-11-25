@@ -58,6 +58,17 @@ async function measureRenderRate(viewer) {
   });
 }
 
+async function loadModel(page, viewer, button, requests) {
+  assert.equal(await viewer.getAttribute('src'), null, 'La scène ne doit pas charger sans action');
+  assert(!requests.some(path => /(?:\.glb|\/model-viewer\.min\.js)$/.test(path)),
+    'La visionneuse et le GLB ne doivent pas être demandés avant le clic');
+  const start = performance.now();
+  await button.click();
+  await page.waitForFunction(() => document.querySelector('model-viewer')?.loaded === true, null, { timeout: 90000 });
+  assert(requests.some(path => path.endsWith('.glb')), 'Le clic doit déclencher le chargement du modèle');
+  return Math.round(performance.now() - start);
+}
+
 async function checkCars(page, width) {
   const errors = [];
   const requests = [];
@@ -81,14 +92,8 @@ async function checkCars(page, width) {
       const viewer = page.locator('model-viewer');
       const poster = page.locator('.w13-poster');
       assert(await poster.evaluate(async el => { await el.decode(); return el.naturalWidth > 0; }));
-      const start = Date.now();
-      if (car === 'w14') {
-        assert.equal(await viewer.getAttribute('src'), null, 'Modèle différé');
-        assert(!requests.some(path => path.endsWith('.glb')), 'GLB demandé avant le clic');
-        await page.locator('#car-load').click();
-      }
-      await page.waitForFunction(() => document.querySelector('model-viewer')?.loaded === true, null, { timeout: 90000 });
-      const loadMs = Date.now() - start;
+      const loadButton = page.locator(car === 'w14' ? '#car-load' : '#w13-load');
+      const loadMs = await loadModel(page, viewer, loadButton, requests);
       const details = await viewer.evaluate(model => ({
         animations: model.availableAnimations,
         materials: model.model.materials.length,
@@ -156,6 +161,7 @@ async function checkCars(page, width) {
       }
       await page.screenshot({ path: 'screenshots/' + car + '-page-' + width + '.png', fullPage: true });
       const other = car === 'w14' ? 'w13' : 'w14';
+      requests.length = 0;
       await page.locator('.car-switch a[href="/mercedes-' + other + '/"]').click();
       await page.waitForURL(origin + '/mercedes-' + other + '/');
     }
@@ -173,6 +179,8 @@ try {
   await ready();
   for (const width of [390, 768, 1440]) {
     const page = await browser.newPage({ viewport: { width, height: 900 }, deviceScaleFactor: 1 });
+    const requests = [];
+    page.on('request', request => requests.push(new URL(request.url()).pathname));
     const routes = [
       ['accueil', '/'],
       ['f1', '/aileron-f1/'],
@@ -181,6 +189,7 @@ try {
       ['cv-en', '/cv/en/']
     ];
     for (const [name, route] of routes) {
+      requests.length = 0;
       const response = await page.goto(origin + route, { waitUntil: 'load' });
       assert.equal(response.status(), 200, name + ' : page HTTP');
       assert.equal(await page.locator('main').count(), 1, name + ' : un élément main attendu');
@@ -190,16 +199,13 @@ try {
       }));
       assert(dimensions.width <= dimensions.viewport + 2, name + ' à ' + width + 'px : débordement ' + dimensions.width);
       if (name === 'f1') {
-        assert.equal(await page.locator('#wing-model').getAttribute('src'), './aileron-F1-2019.glb');
+        const viewer = page.locator('#wing-model');
+        const loadMs = await loadModel(page, viewer, page.locator('#wing-load'), requests);
         const glb = await page.request.get(origin + '/aileron-f1/aileron-F1-2019.glb');
         assert.equal(glb.status(), 200, 'Le modèle GLB doit être disponible localement');
         assert.equal((await glb.body()).byteLength, 1754320, 'La taille du modèle doit être conservée');
-        await page.waitForFunction(() => Boolean(customElements.get('model-viewer')), null, { timeout: 20000 });
-        const canRender = await page.evaluate(() => Boolean(document.createElement('canvas').getContext('webgl2')));
-        if (canRender) {
-          await page.waitForFunction(() => document.getElementById('wing-model')?.loaded === true, null, { timeout: 20000 });
-          assert(await page.locator('#wing-viewport').evaluate(el => el.classList.contains('rf-wing-viewer--ready')), 'Le modèle F1 ne s’affiche pas');
-        }
+        await page.locator('#wing-viewport.rf-wing-viewer--ready').waitFor();
+        console.log('MESURE_3D ' + JSON.stringify({ model: 'aileron', width, loadMs }));
       }
       await page.screenshot({ path: 'screenshots/' + name + '-' + width + '.png', fullPage: true });
     }
