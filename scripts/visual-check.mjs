@@ -112,6 +112,20 @@ async function checkCars(page, width) {
       assert.equal(await drs.inputValue(), '0');
       assert.equal(await viewer.evaluate(model => model.currentTime), 0);
       if (car === 'w14') {
+        const inspection = page.locator('#car-inspection');
+        await inspection.locator('summary').click();
+        for (const name of ['sidepod', 'suspension', 'cockpit']) {
+          const detail = inspection.locator('[data-view="' + name + '"]');
+          await detail.click();
+          assert.equal(await detail.getAttribute('aria-pressed'), 'true');
+          assert.equal(await viewer.evaluate(model => model.cameraTarget), await detail.getAttribute('data-target'));
+        }
+        await inspection.getByLabel('Clair', { exact: true }).check();
+        assert.equal(await page.locator('#car-viewer').getAttribute('data-light'), 'light');
+        assert.equal(await viewer.evaluate(model => model.exposure), 1.5);
+        await inspection.getByLabel('Sombre', { exact: true }).check();
+        assert.equal(await viewer.evaluate(model => model.exposure), 1.12);
+        await inspection.locator('summary').click();
         const expand = page.locator('#car-expand');
         await expand.click();
         await page.waitForFunction(() => document.fullscreenElement || document.querySelector('#car-viewer.is-expanded'));
