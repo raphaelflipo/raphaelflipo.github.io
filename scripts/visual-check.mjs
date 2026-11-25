@@ -112,6 +112,20 @@ async function checkCars(page, width) {
       assert.equal(await drs.inputValue(), '0');
       assert.equal(await viewer.evaluate(model => model.currentTime), 0);
       if (car === 'w14') {
+        const inspection = page.locator('#car-inspection');
+        await inspection.locator('summary').click();
+        for (const name of ['sidepod', 'suspension', 'cockpit']) {
+          const detail = inspection.locator('[data-view="' + name + '"]');
+          await detail.click();
+          assert.equal(await detail.getAttribute('aria-pressed'), 'true');
+          assert.equal(await viewer.evaluate(model => model.cameraTarget), await detail.getAttribute('data-target'));
+        }
+        await inspection.getByLabel('Clair', { exact: true }).check();
+        assert.equal(await page.locator('#car-viewer').getAttribute('data-light'), 'light');
+        assert.equal(await viewer.evaluate(model => model.exposure), 1.5);
+        await inspection.getByLabel('Sombre', { exact: true }).check();
+        assert.equal(await viewer.evaluate(model => model.exposure), 1.12);
+        await inspection.locator('summary').click();
         const expand = page.locator('#car-expand');
         await expand.click();
         await page.waitForFunction(() => document.fullscreenElement || document.querySelector('#car-viewer.is-expanded'));
@@ -124,7 +138,18 @@ async function checkCars(page, width) {
       console.log('MESURE_3D ' + JSON.stringify({ car, width, loadMs, ...details, ...metrics }));
       await page.locator('[data-view="studio"]').click();
       await viewer.evaluate(el => el.jumpCameraToGoal());
-      await page.locator('.w13-stage').screenshot({ path: 'screenshots/' + car + '-3d-' + width + '.png' });
+      const clip = await page.locator('.w13-stage').evaluate(stage => {
+        const { left, top, width, height } = stage.getBoundingClientRect();
+        return { x: left + window.scrollX, y: top + window.scrollY, width, height };
+      });
+      assert(clip.width > 0 && clip.height > 0, 'Cadre du modèle vide');
+      await page.screenshot({
+        path: 'screenshots/' + car + '-3d-' + width + '.png',
+        fullPage: true,
+        clip,
+        animations: 'disabled',
+        timeout: 90000
+      });
       for (const photo of await page.locator('.w13-gallery img').all()) {
         await photo.scrollIntoViewIfNeeded();
         assert(await photo.evaluate(async el => { await el.decode(); return Boolean(el.naturalWidth && el.alt); }));

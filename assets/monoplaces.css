@@ -29,7 +29,7 @@
 .rf-project__image .car-preview { aspect-ratio: 16 / 9; object-fit: contain; }
 .car-load { min-height: 44px; padding: .55rem 1.1rem; cursor: pointer; }
 .car-load:disabled { opacity: .75; cursor: progress; }
-.car-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.car-gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .car-gallery img { aspect-ratio: 16 / 9; }
 .car-reference { max-width: 740px; margin-top: 1.5rem; }
 .car-reference p { margin: 0 0 .4rem; color: var(--rf-muted); }
@@ -52,3 +52,14 @@ body:has(#car-viewer.is-expanded) { overflow: hidden; }
 @media (max-width: 760px) {
   .car-gallery { grid-template-columns: 1fr; }
 }
+
+#car-viewer[data-light="light"] { --stage-background: radial-gradient(ellipse at 45% 30%, #f7f8f7, #bfc8c8 90%); }
+.car-inspection { width: 100%; border-top: 1px solid var(--rf-border); }
+.car-inspection summary { width: fit-content; padding: .65rem .1rem .45rem; min-height: 44px; font-weight: 650; color: var(--rf-green); cursor: pointer; }
+.car-inspection-tools { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .5rem 1rem; padding: .25rem 0 .15rem; }
+.car-inspection .w13-angles button { border-color: var(--rf-border); }
+.car-light { display: flex; flex-wrap: wrap; align-items: center; gap: .2rem .85rem; padding: 0; border: 0; margin: 0; font-size: .85rem; }
+.car-light legend { float: left; padding: 0; margin-right: .85rem; font-weight: 650; }
+.car-light label { display: inline-flex; align-items: center; gap: .25rem; min-height: 44px; cursor: pointer; }
+.car-light input { accent-color: var(--rf-green); }
+#car-viewer:fullscreen #car-controls, #car-viewer.is-expanded #car-controls { max-height: 40vh; overflow-y: auto; }

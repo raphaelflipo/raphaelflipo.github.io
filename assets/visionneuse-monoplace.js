@@ -6,6 +6,7 @@ const expand = panel.querySelector('#car-expand');
 const status = panel.querySelector('[role="status"]');
 const views = [...controls.querySelectorAll('[data-view]')];
 const slider = controls.querySelector('input[type="range"]');
+const lightControls = controls.querySelector('.car-light');
 const opening = controls.querySelector('output');
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
 let activeView = null;
@@ -39,6 +40,13 @@ function updateDrs() {
 }
 
 slider.addEventListener('input', updateDrs);
+
+lightControls?.addEventListener('change', event => {
+  const light = event.target.value === 'light';
+  panel.dataset.light = light ? 'light' : 'dark';
+  viewer.exposure = light ? 1.5 : 1.12;
+  viewer.shadowIntensity = light ? 0.42 : 0.65;
+});
 
 function updateExpandState() {
   const expanded = document.fullscreenElement === panel || panel.classList.contains('is-expanded');
