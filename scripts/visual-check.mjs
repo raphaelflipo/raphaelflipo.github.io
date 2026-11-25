@@ -138,7 +138,18 @@ async function checkCars(page, width) {
       console.log('MESURE_3D ' + JSON.stringify({ car, width, loadMs, ...details, ...metrics }));
       await page.locator('[data-view="studio"]').click();
       await viewer.evaluate(el => el.jumpCameraToGoal());
-      await page.locator('.w13-stage').screenshot({ path: 'screenshots/' + car + '-3d-' + width + '.png' });
+      const clip = await page.locator('.w13-stage').evaluate(stage => {
+        const { left, top, width, height } = stage.getBoundingClientRect();
+        return { x: left + window.scrollX, y: top + window.scrollY, width, height };
+      });
+      assert(clip.width > 0 && clip.height > 0, 'Cadre du modèle vide');
+      await page.screenshot({
+        path: 'screenshots/' + car + '-3d-' + width + '.png',
+        fullPage: true,
+        clip,
+        animations: 'disabled',
+        timeout: 90000
+      });
       for (const photo of await page.locator('.w13-gallery img').all()) {
         await photo.scrollIntoViewIfNeeded();
         assert(await photo.evaluate(async el => { await el.decode(); return Boolean(el.naturalWidth && el.alt); }));
