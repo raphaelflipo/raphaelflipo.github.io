@@ -8,7 +8,8 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Jarvis Local">
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self' https://huggingface.co https://*.huggingface.co https://*.hf.co; worker-src 'self' blob:; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'">
+    <meta name="referrer" content="no-referrer">
+    <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; connect-src 'self' https://huggingface.co https://*.huggingface.co https://*.hf.co; worker-src 'self' blob:; style-src 'self'; img-src 'self' data: blob:; font-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
     <title>Jarvis Local — votre IA, sur votre appareil</title>
     <link rel="manifest" href="./manifest.webmanifest">
     <link rel="icon" type="image/png" href="./icon-192.png">
@@ -65,7 +66,7 @@
               </select>
               <svg viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="m6 8 4 4 4-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
-            <p class="field-help" id="model-help">Commencez par le modèle léger. La compatibilité et la vitesse dépendent du navigateur et de la mémoire disponible.</p>
+            <p class="field-help" id="model-help">Le premier téléchargement contacte Hugging Face. La compatibilité et la vitesse dépendent du navigateur et de la mémoire disponible.</p>
             <button class="button button-primary" id="load-model" type="button">
               <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M5 16v4h14v-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
               Charger le modèle
@@ -112,7 +113,7 @@
             <p class="error-message" id="error" role="alert" hidden></p>
             <form class="composer" id="chat-form">
               <label class="sr-only" for="prompt">Votre message à Jarvis</label>
-              <textarea id="prompt" name="prompt" rows="2" maxlength="4000" placeholder="Votre question ou le texte à reformuler…" autocomplete="off" enterkeyhint="enter" aria-describedby="composer-help"></textarea>
+              <textarea id="prompt" rows="2" maxlength="4000" placeholder="Votre question ou le texte à reformuler…" autocomplete="off" enterkeyhint="enter" aria-describedby="composer-help"></textarea>
               <div class="composer-toolbar">
                 <span class="composer-hint" id="composer-help"><span class="tiny-dot" aria-hidden="true"></span>Discussion locale</span>
                 <div class="composer-buttons">
@@ -131,7 +132,11 @@
     <dialog class="settings-dialog" id="settings-dialog" aria-labelledby="settings-title">
       <div class="dialog-header"><div><p class="eyebrow">Réglages</p><h2 id="settings-title">Votre espace local</h2></div><button class="icon-button" id="close-settings" type="button" aria-label="Fermer les réglages"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></button></div>
       <div class="dialog-content">
-        <section class="settings-section"><h3>Sur cet appareil</h3><p>Le modèle d’IA s’exécute dans votre navigateur. Vous n’avez besoin ni de compte, ni d’un ordinateur distant. Le téléchargement initial nécessite Internet et peut occuper beaucoup d’espace.</p><p>Le navigateur conserve les données localement. Il peut les effacer pour libérer de la place ; vous devrez alors recharger le modèle. Un navigateur ou un appareil différent utilise son propre espace.</p></section>
+        <section class="settings-section">
+          <h3>Sur cet appareil</h3>
+          <p>Le modèle s’exécute dans votre navigateur et vos messages y restent. Le téléchargement initial contacte Hugging Face et son infrastructure de fichiers, qui reçoivent les informations habituelles de connexion, comme l’adresse IP.</p>
+          <p>Ce profil de navigateur conserve les 40 derniers messages de la conversation en cours. Vous pouvez les effacer ci-dessous. Le navigateur peut effacer ses données pour libérer de la place, auquel cas il faut télécharger de nouveau le modèle.</p>
+        </section>
         <section class="settings-section"><h3>Ce que Jarvis peut faire</h3><p>Répondre à vos messages, vous aider à écrire et réfléchir à partir du texte que vous partagez. Cette version autonome n’ouvre pas vos autres applications et n’agit pas sur votre appareil.</p><p class="field-help">Les résultats et la rapidité varient selon le modèle, le navigateur et le matériel. Vérifiez les informations importantes.</p></section>
         <section class="settings-section settings-data"><h3>Gérer vos données</h3><div class="data-action"><div><strong>Conversation enregistrée</strong><p>Effacer l’historique conservé ici.</p></div><button class="button button-secondary" id="clear-history" type="button">Effacer l’historique</button></div><div class="data-action"><div><strong>Modèles téléchargés</strong><p>Libérer leur espace sur cet appareil. Un nouveau téléchargement sera nécessaire.</p></div><button class="button button-secondary" id="delete-model" type="button">Supprimer les modèles</button></div></section>
       </div>

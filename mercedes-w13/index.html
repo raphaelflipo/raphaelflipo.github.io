@@ -24,7 +24,7 @@
   <meta property="og:image" content="https://raphaelflipo.github.io/mercedes-w13/apercu.jpg">
   <meta property="og:image:alt" content="Rendu Blender de la Mercedes-AMG W13 n° 44 de trois quarts avant">
   <meta name="twitter:card" content="summary_large_image">
-  <script type="module" src="./visionneuse.js"></script>
+  <script type="module" src="/assets/visionneuse-monoplace.js"></script>
 </head>
 <body>
   <a class="rf-skip" href="#contenu">Aller au contenu</a>
@@ -50,9 +50,9 @@
         <h1 id="titre">Mercedes-AMG W13</h1>
         <p class="w13-subtitle">Lewis Hamilton n° 44 · Grand Prix de Bahreïn 2022</p>
       </div>
-      <div class="w13-viewer" id="w13-viewer">
+      <div class="w13-viewer" id="w13-viewer" data-car="W13" data-model="./mercedes-w13.glb" data-camera-scale="1.3">
         <div class="w13-stage">
-          <img class="w13-poster" src="./mercedes-w13.webp" alt="Rendu Blender de la W13 de trois quarts avant, avec sa livrée argent et turquoise et le numéro 44" width="2304" height="1266" fetchpriority="high">
+          <img class="w13-poster" src="./mercedes-w13.webp" srcset="./mercedes-w13-800.webp 800w, ./mercedes-w13.webp 2304w" sizes="(max-width: 900px) 92vw, (max-width: 1320px) 94vw, 1240px" alt="Rendu Blender de la W13 de trois quarts avant, avec sa livrée argent et turquoise et le numéro 44" width="2304" height="1266" fetchpriority="high">
           <model-viewer
             id="w13-model"
             aria-describedby="w13-status"
@@ -62,7 +62,7 @@
             min-camera-orbit="auto 1deg 1.25m" max-camera-orbit="auto 179deg 30m"
             field-of-view="28deg" max-field-of-view="38deg"
             exposure="1.1" environment-image="neutral" tone-mapping="neutral" reveal="auto"></model-viewer>
-          <button class="w13-expand" id="w13-expand" type="button" hidden aria-label="Passer en plein écran" title="Plein écran">
+          <button class="w13-expand" id="w13-expand" type="button" hidden aria-label="Passer en plein écran" title="Passer en plein écran" aria-pressed="false">
             <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" width="20" height="20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
               <path d="M9 4H4v5m11-5h5v5M4 15v5h5m11-5v5h-5"/>
             </svg>
@@ -70,20 +70,23 @@
         </div>
         <div class="w13-controls" id="w13-controls" hidden>
           <div class="w13-angles" role="group" aria-label="Points de vue">
-            <button type="button" data-view="studio">Trois quarts</button>
-            <button type="button" data-view="side">Profil</button>
-            <button type="button" data-view="front">Face</button>
-            <button type="button" data-view="top">Dessus</button>
-            <button type="button" data-view="rear">DRS</button>
-            <button type="button" data-view="under">Dessous</button>
+            <button type="button" data-view="studio" data-target="1.44m 0.47m 0m" data-orbit="-58deg 68deg 9.3m">Trois quarts</button>
+            <button type="button" data-view="side" data-target="1.44m 0.48m 0m" data-orbit="0deg 82deg 10.2m">Profil</button>
+            <button type="button" data-view="front" data-target="-0.18m 0.45m 0m" data-orbit="-90deg 80deg 6.7m">Face</button>
+            <button type="button" data-view="top" data-target="1.44m 0.54m 0m" data-orbit="0deg 1deg 9.8m">Dessus</button>
+            <button type="button" data-view="rear" data-target="3.67m 0.76m 0m" data-orbit="70deg 71deg 3.55m">DRS</button>
+            <button type="button" data-view="under" data-target="1.63m 0.31m 0m" data-orbit="24deg 157deg 9.2m">Dessous</button>
           </div>
-          <div class="w13-drs">
+          <div class="w13-drs" hidden>
             <label for="w13-drs">Ouverture du DRS</label>
             <input id="w13-drs" type="range" min="0" max="22" step="1" value="0">
             <output id="w13-drs-angle" for="w13-drs">0°</output>
           </div>
         </div>
-        <p id="w13-status" class="w13-status" role="status">Rendu de la W13 réalisé dans Blender.</p>
+        <div class="w13-status car-statusbar">
+          <span id="w13-status" role="status">Rendu de la W13 réalisé dans Blender.</span>
+          <button class="rf-btn car-load" id="w13-load" type="button" hidden>Explorer en 3D</button>
+        </div>
       </div>
     </section>
 
