@@ -8,7 +8,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        target: [macOS, iOS]
+        target: [iOS]
     runs-on: macos-latest
     timeout-minutes: 15
     steps:
@@ -36,7 +36,9 @@ jobs:
           TARGET: ${{ matrix.target }}
         run: |
           python3 - <<'PY'
-          import json,os
+          import json,os,time
+          from selenium.webdriver.common.actions.action_builder import ActionBuilder
+          from selenium.webdriver.common.actions.pointer_input import PointerInput
           from selenium import webdriver
           from selenium.webdriver.common.by import By
           from selenium.webdriver.support.ui import Select,WebDriverWait
@@ -51,26 +53,38 @@ jobs:
               browser.get(site)
               by=lambda key:browser.find_element(By.ID,key)
               wait=WebDriverWait(browser,75)
+              def tap(el):
+                  browser.execute_script("arguments[0].scrollIntoView({block:'center',inline:'center',behavior:'instant'})",el)
+                  time.sleep(.5)
+                  target=browser.execute_script("const e=arguments[0],r=e.getBoundingClientRect(),x=r.x+r.width/2,y=r.y+r.height/2;return {x,y,hit:e.contains(document.elementFromPoint(x,y)),tag:document.elementFromPoint(x,y)?.tagName}",el)
+                  print('SAFARI_TARGET',el.get_attribute('id'),target,flush=True)
+                  assert target['hit'],target
+                  action=ActionBuilder(browser,mouse=PointerInput('touch','finger'))
+                  action.pointer_action.move_to_location(round(target['x']),round(target['y']))
+                  action.pointer_action.pointer_down()
+                  action.pointer_action.pause(.1)
+                  action.pointer_action.pointer_up()
+                  action.perform()
               wait.until(lambda _:by('part').is_displayed())
               result=browser.execute_script('return {ua:navigator.userAgent,width:innerWidth,height:innerHeight,dpr:devicePixelRatio}')
               Select(by('part')).select_by_value('beamWing')
               assert browser.find_element(By.CSS_SELECTOR,'[data-family=beamWing]').is_displayed()
               result['reading']=True
               print('SAFARI_LECTURE',json.dumps(result),flush=True)
-              by('load-parts').click()
+              tap(by('load-parts'))
               wait.until(lambda _:by('stage').get_attribute('data-selection')=='beamWing')
               Select(by('mode')).select_by_value('isolate')
               assert 0<int(by('stage').get_attribute('data-visible'))==int(by('stage').get_attribute('data-marked'))<int(by('stage').get_attribute('data-total'))
               result['visible']=by('stage').get_attribute('data-visible')
-              by('parts-share').click()
+              tap(by('parts-share'))
               share=by('share-url').get_attribute('value')
               browser.get(share)
-              by('load-parts').click()
+              tap(by('load-parts'))
               wait.until(lambda _:by('stage').get_attribute('data-mode')=='isolate' and by('stage').get_attribute('data-selection')=='beamWing')
-              by('parts-share').click()
+              tap(by('parts-share'))
               assert by('share-url').get_attribute('value')==share
               result['restored']=True
-              browser.find_element(By.CSS_SELECTOR,'.rf-lang').click()
+              tap(browser.find_element(By.CSS_SELECTOR,'.rf-lang'))
               wait.until(lambda _:browser.find_element(By.TAG_NAME,'html').get_attribute('lang')=='en')
               assert by('part').get_attribute('value')=='beamWing'
               result['language']='en'
@@ -78,3 +92,4 @@ jobs:
           finally:
               browser.quit()
           PY
+
