@@ -32,3 +32,18 @@
 .parts-fields {min-width:0;}
 @media(max-width:740px){.parts-layout{grid-template-columns:minmax(0,1fr);}}
 @media (scripting:none){.parts-copy .parts-article[hidden]{display:block!important;}}
+
+.part-flow { margin:1.15rem 0; }
+.part-flow svg { display:block; width:100%; height:auto; background:#eff6f1; border-radius:.5rem; }
+.part-flow label { display:inline-flex; align-items:center; min-height:44px; font-weight:normal; }
+.part-flow input { width:1.1rem; height:1.1rem; vertical-align:middle; }
+.part-flow small { display:block; margin-top:.35rem; }
+.flow-solid { fill:#334942; }
+.flow-outline { fill:none; stroke:#63796f; stroke-width:2; stroke-dasharray:4 3; }
+.flow-direction { fill:none; stroke:#21735e; stroke-width:2.5; }
+.flow-motion { fill:none; stroke:#e3faea; stroke-width:2; stroke-dasharray:3 17; opacity:0; }
+@media (prefers-reduced-motion:no-preference) {
+  .part-flow input:checked ~ svg .flow-motion { opacity:1; animation:flow-direction 1.4s linear infinite; }
+  @keyframes flow-direction { to { stroke-dashoffset:-40; } }
+}
+@media (prefers-reduced-motion:reduce) { .part-flow input,.part-flow label { display:none; } }

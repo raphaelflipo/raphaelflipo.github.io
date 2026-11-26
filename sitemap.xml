@@ -311,4 +311,112 @@
   <url><loc>https://raphaelflipo.github.io/en/mercedes-w14/composants/</loc></url>
   <url><loc>https://raphaelflipo.github.io/en/mercedes-w15/composants/</loc></url>
   <url><loc>https://raphaelflipo.github.io/en/mercedes-w16/composants/</loc></url>
+  <url>
+    <loc>https://raphaelflipo.github.io/journal/mercedes-w13-w16/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/journal/mercedes-w13-w16/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/journal/mercedes-w13-w16/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/journal/mercedes-w13-w16/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/journal/zero-pod/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/journal/zero-pod/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/journal/zero-pod/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/journal/zero-pod/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/journal/effet-de-sol/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/journal/effet-de-sol/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/journal/effet-de-sol/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/journal/effet-de-sol/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/journal/conception-pontons/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/journal/conception-pontons/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/journal/conception-pontons/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/journal/conception-pontons/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/journal/comparer-w15-w16/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/journal/comparer-w15-w16/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/journal/comparer-w15-w16/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/journal/comparer-w15-w16/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/journal/modeliser-dans-blender/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/journal/modeliser-dans-blender/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/journal/modeliser-dans-blender/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/journal/modeliser-dans-blender/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/journal/optimiser-la-3d-web/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/journal/optimiser-la-3d-web/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/journal/optimiser-la-3d-web/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/journal/optimiser-la-3d-web/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/journal/developper-jarvis/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/journal/developper-jarvis/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/journal/developper-jarvis/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/journal/developper-jarvis/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/journal/developper-la-boussole/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/journal/developper-la-boussole/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/journal/developper-la-boussole/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/journal/developper-la-boussole/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/journal/mercedes-w13-w16/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/journal/mercedes-w13-w16/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/journal/mercedes-w13-w16/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/journal/mercedes-w13-w16/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/journal/zero-pod/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/journal/zero-pod/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/journal/zero-pod/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/journal/zero-pod/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/journal/effet-de-sol/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/journal/effet-de-sol/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/journal/effet-de-sol/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/journal/effet-de-sol/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/journal/conception-pontons/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/journal/conception-pontons/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/journal/conception-pontons/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/journal/conception-pontons/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/journal/comparer-w15-w16/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/journal/comparer-w15-w16/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/journal/comparer-w15-w16/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/journal/comparer-w15-w16/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/journal/modeliser-dans-blender/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/journal/modeliser-dans-blender/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/journal/modeliser-dans-blender/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/journal/modeliser-dans-blender/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/journal/optimiser-la-3d-web/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/journal/optimiser-la-3d-web/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/journal/optimiser-la-3d-web/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/journal/optimiser-la-3d-web/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/journal/developper-jarvis/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/journal/developper-jarvis/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/journal/developper-jarvis/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/journal/developper-jarvis/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/journal/developper-la-boussole/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/journal/developper-la-boussole/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/journal/developper-la-boussole/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/journal/developper-la-boussole/" />
+  </url>
 </urlset>

@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Sur téléphone, le visiteur peut lire le dossier avant de décider si le téléchargement 3D lui est utile.">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="light dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; connect-src 'none'">
+  <title>Rendre un GLB explorable sans télécharger une seconde voiture | Raphaël Flipo</title>
+  <link rel="canonical" href="https://raphaelflipo.github.io/journal/optimiser-la-3d-web/">
+  <link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/journal/optimiser-la-3d-web/">
+  <link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/journal/optimiser-la-3d-web/">
+  <link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/journal/optimiser-la-3d-web/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Rendre un GLB explorable sans télécharger une seconde voiture | Raphaël Flipo">
+  <meta property="og:description" content="Sur téléphone, le visiteur peut lire le dossier avant de décider si le téléchargement 3D lui est utile.">
+  <meta property="og:url" content="https://raphaelflipo.github.io/journal/optimiser-la-3d-web/">
+  <meta property="og:image" content="https://raphaelflipo.github.io/img/etudes/mercedes.webp">
+  <meta property="og:locale" content="fr_FR">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/assets/refonte.css">
+  <link rel="stylesheet" href="/assets/projets.css">
+  <script src="/assets/theme.js"></script>
+  <script src="/assets/menu.js" defer></script>
+  <script src="/assets/partage-page.js" defer></script>
+<link rel="stylesheet" href="/assets/articles.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "TechArticle", "headline": "Rendre un GLB explorable sans télécharger une seconde voiture", "description": "Sur téléphone, le visiteur peut lire le dossier avant de décider si le téléchargement 3D lui est utile.", "inLanguage": "fr", "url": "https://raphaelflipo.github.io/journal/optimiser-la-3d-web/", "image": "https://raphaelflipo.github.io/img/etudes/mercedes.webp", "author": {"@type": "Person", "name": "Raphaël Flipo", "url": "https://raphaelflipo.github.io/"}}</script>
+</head>
+<body class="rf-catalogue">
+  <a class="rf-skip" href="#contenu">Aller au contenu</a>
+  <header class="rf-header">
+    <div class="rf-shell rf-header__inner">
+      <a class="rf-brand" href="/">Raphaël <span>Flipo.</span></a>
+      <nav class="rf-nav rf-nav--desktop" aria-label="Navigation principale"><a href="/projets/">Projets</a><a href="/studio-3d/">Studio 3D</a><a href="/cv/">CV</a></nav>
+      <div class="rf-nav-tools">
+        <a class="rf-lang" href="/en/journal/optimiser-la-3d-web/" lang="en" hreflang="en" aria-label="English">EN</a>
+        <details class="rf-menu"><summary>Menu</summary><nav aria-label="Navigation mobile"><a href="/projets/">Projets</a><a href="/studio-3d/">Studio 3D</a><a href="/cv/">CV</a></nav></details>
+      </div>
+    </div>
+  </header>
+  <main id="contenu" class="rf-shell rf-detail" tabindex="-1">
+<a class="rf-link" href="/journal/">Journal de développement</a>
+<article class="journal-article"><h1>Rendre un GLB explorable sans télécharger une seconde voiture</h1><p class="rf-detail__lead">Sur téléphone, le visiteur peut lire le dossier avant de décider si le téléchargement 3D lui est utile.</p><h2>Répartir les octets</h2><p>Le texte et le rendu fixe sont disponibles en premier. L’activation charge le GLB et un index associé à son empreinte SHA-256. Les six index de cette version totalisent 13 636 octets avant compression HTTP. Ils décrivent à quelle famille appartient chaque triangle, indépendamment des matériaux. Le code peut donc isoler un frein sans embarquer une copie de la monoplace pour chaque sélection.</p><figure><img src="/img/etudes/mercedes.webp" width="324" height="258" alt="Le comparateur réutilise les index des deux voitures sélectionnées."><figcaption>Le comparateur réutilise les index des deux voitures sélectionnées.</figcaption></figure><h2>Mesurer ce que fait le visiteur</h2><p>Un score obtenu sur l’accueil ne donne pas le temps d’activation de la scène. Un essai utile ouvre une page neuve, vérifie l’absence de requête GLB avant le clic, puis mesure jusqu’à la première sélection dessinée. Pour juger de la fluidité après chargement, il faut observer la rotation ou le zoom sur le matériel visé. Un rendu logiciel fournit un point de comparaison reproductible pour les modifications du site.</p><h2>À explorer</h2><ul><li><a href="/mercedes-w15/composants/">Ouvrir l’atelier sans charger la 3D</a></li><li><a href="/mercedes-comparateur/?gauche=w15&amp;droite=w16&amp;ensemble=rims">Tester l’isolation comparée</a></li></ul><h2>Sources</h2><ul><li><a href="https://github.com/raphaelflipo/raphaelflipo.github.io/blob/main/scripts/composants-verification.mjs">Contrôle des six GLB</a></li><li><a href="https://github.com/raphaelflipo/raphaelflipo.github.io/blob/main/scripts/composants/exporter.py">Export des familles de triangles</a></li></ul></article>
+</main>
+  <footer class="rf-footer">
+    <div class="rf-shell rf-footer__inner"><a href="/telechargements/">Téléchargements</a><a href="/journal/">Journal de développement</a><a href="/statut/">État des services</a><a href="/confidentialite/">Confidentialité</a></div>
+  </footer>
+</body>
+</html>

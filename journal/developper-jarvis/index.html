@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Une conversation sauvegardée et un modèle téléchargé répondent à deux besoins différents. Les essais doivent suivre les deux.">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="light dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; connect-src 'none'">
+  <title>Développer Jarvis pour retrouver son modèle hors ligne | Raphaël Flipo</title>
+  <link rel="canonical" href="https://raphaelflipo.github.io/journal/developper-jarvis/">
+  <link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/journal/developper-jarvis/">
+  <link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/journal/developper-jarvis/">
+  <link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/journal/developper-jarvis/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="Développer Jarvis pour retrouver son modèle hors ligne | Raphaël Flipo">
+  <meta property="og:description" content="Une conversation sauvegardée et un modèle téléchargé répondent à deux besoins différents. Les essais doivent suivre les deux.">
+  <meta property="og:url" content="https://raphaelflipo.github.io/journal/developper-jarvis/">
+  <meta property="og:image" content="https://raphaelflipo.github.io/img/etudes/jarvis.webp">
+  <meta property="og:locale" content="fr_FR">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/assets/refonte.css">
+  <link rel="stylesheet" href="/assets/projets.css">
+  <script src="/assets/theme.js"></script>
+  <script src="/assets/menu.js" defer></script>
+  <script src="/assets/partage-page.js" defer></script>
+<link rel="stylesheet" href="/assets/articles.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "TechArticle", "headline": "Développer Jarvis pour retrouver son modèle hors ligne", "description": "Une conversation sauvegardée et un modèle téléchargé répondent à deux besoins différents. Les essais doivent suivre les deux.", "inLanguage": "fr", "url": "https://raphaelflipo.github.io/journal/developper-jarvis/", "image": "https://raphaelflipo.github.io/img/etudes/jarvis.webp", "author": {"@type": "Person", "name": "Raphaël Flipo", "url": "https://raphaelflipo.github.io/"}}</script>
+</head>
+<body class="rf-catalogue">
+  <a class="rf-skip" href="#contenu">Aller au contenu</a>
+  <header class="rf-header">
+    <div class="rf-shell rf-header__inner">
+      <a class="rf-brand" href="/">Raphaël <span>Flipo.</span></a>
+      <nav class="rf-nav rf-nav--desktop" aria-label="Navigation principale"><a href="/projets/">Projets</a><a href="/studio-3d/">Studio 3D</a><a href="/cv/">CV</a></nav>
+      <div class="rf-nav-tools">
+        <a class="rf-lang" href="/en/journal/developper-jarvis/" lang="en" hreflang="en" aria-label="English">EN</a>
+        <details class="rf-menu"><summary>Menu</summary><nav aria-label="Navigation mobile"><a href="/projets/">Projets</a><a href="/studio-3d/">Studio 3D</a><a href="/cv/">CV</a></nav></details>
+      </div>
+    </div>
+  </header>
+  <main id="contenu" class="rf-shell rf-detail" tabindex="-1">
+<a class="rf-link" href="/journal/">Journal de développement</a>
+<article class="journal-article"><h1>Développer Jarvis pour retrouver son modèle hors ligne</h1><p class="rf-detail__lead">Une conversation sauvegardée et un modèle téléchargé répondent à deux besoins différents. Les essais doivent suivre les deux.</p><h2>Passer d’une version à la suivante</h2><p>Le dossier local-app de Jarvis sert de source à la copie du portfolio. Un contrôle compare les fichiers publiés à la révision de référence. Lors du changement de cache du moteur, les essais vérifient que les fichiers déjà complets et l’historique restent accessibles. Une reprise demande un autre scénario : interrompre un transfert, observer l’offset lors de la nouvelle requête et vérifier les octets finaux.</p><figure><img src="/img/etudes/jarvis.webp" width="390" height="844" alt="Interface publique de Jarvis. Le statut du moteur et la conversation rendent visibles deux états distincts."><figcaption>Interface publique de Jarvis. Le statut du moteur et la conversation rendent visibles deux états distincts.</figcaption></figure><h2>Demander une réponse après la coupure</h2><p>Un worker simulé permet de vérifier les états du bouton Annuler et les messages de l’interface. Pour tester la génération, il faut charger de vrais poids et obtenir du texte. Le test hors ligne démarre après une première installation complète, puis coupe le réseau et demande une nouvelle réponse. La disponibilité dépend aussi du stockage que le navigateur accorde à cette origine.</p><h2>À explorer</h2><ul><li><a href="/jarvis/app/">Ouvrir Jarvis</a></li><li><a href="/projets/jarvis/">Lire l’étude de cas</a></li></ul><h2>Sources</h2><ul><li><a href="https://github.com/raphaelflipo/jarvis/tree/main/local-app">Code de l’application locale</a></li><li><a href="https://github.com/raphaelflipo/raphaelflipo.github.io/blob/main/.github/workflows/jarvis-source.yml">Contrôle de la copie publique</a></li></ul></article>
+</main>
+  <footer class="rf-footer">
+    <div class="rf-shell rf-footer__inner"><a href="/telechargements/">Téléchargements</a><a href="/journal/">Journal de développement</a><a href="/statut/">État des services</a><a href="/confidentialite/">Confidentialité</a></div>
+  </footer>
+</body>
+</html>
