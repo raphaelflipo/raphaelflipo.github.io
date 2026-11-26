@@ -31,3 +31,4 @@
 .parts-page select {width:100%;}
 .parts-fields {min-width:0;}
 @media(max-width:740px){.parts-layout{grid-template-columns:minmax(0,1fr);}}
+@media (scripting:none){.parts-copy .parts-article[hidden]{display:block!important;}}
