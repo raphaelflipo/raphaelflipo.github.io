@@ -9,7 +9,7 @@
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#163c2a">
   <title>Raphaël Flipo | Commercial et développeur à Lille</title>
-  <meta name="description" content="Portfolio de Raphaël Flipo, commercial et développeur à Lille. Découvrez La Boussole, Jarvis, le comparateur 3D des Mercedes W13, W14 et W15 et mon CV.">
+  <meta name="description" content="Portfolio de Raphaël Flipo, commercial et développeur à Lille. Découvrez La Boussole, Jarvis, le comparateur 3D des Mercedes W13 à W16 et mon CV.">
   <meta name="author" content="Raphaël Flipo">
   <link rel="canonical" href="https://raphaelflipo.github.io/">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -104,41 +104,55 @@
       </section>
       <section class="portfolio-group" id="collection-mercedes" aria-labelledby="titre-modeles">
         <div class="collection-heading">
-          <h3 class="portfolio-group__title" id="titre-modeles">Collection Mercedes en 3D</h3>
-          <a class="collection-compare" href="/mercedes-comparateur/">Comparer les monoplaces <span aria-hidden="true">↗</span></a>
+          <h3 class="portfolio-group__title" id="titre-modeles">Mercedes en Formule 1 · 2022–2025</h3>
+          <a class="collection-compare" href="/mercedes-comparateur/?gauche=w15&amp;droite=w16">Comparer les monoplaces <span aria-hidden="true">↗</span></a>
         </div>
-        <div class="portfolio-grid portfolio-grid--models portfolio-grid--mercedes">
-          <article class="portfolio-card">
+        <ol class="portfolio-grid portfolio-grid--models portfolio-grid--mercedes mercedes-timeline">
+          <li class="portfolio-card">
             <div class="portfolio-card__media">
-              <img src="/mercedes-w15/studio-800.webp" alt="Rendu Blender de la Mercedes-AMG W15 argent et carbone à Bahreïn" width="800" height="450" loading="lazy" decoding="async">
+              <img src="/img/mercedes-w13.webp" alt="Rendu Blender de la Mercedes-AMG W13 à Bahreïn" width="1152" height="633" loading="lazy" decoding="async">
             </div>
             <div class="portfolio-card__copy">
-              <h4><a href="/mercedes-w15/">Mercedes-AMG W15</a></h4>
-              <p>Bahreïn 2024. Observe le nez dégagé au-dessus de l’aileron avant, les prises d’air triangulaires et les poussoirs arrière.</p>
-              <p class="portfolio-card__tools">Blender · Visionneuse interactive</p>
-            </div>
-          </article>
-          <article class="portfolio-card">
-            <div class="portfolio-card__media">
-              <img src="/mercedes-w14/studio-800.webp" alt="Rendu Blender de la Mercedes-AMG W14 noire et turquoise à Monaco" width="800" height="450" loading="lazy" decoding="async">
-            </div>
-            <div class="portfolio-card__copy">
-              <h4><a href="/mercedes-w14/">Mercedes-AMG W14</a></h4>
-              <p>Monaco 2023. Examine les nouveaux pontons, la suspension et le cockpit dans la visionneuse.</p>
-              <p class="portfolio-card__tools">Blender · Visionneuse interactive</p>
-            </div>
-          </article>
-          <article class="portfolio-card">
-            <div class="portfolio-card__media">
-              <img src="/img/mercedes-w13.webp" alt="Rendu Blender de la Mercedes-AMG W13 n° 44, vue de trois quarts avant" width="1152" height="633" loading="lazy" decoding="async">
-            </div>
-            <div class="portfolio-card__copy">
+              <p class="mercedes-year"><time datetime="2022">2022</time></p>
               <h4><a href="/mercedes-w13/">Mercedes-AMG W13</a></h4>
-              <p>Bahreïn 2022. Fais pivoter la monoplace pour observer ses pontons étroits et actionner son DRS.</p>
-              <p class="portfolio-card__tools">Blender · Visionneuse interactive</p>
+              <p>Bahreïn 2022. Les pontons étroits laissent peu de carrosserie autour des entrées de refroidissement.</p>
+              <p class="mercedes-source"><a href="https://www.formula1.com/en/latest/article/analysis-a-first-look-at-mercedes-astonishing-new-update-for-the-official.3BKri90fPodxyRfiY2Xayl" hreflang="en">Architecture 2022 · W13</a></p>
             </div>
-          </article>
-        </div>
+          </li>
+          <li class="portfolio-card">
+            <div class="portfolio-card__media">
+              <img src="/mercedes-w14/studio-800.webp" alt="Rendu Blender de la Mercedes-AMG W14 à Monaco" width="800" height="450" loading="lazy" decoding="async">
+            </div>
+            <div class="portfolio-card__copy">
+              <p class="mercedes-year"><time datetime="2023">2023</time></p>
+              <h4><a href="/mercedes-w14/">Mercedes-AMG W14</a></h4>
+              <p>Monaco 2023. Mercedes élargit et remonte les entrées de ponton et revoit les déflecteurs du plancher.</p>
+              <p class="mercedes-source"><a href="https://www.fia.com/sites/default/files/07_mco_car_presentation_submissions.pdf" hreflang="en">Dossier FIA · W14</a></p>
+            </div>
+          </li>
+          <li class="portfolio-card">
+            <div class="portfolio-card__media">
+              <img src="/mercedes-w15/studio-800.webp" alt="Rendu Blender de la Mercedes-AMG W15 à Bahreïn" width="800" height="450" loading="lazy" decoding="async">
+            </div>
+            <div class="portfolio-card__copy">
+              <p class="mercedes-year"><time datetime="2024">2024</time></p>
+              <h4><a href="/mercedes-w15/">Mercedes-AMG W15</a></h4>
+              <p>Bahreïn 2024. Entrées triangulaires, cockpit reculé et suspension arrière à poussoirs.</p>
+              <p class="mercedes-source"><a href="https://www.fia.com/sites/default/files/decision-document/2024%20Bahrain%20Grand%20Prix%20-%20Car%20Display%20Procedure.pdf" hreflang="en">Dossier FIA · W15</a></p>
+            </div>
+          </li>
+          <li class="portfolio-card">
+            <div class="portfolio-card__media">
+              <img src="/mercedes-w16/studio-800.webp" alt="Rendu Blender de la Mercedes-AMG W16 à Melbourne" width="800" height="450" loading="lazy" decoding="async">
+            </div>
+            <div class="portfolio-card__copy">
+              <p class="mercedes-year"><time datetime="2025">2025</time></p>
+              <h4><a href="/mercedes-w16/">Mercedes-AMG W16</a></h4>
+              <p>Melbourne 2025. L’admission horizontale se double d’une entrée verticale et le dessous du ponton se creuse.</p>
+              <p class="mercedes-source"><a href="https://www.fia.com/system/files/decision-document/2025_australian_grand_prix_-_car_presentation_submissions.pdf" hreflang="en">Dossier FIA · W16</a></p>
+            </div>
+          </li>
+        </ol>
       </section>
       <article class="portfolio-card collection-other">
         <div class="portfolio-card__media">

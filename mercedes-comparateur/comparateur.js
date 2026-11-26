@@ -1,5 +1,5 @@
-import { monoplaces } from '/assets/donnees-mercedes.js';
-import { annotations } from '/assets/annotations-mercedes.js';
+import { monoplaces } from '/assets/donnees-mercedes.js?v=2';
+import { annotations } from '/assets/annotations-mercedes.js?v=2';
 
 const byId = id => document.getElementById('cmp-' + id);
 const panel = byId('panel');
@@ -8,6 +8,8 @@ const canvas = byId('canvas');
 const loading = byId('load');
 const fullScreen = byId('full');
 const controls = byId('controls');
+const material = byId('material');
+const neutral = byId('neutral');
 const status = byId('state');
 const sync = byId('sync');
 const part = byId('part');
@@ -20,16 +22,26 @@ const modeInputs = [...document.querySelectorAll('[name="cmp-mode"]')];
 const views = [...document.querySelectorAll('[data-view]')];
 const ruler = byId('ruler');
 const params = new URLSearchParams(location.search);
-const initialLeft = Object.hasOwn(monoplaces, params.get('gauche')) ? params.get('gauche') : 'w14';
-const initialRight = Object.hasOwn(monoplaces, params.get('droite')) ? params.get('droite') : 'w15';
-let ids = [initialLeft, initialRight === initialLeft
-  ? Object.keys(monoplaces).find(id => id !== initialLeft) : initialRight];
+const [requestedLeft, requestedRight] = ['gauche', 'droite'].map(key => {
+  const id = params.get(key);
+  return Object.hasOwn(monoplaces, id) ? id : null;
+});
+if (['clay', 'wire'].includes(params.get('matiere'))) material.value = params.get('matiere');
+let ids = [requestedLeft ?? 'w15', requestedRight ?? 'w16'];
+if (ids[0] === ids[1]) {
+  const side = requestedRight && !requestedLeft ? 0 : 1;
+  ids[side] = ids[side] === 'w16' ? 'w15' : 'w16';
+}
 let loadedIds = [];
 let renderer;
+let loadAttempt = 0;
 let pendingFrame = null;
 let busy = false;
 let ready = false;
 let isSynced = true;
+const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
+const travel = () => reducedMotion.matches || byId('quality').value === 'eco' ? 0 : 280;
+const format = new Intl.NumberFormat('fr-FR');
 
 function renderLayout() {
   stage.dataset.layout = stage.clientWidth < 620 ? 'stack' : 'columns';
@@ -38,19 +50,20 @@ function renderLayout() {
 
 function requestDraw() {
   if (pendingFrame !== null || !ready || document.hidden) return;
-  pendingFrame = requestAnimationFrame(() => {
+  pendingFrame = requestAnimationFrame(time => {
     pendingFrame = null;
     try {
-      const pixels = renderer.render();
+      const pixels = renderer.render(time);
       if (!pixels) return;
       canvas.dataset.rendered = 'true';
       ruler.hidden = false;
       const increment = pixels > 110 ? .5 : pixels < 24 ? 2 : 1;
       ruler.querySelector('i').style.width = (increment * pixels) + 'px';
-      ruler.querySelector('span').textContent = new Intl.NumberFormat('fr-FR').format(increment) + ' m';
+      ruler.querySelector('span').textContent = format.format(increment) + ' m';
       // Le nombre décrit l'échelle de la comparaison synchronisée, ou
       // celle de la dernière vue manipulée si les vues sont indépendantes.
       ruler.setAttribute('aria-label', 'Échelle de la vue active');
+      if (renderer.transitioning) requestDraw();
     } catch {
       fail('Le moteur 3D a rencontré une erreur. Les rendus restent disponibles.');
     }
@@ -103,11 +116,10 @@ function setBusy(amount) {
   panel.setAttribute('aria-busy', String(busy));
 }
 
-function fail(message, reset = true) {
-  if (reset) {
-    renderer?.dispose();
-    renderer = null;
-  }
+function fail(message) {
+  loadAttempt++;
+  renderer?.dispose();
+  renderer = null;
   ready = false;
   if (panel.classList.contains('cmp-expanded')) enlarged(false);
   if (document.fullscreenElement === panel) document.exitFullscreen().catch(() => {});
@@ -126,14 +138,17 @@ function fail(message, reset = true) {
 
 async function showPair(giveFocus = false) {
   if (busy) return;
+  const attempt = ++loadAttempt;
   setBusy(true);
   status.textContent = 'Chargement des deux monoplaces…';
   try {
     if (!renderer) {
-      const { Comparateur } = await import('./moteur.js');
+      const { Comparateur } = await import('./moteur.js?v=2');
+      if (attempt !== loadAttempt) return;
       renderer = new Comparateur(canvas);
     }
     await renderer.load(ids);
+    if (attempt !== loadAttempt) return;
     loadedIds = [...ids];
     stage.querySelector('.cmp-posters').hidden = true;
     loading.hidden = true;
@@ -141,20 +156,22 @@ async function showPair(giveFocus = false) {
     canvas.hidden = false;
     fullScreen.hidden = false;
     ready = true;
-    updateMode(renderer.mode);
+    syncSettings();
+    updateMode(modeInputs.find(input => input.checked)?.value ?? 'split');
     renderer.choosePart(part.value);
     displayView(part.value === 'none' ? 'studio' : '');
     status.textContent = `${monoplaces[ids[0]].name} et ${monoplaces[ids[1]].name} · projection orthographique en mètres.`;
     requestDraw();
     if (giveFocus) canvas.focus({ preventScroll: true });
   } catch {
+    if (attempt !== loadAttempt) return;
     if (loadedIds.length) {
       ids = [...loadedIds];
       updatePicks();
     }
     fail('La 3D est indisponible. Réessaie le chargement ou ouvre les galeries des monoplaces.');
   } finally {
-    setBusy(false);
+    if (attempt === loadAttempt) setBusy(false);
   }
 }
 
@@ -172,10 +189,15 @@ function updateMode(mode) {
   renderer.sync = sync.checked;
   if (renderer.sync) renderer.link();
   byId('overlay-tools').hidden = mode !== 'overlay';
+  byId('depth-tools').hidden = mode !== 'depth';
+  material.disabled = mode === 'depth' || mode === 'silhouette';
+  neutral.disabled = material.disabled;
   const text = byId('help');
-  text.textContent = mode === 'silhouette'
-    ? 'Le turquoise montre la zone propre à A, l’ocre celle propre à B. Le gris indique la surface projetée commune.'
-    : 'Glisse pour pivoter, pince pour zoomer. Au clavier, utilise les flèches et les touches + ou − dans la vue 3D.';
+  const help = {
+    silhouette: 'Le turquoise montre la zone propre à A, l’ocre celle propre à B. Le gris indique la surface projetée commune.',
+    depth: 'Tourne les deux modèles ensemble pour observer les écarts sous plusieurs angles.'
+  };
+  text.textContent = help[mode] ?? 'Glisse pour pivoter, pince pour zoomer. Au clavier, utilise les flèches et les touches + ou − dans la vue 3D.';
   renderLayout();
 }
 
@@ -186,8 +208,42 @@ function listenSelect(name, action) {
   });
 }
 
+function updateMaterial() {
+  if (renderer) renderer.material = material.value;
+  neutral.setAttribute('aria-pressed', String(material.value === 'clay'));
+}
+
+function updateComposite() {
+  const value = byId('composite').value;
+  if (renderer) renderer.blend = value;
+  byId('range-a').hidden = value !== 'independent';
+  const labels = { mix: 'Part de la monoplace B', wipe: 'Position du balayage', independent: 'Opacité B' };
+  byId('slider-label').textContent = labels[value];
+}
+
+function updateDepth() {
+  const threshold = Number(byId('sensitivity').value);
+  if (renderer) renderer.threshold = threshold;
+  byId('threshold').value = threshold + ' mm';
+  byId('depth-minus').textContent = '−' + threshold * 5 + ' mm · B en retrait';
+  byId('depth-plus').textContent = '+' + threshold * 5 + ' mm · B en avant';
+}
+
+function syncSettings() {
+  renderer.align = byId('align').value;
+  renderer.alignCars();
+  renderer.light = byId('light').value;
+  renderer.quality = byId('quality').value;
+  renderer.opacity = Number(byId('opacity').value) / 100;
+  renderer.opacityA = Number(byId('opacity-a').value) / 100;
+  updateMaterial();
+  updateComposite();
+  updateDepth();
+}
+
 fillPicks();
 updatePicks();
+updateMaterial();
 renderLayout();
 loading.hidden = false;
 loading.addEventListener('click', () => showPair(true));
@@ -218,18 +274,27 @@ listenSelect('light', value => {
   renderer.light = value;
   stage.dataset.light = value;
 });
-listenSelect('material', value => { renderer.material = value; });
-listenSelect('composite', value => {
-  renderer.blend = value;
-  byId('slider-label').textContent = value === 'wipe' ? 'Position du balayage' : 'Part de la monoplace B';
+listenSelect('quality', value => { renderer.quality = value; });
+listenSelect('material', updateMaterial);
+listenSelect('composite', updateComposite);
+neutral.addEventListener('click', () => {
+  material.value = material.value === 'clay' ? 'paint' : 'clay';
+  updateMaterial();
+  requestDraw();
 });
-byId('opacity').addEventListener('input', event => {
-  if (renderer) renderer.opacity = Number(event.target.value) / 100;
-  byId('percentage').value = `${event.target.value} %`;
+for (const [input, output, property] of [['opacity', 'percentage', 'opacity'], ['opacity-a', 'percentage-a', 'opacityA']]) {
+  byId(input).addEventListener('input', event => {
+    if (renderer) renderer[property] = Number(event.target.value) / 100;
+    byId(output).value = `${event.target.value} %`;
+    requestDraw();
+  });
+}
+byId('sensitivity').addEventListener('input', () => {
+  updateDepth();
   requestDraw();
 });
 part.addEventListener('change', () => {
-  if (renderer) renderer.choosePart(part.value);
+  if (renderer) renderer.choosePart(part.value, travel());
   displayView(part.value === 'none' ? 'studio' : '');
   updateNotes();
   requestDraw();
@@ -237,7 +302,7 @@ part.addEventListener('change', () => {
 for (const button of views) button.addEventListener('click', () => {
   if (!renderer) return;
   part.value = 'none';
-  renderer.chooseView(button.dataset.view);
+  renderer.chooseView(button.dataset.view, travel());
   displayView(button.dataset.view);
   updateNotes();
   requestDraw();

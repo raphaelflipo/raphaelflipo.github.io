@@ -1,6 +1,8 @@
 .car-navigation .car-switch {
   align-items: center;
+  flex-wrap: wrap;
   gap: 2px;
+  max-inline-size: 100%;
 }
 .collection-compare {
   display: inline-flex;
@@ -140,7 +142,86 @@
   .portfolio-card.collection-other { grid-template-columns: minmax(0, 1fr); }
   .collection-other .portfolio-card__media { border-radius: 21px 21px 0 0; }
   .collection-other .portfolio-card__media img { height: auto; }
-}
-@media (max-width: 400px) {
   .car-navigation .car-switch a { padding-inline: .62em; }
+}
+
+.mercedes-timeline {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+.mercedes-timeline .portfolio-card {
+  border-top: 2px solid var(--rf-border);
+  padding-top: .75rem;
+}
+.mercedes-timeline .portfolio-card__copy { padding-inline: clamp(.6rem, 1.6vw, 1.15rem); }
+.mercedes-timeline .portfolio-card__copy h4 { font-size: clamp(1.03rem, 1.8vw, 1.45rem); }
+.mercedes-timeline .mercedes-year {
+  margin: 0 0 .6rem;
+  color: var(--rf-green);
+  font-size: .8rem;
+  font-variant-numeric: tabular-nums;
+  font-weight: 720;
+}
+.mercedes-timeline .mercedes-source a {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.w16-surface {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .25rem .9rem;
+  width: fit-content;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.w16-surface legend { font-size: .82rem; font-weight: 650; }
+.w16-surface label {
+  display: inline-flex;
+  align-items: center;
+  gap: .32rem;
+  min-height: 44px;
+  font-size: .88rem;
+}
+.w16-surface input { accent-color: var(--rf-green); }
+.w16-wire-link { margin-bottom: .42rem; }
+.w16-observation {
+  flex-basis: 100%;
+  margin: .1rem 0 .35rem;
+  color: var(--rf-muted);
+  font-size: .86rem;
+}
+.w16-changes {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem clamp(1rem, 3vw, 2rem);
+}
+.w16-changes article {
+  border-top: 2px solid var(--rf-border);
+  padding: .85rem .15rem;
+}
+.w16-changes h4 { margin: 0 0 .55rem; font-size: 1rem; }
+.w16-changes p { margin: 0; color: var(--rf-muted); }
+.w16-facts dd { font-size: clamp(1.02rem, 2.7vw, 1.65rem); }
+
+@media (max-width: 980px) {
+  .mercedes-timeline { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 650px) {
+  .w16-changes { grid-template-columns: 1fr; gap: .55rem; }
+  .w16-facts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) {
+  .mercedes-timeline { grid-template-columns: 1fr; }
+}
+@media (max-width: 390px) {
+  .car-navigation .car-switch a { padding-inline: .5em; }
 }

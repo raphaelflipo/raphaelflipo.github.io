@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'sha256-yhlpZVZMy2vXExwTGihUWVSrOxyhMuvj+Ygg7pyBWek='; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' blob:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#163c2a">
+  <meta name="description" content="Observe la Mercedes-AMG W16 de Melbourne 2025 en 3D. Compare les pontons, les prises d’air et la suspension à la W15, avec les livrées Russell et Antonelli.">
+  <meta name="author" content="Raphaël Flipo">
+  <title>Mercedes-AMG W16 en 3D | Raphaël Flipo</title>
+  <link rel="canonical" href="https://raphaelflipo.github.io/mercedes-w16/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/refonte.css">
+  <link rel="stylesheet" href="/mercedes-w13/w13.css">
+  <link rel="stylesheet" href="/assets/monoplaces.css">
+  <link rel="stylesheet" href="/assets/collection-mercedes.css">
+  <script src="/assets/menu.js" defer></script>
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="Raphaël Flipo">
+  <meta property="og:title" content="Mercedes-AMG W16 en 3D | Raphaël Flipo">
+  <meta property="og:description" content="Deux livrées Mercedes-AMG W16 à Melbourne. Inspecte le modèle 3D de Russell et Antonelli et compare sa géométrie à la W15.">
+  <meta property="og:url" content="https://raphaelflipo.github.io/mercedes-w16/">
+  <meta property="og:image" content="https://raphaelflipo.github.io/mercedes-w16/studio.webp">
+  <meta property="og:image:alt" content="Rendu Blender de la Mercedes-AMG W16 n° 63 de trois quarts avant">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="module" src="./pilote.js"></script>
+</head>
+<body>
+  <a class="rf-skip" href="#contenu">Aller au contenu</a>
+  <header class="rf-header">
+    <div class="rf-shell rf-header__inner">
+      <a class="rf-brand" href="/">Raphaël <span>Flipo.</span></a>
+      <nav class="rf-nav rf-nav--desktop" aria-label="Navigation principale">
+        <a href="/#projets">Projets</a><a href="/#competences">Compétences</a><a href="/#parcours">Parcours</a><a href="/cv/">CV</a><a href="/#contact" class="rf-nav__contact">Contact</a>
+      </nav>
+      <details class="rf-menu">
+        <summary>Menu</summary>
+        <nav aria-label="Navigation mobile">
+          <a href="/#projets">Projets</a><a href="/#competences">Compétences</a><a href="/#parcours">Parcours</a><a href="/cv/">CV</a><a href="/#contact">Contact</a>
+        </nav>
+      </details>
+    </div>
+  </header>
+  <main id="contenu" class="rf-shell w13">
+    <section aria-labelledby="titre">
+      <div class="w13-intro">
+        <div class="car-navigation">
+          <a class="w13-back" href="/#collection-mercedes">← Collection Mercedes</a>
+          <nav class="car-switch" aria-label="Choisir une monoplace">
+            <a href="/mercedes-w13/">W13 <span>· 2022</span></a><a href="/mercedes-w14/">W14 <span>· 2023</span></a><a href="/mercedes-w15/">W15 <span>· 2024</span></a><a href="/mercedes-w16/" aria-current="page">W16 <span>· 2025</span></a>
+          </nav>
+          <a class="collection-compare" href="/mercedes-comparateur/?gauche=w15&amp;droite=w16">Comparer les monoplaces <span aria-hidden="true">↗</span></a>
+        </div>
+        <p class="rf-eyebrow">Formule 1 · Blender</p>
+        <h1 id="titre">Mercedes-AMG W16</h1>
+        <p class="w13-subtitle">George Russell n° 63 et Kimi Antonelli n° 12 · Melbourne · 16 mars 2025</p>
+      </div>
+      <div class="w13-viewer" id="car-viewer" data-car="W16" data-driver="63" data-surface="livery" data-camera-scale="1.29" data-light="dark" data-model="./mercedes-w16.glb">
+        <div class="mercedes-driver" hidden>
+          <label for="car-driver">Pilote</label>
+          <select id="car-driver" aria-describedby="car-driver-note">
+            <option value="63" data-model="./mercedes-w16.glb">63 · George Russell</option>
+            <option value="12" data-model="./mercedes-w16-12.glb" data-poster="./studio-12.webp">12 · Andrea Kimi Antonelli</option>
+          </select>
+          <p id="car-driver-note">Les deux livrées reprennent les marquages observés à Melbourne.</p>
+        </div>
+        <div class="w13-stage">
+          <img class="w13-poster" src="./studio.webp" srcset="./studio-800.webp 800w, ./studio.webp 1920w" sizes="(max-width: 900px) 100vw, (max-width: 1320px) 94vw, 1240px" alt="Mercedes-AMG W16 argent, carbone et turquoise, vue de trois quarts avant dans Blender" width="1920" height="1080" fetchpriority="high">
+          <model-viewer id="car-model" aria-describedby="car-status" alt="W16 de George Russell à Melbourne. Utilise les flèches du clavier pour pivoter."
+            camera-controls touch-action="pan-y" disable-pan interaction-prompt="none"
+            camera-target="-0.15m 0.48m 0m" camera-orbit="-47deg 69deg 7.8m"
+            min-camera-orbit="auto 1deg 0.8m" max-camera-orbit="auto 179deg 30m"
+            field-of-view="28deg" max-field-of-view="38deg" exposure="1.12" shadow-intensity="0.65" shadow-softness="0.78" environment-image="neutral" tone-mapping="neutral"></model-viewer>
+          <button class="w13-expand" id="car-expand" type="button" hidden aria-label="Passer en plein écran" title="Passer en plein écran" aria-pressed="false">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" width="20" height="20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H4v5m11-5h5v5M4 15v5h5m11-5v5h-5"/></svg>
+          </button>
+        </div>
+        <div class="w13-controls" id="car-controls" hidden>
+          <div class="w13-angles" role="group" aria-label="Points de vue">
+            <button type="button" data-view="studio" data-target="-0.3m 0.48m 0m" data-orbit="-47deg 69deg 7.8m">Trois quarts</button>
+            <button type="button" data-view="side" data-target="-0.15m 0.48m 0m" data-orbit="0deg 84deg 10.8m">Profil</button>
+            <button type="button" data-view="front" data-target="-0.8m 0.38m 0m" data-orbit="-90deg 84deg 7m">Face</button>
+            <button type="button" data-view="top" data-target="-0.15m 0.35m 0m" data-orbit="0deg 1deg 10.5m">Dessus</button>
+            <button type="button" data-view="rear" data-target="2m 0.66m 0m" data-orbit="63deg 74deg 4m">DRS</button>
+            <button type="button" data-view="under" data-target="0m 0.26m 0m" data-orbit="26deg 154deg 9.8m">Dessous</button>
+          </div>
+          <div class="w13-drs" hidden>
+            <label for="car-drs">Ouverture du DRS</label>
+            <input id="car-drs" type="range" min="0" max="22" value="0" step="1">
+            <output for="car-drs" id="car-opening">0°</output>
+          </div>
+          <details class="car-inspection" id="car-inspection">
+            <summary>Inspecter un détail</summary>
+            <div class="car-inspection-tools">
+              <fieldset class="w16-surface">
+                <legend>Surfaces</legend>
+                <label><input type="radio" name="car-surface" value="livery" checked> Livrée</label>
+                <label><input type="radio" name="car-surface" value="clay"> Gris technique</label>
+              </fieldset>
+              <a class="collection-compare w16-wire-link" href="/mercedes-comparateur/?gauche=w15&amp;droite=w16&amp;matiere=wire">Comparer en filaire <span aria-hidden="true">↗</span></a>
+              <div class="w13-angles" role="group" aria-label="Détails de la W16">
+                <button type="button" data-view="sidepod" data-target="0.25m 0.45m 0.52m" data-orbit="-33deg 74deg 2.75m" data-observation="Suis le creux entre le flanc du ponton et le bord du plancher. Ce passage s’étend vers l’arrière.">Creusement du ponton</button>
+                <button type="button" data-view="inlets" data-target="-0.41m 0.53m 0.40m" data-orbit="-66deg 71deg 2.65m" data-observation="L’ouverture horizontale se trouve sous la lèvre du ponton. L’ouverture verticale longe le châssis.">Entrées d’air</button>
+                <button type="button" data-view="suspension" data-target="-1.52m 0.37m 0.39m" data-orbit="-47deg 63deg 2.70m" data-observation="Repère la fine biellette de direction derrière la roue avant. Son ancrage intérieur est abaissé par rapport à celui de la W15.">Suspension avant</button>
+                <button type="button" data-view="rear-suspension" data-target="1.48m 0.40m 0.40m" data-orbit="46deg 49deg 2.55m" data-observation="Le poussoir arrière monte depuis la roue vers le capot de la boîte. La W15 emploie déjà ce principe à l’arrière.">Poussoir arrière</button>
+                <button type="button" data-view="front-wing" data-target="-2.65m 0.19m 0m" data-orbit="-62deg 55deg 2.85m" data-observation="Au centre de l’aileron, le nez rejoint le plan principal. La fente continue de chaque côté de ce raccord.">Nez et aileron avant</button>
+                <button type="button" data-view="cockpit" data-target="-0.22m 0.58m 0m" data-orbit="30deg 32deg 1.9m" data-observation="L’anneau du Halo entoure l’ouverture du cockpit. L’entrée d’air moteur se situe au-dessus et en arrière.">Habitacle</button>
+              </div>
+              <p class="w16-observation" aria-live="polite" hidden></p>
+              <fieldset class="car-light">
+                <legend>Éclairage</legend>
+                <label><input type="radio" name="car-light" value="dark" checked> Sombre</label>
+                <label><input type="radio" name="car-light" value="light"> Clair</label>
+              </fieldset>
+            </div>
+          </details>
+        </div>
+        <div class="w13-status car-statusbar">
+          <span id="car-status" role="status">Rendu de la W16 réalisé dans Blender.</span>
+          <button class="rf-btn car-load" id="car-load" type="button" hidden>Explorer en 3D</button>
+        </div>
+      </div>
+    </section>
+    <section class="w13-detail mercedes-editorial" aria-labelledby="details">
+      <div class="w13-detail__intro">
+        <h2 id="details">La W16 à Melbourne</h2>
+        <p>Mercedes revoit la circulation de l’air le long du plancher avec des entrées de ponton horizontale et verticale et un creusement plus marqué sous la carrosserie. Le train avant change de géométrie et la suspension conserve des poussoirs aux deux essieux.</p>
+        <p>George Russell termine troisième et Andrea Kimi Antonelli quatrième. Les deux livrées reprennent les pneus intermédiaires à flanc vert du départ à Melbourne. Les slicks de la W15 correspondent au départ sur piste sèche à Bahreïn.</p>
+        <p class="mercedes-source"><a href="https://www.mercedesamgf1.com/reports/race-report-strong-sunday-nets-P3-P4-chaotic-season-opener-melbourne" hreflang="en">Compte rendu de Mercedes</a><a href="https://www.mercedesamgf1.com/news/in-pictures-the-best-images-from-australia" hreflang="en">Galerie officielle de Melbourne</a><a href="https://www.formula1.com/en/results/2025/races/1254/australia/race-result" hreflang="en">Classement de la course</a></p>
+      </div>
+      <dl class="mercedes-facts w16-facts" aria-label="Caractéristiques publiées par Mercedes">
+        <div><dt>Groupe propulseur</dt><dd>M16</dd></div>
+        <div><dt>Cylindrée</dt><dd>1,6 L</dd></div>
+        <div><dt>Suspension avant et arrière</dt><dd>Poussoirs</dd></div>
+        <div><dt>Roues BBS</dt><dd>Magnésium</dd></div>
+      </dl>
+      <p class="mercedes-source"><a href="https://www.mercedesamgf1.com/f1-w16-2025-technical-specifications" hreflang="en">Données constructeur</a></p>
+      <h3 class="mercedes-section-title">De la W15 à la W16</h3>
+      <div class="w16-changes">
+        <article><h4>Le nez rejoint le premier profil</h4><p>À Bahreïn en 2024, la fente passe sous le nez de la W15. Sur la W16 de Melbourne, le nez arrive jusqu’au plan principal de l’aileron et interrompt la fente au centre.</p></article>
+        <article><h4>Deux orientations d’entrée</h4><p>L’ouverture triangulaire observée sur la W15 de Bahreïn cède la place à deux zones d’admission, l’une horizontale sous la lèvre et l’autre verticale près du châssis.</p></article>
+        <article><h4>Un passage plus creusé</h4><p>Le creusement inférieur du ponton se prolonge davantage. Il se lit particulièrement en profil et en trois quarts avant dans le mode gris.</p></article>
+        <article><h4>Un ancrage de direction abaissé</h4><p>La biellette de direction rejoint le châssis plus bas sur la W16. Les bras, le poussoir et la biellette s’observent derrière la roue avant.</p></article>
+      </div>
+      <p class="mercedes-source"><a href="https://www.fia.com/system/files/decision-document/2025_australian_grand_prix_-_car_presentation_submissions.pdf" hreflang="en">Présentation technique FIA · Melbourne</a><a href="https://www.formula1.com/en/latest/article/tech-analysis-how-mercedes-have-targeted-their-key-weaknesses-through-the.01qX10KtcigWQeyCCLAYvm" hreflang="en">Analyse de Formula 1</a><a href="https://www.mercedesamgf1.com/news/in-pictures-the-best-images-from-australia" hreflang="en">Photos du nez à Melbourne</a></p>
+
+      <h3 class="mercedes-section-title">Rendus et détails</h3>
+      <div class="w13-gallery car-gallery">
+        <figure>
+          <a href="./profil.webp" aria-label="Agrandir la vue de profil"><img src="./profil.webp" alt="Profil de la Mercedes W16 avec sa prise d’air, le creusement du ponton et le capot moteur" width="1440" height="810" loading="lazy" decoding="async"></a>
+          <figcaption><strong>Silhouette</strong><span>Le profil aide à lire le dégagement sous le ponton, le capot moteur et le train arrière.</span></figcaption>
+        </figure>
+        <figure>
+          <a href="./ponton.webp" aria-label="Agrandir les entrées d’air"><img src="./ponton.webp" alt="Gros plan sur les entrées d’air verticale et horizontale de la W16" width="1440" height="810" loading="lazy" decoding="async"></a>
+          <figcaption><strong>Ponton et entrées d’air</strong><span>La lèvre et les ouvertures s’observent avec la commande Entrées d’air de la visionneuse.</span></figcaption>
+        </figure>
+        <figure>
+          <a href="./suspension.webp" aria-label="Agrandir la suspension avant"><img src="./suspension.webp" alt="Bras du train avant de la Mercedes W16 entre le châssis et la roue" width="1440" height="810" loading="lazy" decoding="async"></a>
+          <figcaption><strong>Suspension avant</strong><span>Observe la biellette de direction et son point d’ancrage rapporté plus bas par Mercedes dans son dossier FIA.</span></figcaption>
+        </figure>
+        <figure>
+          <a href="./arriere.webp" aria-label="Agrandir la vue arrière"><img src="./arriere.webp" alt="Train arrière, aileron et diffuseur de la Mercedes W16" width="1440" height="810" loading="lazy" decoding="async"></a>
+          <figcaption><strong>Aileron arrière</strong><span>Les profils de l’aileron arrière et des deux éléments inférieurs évoluent à Melbourne.</span></figcaption>
+        </figure>
+      </div>
+
+      <div class="mercedes-next">
+        <div><h3>Comparer sans les livrées</h3><p>Aligne la W15 et la W16 sur un essieu ou sur le repère du cockpit, puis examine leurs silhouettes et leurs composants au même grossissement.</p></div>
+        <a class="rf-btn" href="/mercedes-comparateur/?gauche=w15&amp;droite=w16&amp;matiere=clay">Comparer la W15 et la W16</a>
+      </div>
+      <div class="car-reference">
+        <p>Reconstitution à partir de photographies et de documents publics. Les distances affichées par le comparateur sont mesurées entre les deux modèles 3D. Les formes internes des conduits et les surfaces cachées du plancher restent estimées. Le DRS de la visionneuse illustre l’articulation du volet.</p>
+      </div>
+    </section>
+  </main>
+  <footer class="rf-footer">
+    <div class="rf-shell rf-footer__inner"><span>© 2026 Raphaël Flipo</span><a href="/#contact">Me contacter</a></div>
+  </footer>
+</body>
+</html>

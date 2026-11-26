@@ -1,5 +1,5 @@
 import { readdirSync, readFileSync, statSync, existsSync } from 'node:fs';
-import { join, dirname, resolve, extname } from 'node:path';
+import { join, dirname, resolve, extname, relative, isAbsolute, sep } from 'node:path';
 import { execFileSync } from 'node:child_process';
 
 const root = process.cwd();
@@ -26,27 +26,36 @@ for (const file of files) {
   }
   if (extension !== '.html') continue;
   const html = readFileSync(file, 'utf8');
-  const relative = file.slice(root.length + 1);
-  if (!/<html\b/i.test(html) || !/<main\b/i.test(html)) errors.push(relative + ' : structure HTML incomplète');
-  if (!/http-equiv=["']Content-Security-Policy["']/i.test(html)) errors.push(relative + ' : CSP absente');
-  if (/\son[a-z]+\s*=/i.test(html)) errors.push(relative + ' : gestionnaire JS inline');
-  if (/class=["'][^"']*["']\s+class=/i.test(html)) errors.push(relative + ' : attribut class en doublon');
-  for (const match of html.matchAll(/\b(?:href|src)=["']([^"']+)["']/gi)) {
-    const value = match[1].trim();
+  const page = relative(root, file);
+  if (!/<html\b/i.test(html) || !/<main\b/i.test(html)) errors.push(page + ' : structure HTML incomplète');
+  if (!/http-equiv=["']Content-Security-Policy["']/i.test(html)) errors.push(page + ' : CSP absente');
+  if (/\son[a-z]+\s*=/i.test(html)) errors.push(page + ' : gestionnaire JS inline');
+  if (/class=["'][^"']*["']\s+class=/i.test(html)) errors.push(page + ' : attribut class en doublon');
+  const links = [...html.matchAll(/\s(?:href|src|data-src|data-model|data-poster)=["']([^"']+)["']/gi)]
+    .map(([, value]) => value);
+  for (const [, sources] of html.matchAll(/\ssrcset=["']([^"']+)["']/gi)) {
+    // Les URL data: contiennent la virgule qui sépare les métadonnées de l'image.
+    if (!/\bdata:/i.test(sources)) {
+      for (const source of sources.split(',')) links.push(source.trim().split(/\s+/, 1)[0]);
+    }
+  }
+  for (const link of new Set(links)) {
+    const value = link.trim();
     if (!value || value[0] === '#' || /^(?:https?:|mailto:|tel:|data:|blob:)/i.test(value)) continue;
     if (/^javascript:/i.test(value)) {
-      errors.push(relative + ' : URL javascript interdite');
+      errors.push(page + ' : URL javascript interdite');
       continue;
     }
     const urlPath = value.split(/[?#]/, 1)[0];
     if (!urlPath || urlPath.startsWith('/la-boussole/')) continue;
     const destination = urlPath.startsWith('/') ? join(root, urlPath.slice(1)) : resolve(dirname(file), urlPath);
-    if (!destination.startsWith(root)) {
-      errors.push(relative + ' : chemin hors du dépôt : ' + value);
+    const fromRoot = relative(root, destination);
+    if (fromRoot === '..' || fromRoot.startsWith('..' + sep) || isAbsolute(fromRoot)) {
+      errors.push(page + ' : chemin hors du dépôt : ' + value);
       continue;
     }
     const target = existsSync(destination) && statSync(destination).isDirectory() ? join(destination, 'index.html') : destination;
-    if (!existsSync(target)) errors.push(relative + ' : lien local absent : ' + value);
+    if (!existsSync(target)) errors.push(page + ' : lien local absent : ' + value);
   }
 }
 

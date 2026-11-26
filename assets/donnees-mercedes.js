@@ -19,6 +19,12 @@ export const monoplaces = {
     page: '/mercedes-w15/', model: '/mercedes-w15/mercedes-w15.glb',
     poster: '/mercedes-w15/studio-800.webp',
     anchors: { front: -1.80, rear: 1.80, chassis: -.675 }
+  },
+  w16: {
+    name: 'W16', year: 2025, circuit: 'Melbourne',
+    page: '/mercedes-w16/', model: '/mercedes-w16/mercedes-w16.glb',
+    poster: '/mercedes-w16/studio-800.webp',
+    anchors: { front: -1.80, rear: 1.80, chassis: -.675 }
   }
 };
 
@@ -35,5 +41,6 @@ export const pieces = {
   floor: { anchor: 'front', point: [1.90,.10,0], width: 4.3, yaw: -.25, pitch: -.49 },
   engineCover: { anchor: 'rear', point: [-.91,.63,0], width: 3.0, yaw: .36, pitch: .51 },
   diffuser: { anchor: 'rear', point: [.43,.18,0], width: 2.5, yaw: 1.19, pitch: -.25 },
+  rearSuspension: { anchor: 'rear', point: [0,.37,.52], width: 1.85, yaw: .57, pitch: .49 },
   rearWing: { anchor: 'rear', point: [.40,.80,0], width: 2.35, yaw: 1.03, pitch: .33 }
 };
