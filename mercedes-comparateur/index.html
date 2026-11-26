@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' blob: data:; font-src 'self'; connect-src 'self' blob:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#163c2a">
+  <meta name="description" content="Compare les Mercedes W13, W14 et W15 en 3D, à échelle commune, côte à côte ou par superposition.">
+  <meta name="author" content="Raphaël Flipo">
+  <title>Comparer les Mercedes F1 en 3D | Raphaël Flipo</title>
+  <link rel="canonical" href="https://raphaelflipo.github.io/mercedes-comparateur/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/refonte.css">
+  <link rel="stylesheet" href="./comparateur.css">
+  <script src="/assets/menu.js" defer></script>
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Comparer les Mercedes F1 en 3D">
+  <meta property="og:url" content="https://raphaelflipo.github.io/mercedes-comparateur/">
+  <meta property="og:image" content="https://raphaelflipo.github.io/mercedes-w15/studio.webp">
+  <script type="module" src="./comparateur.js"></script>
+</head>
+<body>
+  <a class="rf-skip" href="#contenu">Aller au contenu</a>
+  <header class="rf-header">
+    <div class="rf-shell rf-header__inner">
+      <a class="rf-brand" href="/">Raphaël <span>Flipo.</span></a>
+      <nav class="rf-nav rf-nav--desktop" aria-label="Navigation principale">
+        <a href="/#projets">Projets</a><a href="/#competences">Compétences</a><a href="/#parcours">Parcours</a><a href="/cv/">CV</a><a href="/#contact" class="rf-nav__contact">Contact</a>
+      </nav>
+      <details class="rf-menu">
+        <summary>Menu</summary>
+        <nav aria-label="Navigation mobile">
+          <a href="/#projets">Projets</a><a href="/#competences">Compétences</a><a href="/#parcours">Parcours</a><a href="/cv/">CV</a><a href="/#contact">Contact</a>
+        </nav>
+      </details>
+    </div>
+  </header>
+  <main id="contenu" class="rf-shell cmp">
+    <section class="cmp-intro" aria-labelledby="titre">
+      <nav class="cmp-nav" aria-label="Collection Mercedes">
+        <a href="/#projets">← Mes projets</a>
+        <div><a href="/mercedes-w13/">W13</a><a href="/mercedes-w14/">W14</a><a href="/mercedes-w15/">W15</a></div>
+      </nav>
+      <p class="rf-eyebrow">Collection · Mercedes-AMG F1</p>
+      <h1 id="titre">Comparer les monoplaces</h1>
+      <p>Observe l’évolution des Mercedes W13, W14 et W15 sous le même angle et à la même échelle.</p>
+    </section>
+    <section class="cmp-panel" id="cmp-panel" aria-label="Comparateur 3D">
+      <div class="cmp-picks" role="group" aria-label="Monoplaces à comparer">
+        <label>Monoplace A <select id="cmp-left" aria-label="Monoplace A"></select></label>
+        <button type="button" id="cmp-swap" aria-label="Inverser les monoplaces" title="Inverser les monoplaces" class="cmp-swap">⇄</button>
+        <label>Monoplace B <select id="cmp-right" aria-label="Monoplace B"></select></label>
+      </div>
+      <div id="cmp-stage" class="cmp-stage" data-mode="split" data-light="graphite">
+        <div class="cmp-labels" aria-hidden="true"><span id="cmp-label-a"></span><span id="cmp-label-b"></span></div>
+        <div class="cmp-posters" aria-hidden="true"><img id="cmp-poster-a" alt=""><img id="cmp-poster-b" alt=""></div>
+        <canvas hidden id="cmp-canvas" tabindex="0" role="application" aria-label="Comparaison 3D des deux monoplaces" aria-describedby="cmp-help"></canvas>
+        <button id="cmp-load" class="cmp-load" type="button" hidden>Comparer en 3D</button>
+        <button id="cmp-full" class="cmp-full" type="button" aria-pressed="false" hidden>Plein écran</button>
+        <div class="cmp-ruler" id="cmp-ruler" hidden><i></i><span>1 m</span></div>
+      </div>
+      <p id="cmp-state" class="cmp-status" role="status">Choisis deux monoplaces pour afficher leurs modèles 3D.</p>
+      <noscript><p class="cmp-status">Active JavaScript pour utiliser le comparateur. Les pages W13, W14 et W15 incluent leurs galeries de rendus.</p></noscript>
+      <div id="cmp-controls" class="cmp-controls" hidden>
+        <div class="cmp-toolbar">
+          <fieldset class="cmp-segment" aria-label="Disposition">
+            <label><input type="radio" name="cmp-mode" value="split" checked><span>Côte à côte</span></label>
+            <label><input type="radio" name="cmp-mode" value="overlay"><span>Superposition</span></label>
+            <label><input type="radio" name="cmp-mode" value="silhouette"><span>Silhouettes</span></label>
+          </fieldset>
+          <label class="cmp-sync"><input type="checkbox" id="cmp-sync" checked> Synchroniser les vues</label>
+        </div>
+        <div class="cmp-settings">
+          <label>Rendu <select id="cmp-material"><option value="paint">Livrées</option><option value="clay">Gris neutre</option><option value="wire">Filaire</option></select></label>
+          <label>Repère <select id="cmp-align"><option value="chassis">Avant du cockpit</option><option value="front">Essieu avant</option><option value="rear">Essieu arrière</option></select></label>
+          <label>Éclairage <select id="cmp-light"><option value="graphite">Graphite</option><option value="studio">Studio clair</option></select></label>
+        </div>
+        <div class="cmp-overlay-tools" id="cmp-overlay-tools" hidden>
+          <label>Composition <select id="cmp-composite"><option value="mix">Opacité</option><option value="wipe">Balayage</option></select></label>
+          <label id="cmp-slider-label" for="cmp-opacity">Part de la monoplace B</label><input type="range" min="0" max="100" value="50" id="cmp-opacity"><output for="cmp-opacity" id="cmp-percentage">50 %</output>
+        </div>
+        <div class="cmp-orientation" role="group" aria-label="Vue des monoplaces">
+          <button type="button" data-view="studio" aria-pressed="true">Trois quarts</button>
+          <button type="button" data-view="side" aria-pressed="false">Profil</button>
+          <button type="button" data-view="front" aria-pressed="false">Face</button>
+          <button type="button" data-view="back" aria-pressed="false">Arrière</button>
+          <button type="button" data-view="top" aria-pressed="false">Dessus</button>
+          <button type="button" data-view="below" aria-pressed="false">Dessous</button>
+          <button type="button" id="cmp-out" aria-label="Zoom arrière">−</button>
+          <button type="button" id="cmp-in" aria-label="Zoom avant">+</button>
+        </div>
+        <p class="cmp-help" id="cmp-help">Glisse pour pivoter, pince pour zoomer. Au clavier, utilise les flèches et les touches + ou − dans la vue 3D.</p>
+      </div>
+    </section>
+    <section class="cmp-technical" aria-labelledby="cmp-tech-title">
+      <div class="cmp-technical-head">
+        <div><p class="rf-eyebrow">Détails techniques</p><h2 id="cmp-tech-title">Examiner une pièce</h2></div>
+        <label>Composant <select id="cmp-part">
+          <option value="none">Voiture entière</option><option value="nose">Nez</option><option value="frontWing">Aileron avant</option><option value="frontSuspension">Suspension avant</option><option value="sidepods">Pontons</option><option value="inlets">Entrées d’air</option><option value="floor">Plancher</option><option value="engineCover">Capot moteur</option><option value="diffuser">Diffuseur</option><option value="rearWing">Aileron arrière</option>
+        </select></label>
+      </div>
+      <div id="cmp-notes" class="cmp-notes" aria-live="polite"></div>
+      <p class="cmp-boundary">Les vues utilisent les reconstructions Blender. Les cotes de référence et les rapprochements visuels dépendent des pièces reconstituées d’après les photographies publiques.</p>
+    </section>
+  </main>
+  <footer class="rf-footer">
+    <div class="rf-shell rf-footer__inner"><span>© 2026 Raphaël Flipo</span><a href="/#contact">Me contacter</a></div>
+  </footer>
+</body>
+</html>

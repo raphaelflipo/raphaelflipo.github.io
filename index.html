@@ -9,7 +9,7 @@
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#163c2a">
   <title>Raphaël Flipo | Commercial et développeur à Lille</title>
-  <meta name="description" content="Portfolio de Raphaël Flipo, commercial et développeur à Lille. Découvrez La Boussole, Jarvis, les Mercedes W13 et W14 modélisées sur Blender et mon CV.">
+  <meta name="description" content="Portfolio de Raphaël Flipo, commercial et développeur à Lille. Découvrez La Boussole, Jarvis, le comparateur 3D des Mercedes W13, W14 et W15 et mon CV.">
   <meta name="author" content="Raphaël Flipo">
   <link rel="canonical" href="https://raphaelflipo.github.io/">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
@@ -17,6 +17,7 @@
   <link rel="preload" href="/fonts/geist-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/refonte.css">
   <link rel="stylesheet" href="/assets/accueil.css">
+  <link rel="stylesheet" href="/assets/collection-mercedes.css">
   <meta property="og:type" content="profile">
   <meta property="og:locale" content="fr_FR">
   <meta property="og:site_name" content="Raphaël Flipo">
@@ -101,9 +102,22 @@
           </article>
         </div>
       </section>
-      <section class="portfolio-group" aria-labelledby="titre-modeles">
-        <h3 class="portfolio-group__title" id="titre-modeles">Modélisation 3D</h3>
-        <div class="portfolio-grid portfolio-grid--models">
+      <section class="portfolio-group" id="collection-mercedes" aria-labelledby="titre-modeles">
+        <div class="collection-heading">
+          <h3 class="portfolio-group__title" id="titre-modeles">Collection Mercedes en 3D</h3>
+          <a class="collection-compare" href="/mercedes-comparateur/">Comparer les monoplaces <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="portfolio-grid portfolio-grid--models portfolio-grid--mercedes">
+          <article class="portfolio-card">
+            <div class="portfolio-card__media">
+              <img src="/mercedes-w15/studio-800.webp" alt="Rendu Blender de la Mercedes-AMG W15 argent et carbone à Bahreïn" width="800" height="450" loading="lazy" decoding="async">
+            </div>
+            <div class="portfolio-card__copy">
+              <h4><a href="/mercedes-w15/">Mercedes-AMG W15</a></h4>
+              <p>Bahreïn 2024. Observe le nez dégagé au-dessus de l’aileron avant, les prises d’air triangulaires et les poussoirs arrière.</p>
+              <p class="portfolio-card__tools">Blender · Visionneuse interactive</p>
+            </div>
+          </article>
           <article class="portfolio-card">
             <div class="portfolio-card__media">
               <img src="/mercedes-w14/studio-800.webp" alt="Rendu Blender de la Mercedes-AMG W14 noire et turquoise à Monaco" width="800" height="450" loading="lazy" decoding="async">
@@ -124,18 +138,18 @@
               <p class="portfolio-card__tools">Blender · Visionneuse interactive</p>
             </div>
           </article>
-          <article class="portfolio-card">
-            <div class="portfolio-card__media">
-              <img src="/img/aileron-apercu.jpg" alt="Vue en perspective de mon modèle 3D d’aileron arrière de Formule 1" width="1200" height="630" loading="lazy" decoding="async">
-            </div>
-            <div class="portfolio-card__copy">
-              <h4><a href="/aileron-f1/">Aileron arrière de F1</a></h4>
-              <p>Un projet de sciences de l’ingénieur pour examiner l’assemblage des profils et des dérives latérales.</p>
-              <p class="portfolio-card__tools">CAO · STEP · GLB</p>
-            </div>
-          </article>
         </div>
       </section>
+      <article class="portfolio-card collection-other">
+        <div class="portfolio-card__media">
+          <img src="/img/aileron-apercu.jpg" alt="Vue en perspective de mon modèle 3D d’aileron arrière de Formule 1" width="1200" height="630" loading="lazy" decoding="async">
+        </div>
+        <div class="portfolio-card__copy">
+          <h3><a href="/aileron-f1/">Aileron arrière de F1</a></h3>
+          <p>Un projet de sciences de l’ingénieur pour examiner l’assemblage des profils et des dérives latérales.</p>
+          <p class="portfolio-card__tools">CAO · STEP · GLB</p>
+        </div>
+      </article>
     </section>
 
     <section class="rf-section rf-section--tint" id="competences" aria-labelledby="titre-competences">

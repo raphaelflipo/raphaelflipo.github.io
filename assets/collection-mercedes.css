@@ -1,0 +1,146 @@
+.car-navigation .car-switch {
+  align-items: center;
+  gap: 2px;
+}
+.collection-compare {
+  display: inline-flex;
+  align-items: center;
+  align-self: stretch;
+  gap: .55rem;
+  min-height: 44px;
+  width: fit-content;
+  color: var(--rf-green);
+  font-size: .89rem;
+  font-weight: 700;
+}
+.collection-compare:hover { text-decoration: underline; text-underline-offset: .25em; }
+
+.collection-heading {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 0 1rem;
+  margin-bottom: .7rem;
+}
+.collection-heading .portfolio-group__title { margin: 0; }
+.collection-heading .collection-compare { align-self: auto; }
+.portfolio-grid--mercedes .portfolio-card__media img {
+  aspect-ratio: 16 / 9;
+  object-fit: contain;
+  object-position: center;
+}
+.portfolio-card.collection-other {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1.7fr);
+  align-items: stretch;
+  margin-top: clamp(1.2rem, 4vw, 2.6rem);
+}
+.collection-other .portfolio-card__media { border-radius: 21px 0 0 21px; }
+.collection-other .portfolio-card__media img { height: 100%; }
+.collection-other h3 {
+  margin: 0;
+  font-size: clamp(1.25rem, 2.1vw, 1.85rem);
+  letter-spacing: -.055em;
+}
+.collection-other h3 a::after {
+  position: absolute;
+  inset: 0;
+  border-radius: var(--portfolio-card-radius);
+  content: "";
+}
+.collection-other h3 a:focus-visible { outline: none; }
+.collection-other h3 a:focus-visible::after {
+  outline: 3px solid var(--rf-green);
+  outline-offset: 3px;
+}
+
+.mercedes-driver {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: .35rem .7rem;
+  padding: .65rem clamp(.75rem, 2vw, 1.25rem);
+}
+.mercedes-driver label { font-size: .85rem; font-weight: 650; }
+.mercedes-driver select {
+  max-width: 100%;
+  min-height: 44px;
+  padding: .4rem .65rem;
+  border: 1px solid var(--rf-border);
+  border-radius: .65rem;
+  background: var(--rf-paper);
+  color: var(--rf-text);
+  font: inherit;
+  font-size: .87rem;
+}
+.mercedes-driver select[aria-disabled="true"] { cursor: progress; }
+.mercedes-driver p {
+  flex: 1 1 12rem;
+  margin: 0;
+  color: var(--rf-muted);
+  font-size: .78rem;
+}
+
+.mercedes-editorial .w13-detail__intro { max-width: 780px; }
+.mercedes-facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  margin: 1.7rem 0 .4rem;
+  border-block: 1px solid var(--rf-border);
+}
+.mercedes-facts div { padding: .85rem clamp(.4rem, 2vw, 1.2rem); }
+.mercedes-facts dt { font-size: .82rem; color: var(--rf-muted); }
+.mercedes-facts dd {
+  margin: .28rem 0 0;
+  font-size: clamp(1.05rem, 2.8vw, 2rem);
+  font-variant-numeric: tabular-nums;
+  font-weight: 690;
+  letter-spacing: -.04em;
+}
+.mercedes-source {
+  display: flex;
+  flex-wrap: wrap;
+  column-gap: 1rem;
+  row-gap: .32rem;
+  margin: .45rem 0 0;
+  font-size: .82rem;
+}
+.mercedes-source a {
+  color: var(--rf-green);
+  text-decoration: underline;
+  text-underline-offset: .22em;
+}
+.mercedes-section-title {
+  margin: clamp(1.8rem, 4vw, 3.2rem) 0 1.05rem;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  letter-spacing: -.035em;
+}
+.mercedes-next {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem 1.75rem;
+  margin-top: 1.85rem;
+  padding: clamp(1rem, 3vw, 1.8rem);
+  background: var(--rf-soft);
+  border: 1px solid var(--rf-border);
+  border-radius: 1rem;
+}
+.mercedes-next h3 { margin: 0 0 .55rem; font-size: 1.3rem; }
+.mercedes-next div { flex: 1 1 min(100%, 32rem); }
+.mercedes-next p { max-width: 69ch; margin: 0; color: var(--rf-muted); }
+.mercedes-next .rf-btn { min-height: 44px; }
+
+@media (max-width: 760px) {
+  .car-navigation > .collection-compare { flex-basis: 100%; }
+}
+@media (max-width: 520px) {
+  .portfolio-card.collection-other { grid-template-columns: minmax(0, 1fr); }
+  .collection-other .portfolio-card__media { border-radius: 21px 21px 0 0; }
+  .collection-other .portfolio-card__media img { height: auto; }
+}
+@media (max-width: 400px) {
+  .car-navigation .car-switch a { padding-inline: .62em; }
+}
