@@ -69,6 +69,8 @@ jobs:
       - run: node scripts/parcours-v3.mjs
         env:
           PORTFOLIO_BROWSER: ${{ matrix.browser }}
+      - if: matrix.browser == 'chromium'
+        run: node scripts/atelier-3d.mjs
   lighthouse:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-24.04
