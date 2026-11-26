@@ -47,7 +47,7 @@ jobs:
               opts.set_capability('safari:deviceUDID',os.environ['SIMULATOR_ID'])
           browser=webdriver.Safari(options=opts)
           try:
-              site='https://raphaelflipo.github.io/mercedes-w16/composants/'
+              site='https://raphaelflipo.github.io/mercedes-w16/composants/?mode=isolate&projection=ortho'
               browser.get(site)
               by=lambda key:browser.find_element(By.ID,key)
               wait=WebDriverWait(browser,75)
@@ -57,20 +57,24 @@ jobs:
               assert browser.find_element(By.CSS_SELECTOR,'[data-family=diffuserRamp]').is_displayed()
               result['reading']=True
               print('SAFARI_LECTURE',json.dumps(result),flush=True)
-              Select(by('projection')).select_by_value('ortho')
+              assert by('projection').get_attribute('value')=='ortho'
+              browser.execute_script("arguments[0].scrollIntoView({block:'center'})",by('load-parts'))
               by('load-parts').click()
               wait.until(lambda _:by('stage').get_attribute('data-selection')=='diffuserRamp')
-              Select(by('mode')).select_by_value('isolate')
+              assert by('mode').get_attribute('value')=='isolate'
               assert 0<int(by('stage').get_attribute('data-visible'))==int(by('stage').get_attribute('data-marked'))<int(by('stage').get_attribute('data-total'))
               assert by('stage').get_attribute('data-camera')=='OrthographicCamera'
               result['camera']=by('stage').get_attribute('data-camera')
               result['visible']=by('stage').get_attribute('data-visible')
+              browser.execute_script("arguments[0].scrollIntoView({block:'center'})",by('parts-share'))
               by('parts-share').click()
               share=by('share-url').get_attribute('value')
               browser.switch_to.new_window('tab')
               browser.get(share)
+              browser.execute_script("arguments[0].scrollIntoView({block:'center'})",by('load-parts'))
               by('load-parts').click()
               wait.until(lambda _:by('stage').get_attribute('data-mode')=='isolate' and by('stage').get_attribute('data-selection')=='diffuserRamp')
+              browser.execute_script("arguments[0].scrollIntoView({block:'center'})",by('parts-share'))
               by('parts-share').click()
               assert by('share-url').get_attribute('value')==share
               assert by('stage').get_attribute('data-camera')=='OrthographicCamera'
@@ -179,7 +183,7 @@ jobs:
           xcrun simctl openurl "$id" 'https://raphaelflipo.github.io/mercedes-w16/composants/?piece=diffuserRamp&mode=isolate&projection=ortho'
           xcodebuild -project PublicSafari.xcodeproj -scheme Receipt -destination "platform=iOS Simulator,id=$id" -parallel-testing-enabled NO -derivedDataPath /tmp/SafariTouch CODE_SIGNING_ALLOWED=NO test
   lecture:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     strategy:
       fail-fast: false
       matrix:
