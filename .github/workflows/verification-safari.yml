@@ -49,7 +49,7 @@ jobs:
               opts.set_capability('safari:deviceUDID',os.environ['SIMULATOR_ID'])
           browser=webdriver.Safari(options=opts)
           try:
-              site='https://raphaelflipo.github.io/mercedes-w16/composants/'
+              site='https://raphaelflipo.github.io/mercedes-w16/composants/?piece=beamWing'
               browser.get(site)
               by=lambda key:browser.find_element(By.ID,key)
               wait=WebDriverWait(browser,75)
@@ -68,7 +68,7 @@ jobs:
                   time.sleep(.4)
               wait.until(lambda _:by('part').is_displayed())
               result=browser.execute_script('return {ua:navigator.userAgent,width:innerWidth,height:innerHeight,dpr:devicePixelRatio}')
-              Select(by('part')).select_by_value('beamWing')
+              assert by('part').get_attribute('value')=='beamWing'
               assert browser.find_element(By.CSS_SELECTOR,'[data-family=beamWing]').is_displayed()
               result['reading']=True
               print('SAFARI_LECTURE',json.dumps(result),flush=True)
@@ -76,7 +76,15 @@ jobs:
               tap(by('load-parts'))
               time.sleep(2)
               result['touch_delivered']=browser.execute_script('return window.taps>0')
+              result['centered_webdriver_click']=False
               if not result['touch_delivered']:
+                  try:
+                      by('load-parts').click()
+                      time.sleep(.5)
+                      result['centered_webdriver_click']=browser.execute_script('return window.taps>0')
+                  except Exception as e:
+                      result['webdriver_error']=type(e).__name__
+              if not result['touch_delivered'] and not result['centered_webdriver_click']:
                   browser.execute_script("document.getElementById('load-parts').click()")
               wait.until(lambda _:by('stage').get_attribute('data-selection')=='beamWing' or 'Réessayer' in by('load-parts').text)
               result['stage']=by('parts-status').text
