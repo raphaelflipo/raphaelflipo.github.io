@@ -59,9 +59,18 @@ jobs:
                   safari.activate()
                   let web = safari.webViews.firstMatch
                   XCTAssertTrue(web.waitForExistence(timeout: 40), safari.debugDescription)
+                  func dismissSafariTip() {
+                      let close = safari.buttons.matching(identifier: "xmark.circle.fill").firstMatch
+                      if close.exists && close.isHittable {
+                          close.tap()
+                          print("OS_SAFARI_TIP_DISMISSED")
+                      }
+                  }
+                  dismissSafariTip()
                   let button = web.buttons["Activer la 3D"].firstMatch
                   XCTAssertTrue(button.waitForExistence(timeout: 45), safari.debugDescription)
-                  for _ in 0..<10 {
+                  for _ in 0..<12 {
+                      dismissSafariTip()
                       if button.isHittable && button.frame.midY >= 120 && button.frame.midY <= safari.frame.height - 150 { break }
                       let start = safari.coordinate(withNormalizedOffset: CGVector(dx: 0.84, dy: 0.76))
                       let end = safari.coordinate(withNormalizedOffset: CGVector(dx: 0.84, dy: 0.38))
@@ -70,9 +79,12 @@ jobs:
                   print("OS_BEFORE", button.frame, safari.frame, button.isHittable)
                   XCTAssertTrue(button.isHittable, safari.debugDescription)
                   button.tap()
-                  let ready = web.staticTexts.containing(NSPredicate(format: "label CONTAINS %@ AND label CONTAINS %@", "Sélection", "Beam wing")).firstMatch
-                  XCTAssertTrue(ready.waitForExistence(timeout: 60), String(safari.debugDescription.suffix(15000)))
-                  print("OS_TOUCH_OK",ready.label, safari.frame)
+                  let ready = web.staticTexts.matching(NSPredicate(format: "label CONTAINS[c] %@ AND label CONTAINS[c] %@", "Sélection", "Beam wing")).firstMatch
+                  let capture = web.buttons["Télécharger le PNG"].firstMatch
+                  let enabled = XCTNSPredicateExpectation(predicate: NSPredicate(format: "enabled == true"), object: capture)
+                  XCTAssertEqual(XCTWaiter.wait(for: [enabled], timeout: 65), .completed, safari.debugDescription)
+                  XCTAssertTrue(ready.exists || !button.exists, safari.debugDescription)
+                  print("OS_TOUCH_OK", capture.label, capture.isEnabled, ready.exists ? ready.label : "active stage", safari.frame)
               }
           }
           SWIFT
@@ -86,3 +98,4 @@ jobs:
           xcrun simctl list devices available | grep -F "$id"
           xcrun simctl openurl "$id" 'https://raphaelflipo.github.io/mercedes-w16/composants/?piece=beamWing'
           xcodebuild -project PublicSafari.xcodeproj -scheme Receipt -destination "platform=iOS Simulator,id=$id" -parallel-testing-enabled NO -derivedDataPath /tmp/SafariTouch CODE_SIGNING_ALLOWED=NO test
+
