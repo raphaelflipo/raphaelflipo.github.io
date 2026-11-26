@@ -76,3 +76,15 @@
     text-decoration: none;
   }
 }
+
+.rf-cv-index { display: flex; flex-wrap: wrap; gap: 0 16px; margin-block: 0 12px; }
+.rf-cv-index a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--rf-green);
+  text-decoration: underline;
+  text-underline-offset: .18em;
+}
+.cv-document h2[id] { scroll-margin-block-start: 76px; }
+@media print { .rf-cv-index { display: none; } }

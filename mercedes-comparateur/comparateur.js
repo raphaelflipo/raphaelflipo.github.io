@@ -1,5 +1,6 @@
 import { monoplaces } from '/assets/donnees-mercedes.js?v=2';
 import { annotations } from '/assets/annotations-mercedes.js?v=2';
+import { comparisonParams, restoreSettings } from './configuration.js';
 
 const english = document.documentElement.lang === 'en';
 const englishAnnotations = english ? await import('/assets/annotations-mercedes-en.js').catch(() => null) : null;
@@ -29,12 +30,16 @@ const notes = byId('notes');
 const modeInputs = [...document.querySelectorAll('[name="cmp-mode"]')];
 const views = [...document.querySelectorAll('[data-view]')];
 const ruler = byId('ruler');
+const share = byId('share');
+const shareLink = byId('share-link');
+const shareStatus = byId('share-state');
+const exportButton = byId('export');
 const params = new URLSearchParams(location.search);
+const initial = restoreSettings(params, byId, modeInputs, views);
 const [requestedLeft, requestedRight] = ['gauche', 'droite'].map(key => {
   const id = params.get(key);
   return Object.hasOwn(monoplaces, id) ? id : null;
 });
-if (['clay', 'wire'].includes(params.get('matiere'))) material.value = params.get('matiere');
 let ids = [requestedLeft ?? 'w15', requestedRight ?? 'w16'];
 if (ids[0] === ids[1]) {
   const side = requestedRight && !requestedLeft ? 0 : 1;
@@ -45,13 +50,27 @@ let renderer;
 let loadAttempt = 0;
 let pendingFrame = null;
 let busy = false;
+let exporting = false;
 let ready = false;
 let stageVisible = true;
-let isSynced = true;
+let isSynced = initial.sync;
+let view = initial.view;
+let retainedCamera = { orbits: initial.orbits, active: initial.active };
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const travel = () => reducedMotion.matches || byId('quality').value === 'eco' ? 0 : 280;
 const format = new Intl.NumberFormat(copyFor('fr-FR', 'en-GB'));
 const formatPercent = new Intl.NumberFormat(copyFor('fr-FR', 'en-GB'), { style: 'percent' });
+const displayedMode = () => modeInputs.find(input => input.checked)?.value ?? 'split';
+
+function permalink(target = location.href) {
+  const url = new URL(target, location.href);
+  url.search = comparisonParams({
+    ids, byId, mode: displayedMode(), view, sync: isSynced,
+    camera: renderer?.cameraState() ?? retainedCamera
+  });
+  url.hash = '';
+  return url;
+}
 
 function renderLayout() {
   stage.dataset.layout = stage.clientWidth < 620 ? 'stack' : 'columns';
@@ -113,6 +132,7 @@ function updateNotes() {
     const title = document.createElement('h3');
     const copy = document.createElement('p');
     const link = document.createElement('a');
+    const dossier = document.createElement('a');
     title.textContent = `${car.name} · ${car.year}`;
     if (entry) {
       copy.textContent = englishAnnotations?.annotationText[id]?.[part.value] ?? entry.text;
@@ -124,7 +144,12 @@ function updateNotes() {
       link.textContent = copyFor(`Voir la fiche ${car.name}`, `Explore the ${car.name}`);
       link.href = copyFor(car.page, '/en' + car.page);
     }
-    box.append(title, copy, link);
+    dossier.textContent = copyFor('Dossier d’ingénierie ' + car.name, car.name + ' engineering dossier');
+    dossier.href = copyFor('/ingenierie/', '/en/ingenierie/') + id + '/' + (part.value === 'none' ? '' : '#' + part.value);
+    const links = document.createElement('div');
+    links.className = 'cmp-note-links';
+    links.append(link, dossier);
+    box.append(title, copy, links);
     notes.append(box);
   }
 }
@@ -132,11 +157,13 @@ function updateNotes() {
 function setBusy(amount) {
   busy = amount;
   for (const element of [...picks, swap, loading]) element.disabled = busy;
+  exportButton.disabled = busy || exporting || !ready;
   panel.setAttribute('aria-busy', String(busy));
 }
 
 function fail(message) {
   loadAttempt++;
+  if (ready) retainedCamera = renderer?.cameraState() ?? retainedCamera;
   renderer?.dispose();
   renderer = null;
   ready = false;
@@ -162,9 +189,12 @@ async function showPair(giveFocus = false) {
   status.textContent = copyFor('Chargement des deux monoplaces…', 'Loading both cars…');
   try {
     if (!renderer) {
-      const { Comparateur } = await import('./moteur.js?v=3');
+      const { Comparateur } = await import('./moteur.js?v=4');
       if (attempt !== loadAttempt) return;
       renderer = new Comparateur(canvas);
+      if (part.value !== 'none') renderer.choosePart(part.value);
+      else renderer.chooseView(view || 'studio');
+      renderer.restoreCamera(retainedCamera);
     }
     await renderer.load(ids);
     if (attempt !== loadAttempt) return;
@@ -176,9 +206,7 @@ async function showPair(giveFocus = false) {
     fullScreen.hidden = false;
     ready = true;
     syncSettings();
-    updateMode(modeInputs.find(input => input.checked)?.value ?? 'split');
-    renderer.choosePart(part.value);
-    displayView(part.value === 'none' ? 'studio' : '');
+    updateMode(displayedMode());
     const [left, right] = ids.map(id => monoplaces[id].name);
     status.textContent = copyFor(
       `${left} et ${right} · projection orthographique en mètres.`,
@@ -201,7 +229,8 @@ async function showPair(giveFocus = false) {
   }
 }
 
-function displayView(view) {
+function displayView(nextView) {
+  view = nextView;
   for (const button of views) button.setAttribute('aria-pressed', String(view === button.dataset.view));
 }
 
@@ -265,23 +294,107 @@ function updateDepth() {
   byId('depth-plus').textContent = '+' + threshold * 5 + copyFor(' mm · B en avant', ' mm · B further forward');
 }
 
+function updateSection() {
+  const enabled = byId('section').checked;
+  const millimetres = Number(byId('section-x').value);
+  byId('section-tools').hidden = !enabled;
+  byId('section-position').value = format.format(millimetres / 1000) + ' m';
+  byId('section-x').setAttribute('aria-valuetext', byId('section-position').value);
+  if (renderer) renderer.section = enabled ? millimetres / 1000 : null;
+}
+
+function updateIsolation() {
+  const isolate = byId('isolate').checked;
+  if (renderer) renderer.isolateDrs = isolate;
+}
+
+function updateOpacity() {
+  for (const [input, output, key] of [['opacity', 'percentage', 'opacity'], ['opacity-a', 'percentage-a', 'opacityA']]) {
+    const value = Number(byId(input).value) / 100;
+    byId(output).value = formatPercent.format(value);
+    if (renderer) renderer[key] = value;
+  }
+}
+
 function syncSettings() {
   renderer.align = byId('align').value;
   renderer.alignCars();
   renderer.light = byId('light').value;
+  stage.dataset.light = renderer.light;
   renderer.quality = byId('quality').value;
-  renderer.opacity = Number(byId('opacity').value) / 100;
-  renderer.opacityA = Number(byId('opacity-a').value) / 100;
+  updateOpacity();
   updateMaterial();
   updateComposite();
   updateDepth();
+  updateSection();
+  updateIsolation();
 }
+
+share.addEventListener('click', async () => {
+  const url = permalink().href;
+  try {
+    await navigator.clipboard.writeText(url);
+    shareLink.hidden = true;
+    shareStatus.textContent = copyFor('Lien copié.', 'Link copied.');
+  } catch {
+    shareLink.hidden = false;
+    shareLink.value = url;
+    shareLink.focus();
+    shareLink.select();
+    shareStatus.textContent = copyFor('Copie le lien sélectionné.', 'Copy the selected link.');
+  }
+});
+for (const link of document.querySelectorAll('.rf-lang')) {
+  link.addEventListener('click', () => { link.href = permalink(link.href).href; });
+}
+
+exportButton.addEventListener('click', async () => {
+  if (!ready || busy || exportButton.disabled) return;
+  exporting = true;
+  exportButton.disabled = true;
+  shareStatus.textContent = copyFor('Préparation du PNG…', 'Preparing PNG…');
+  try {
+    const mode = displayedMode();
+    const filename = 'mercedes-' + ids.join('-') + '-' + mode + '.png';
+    const modeLabel = modeInputs.find(input => input.value === mode).nextElementSibling.textContent;
+    const legend = [modeLabel, part.selectedOptions[0].textContent, byId('align').selectedOptions[0].textContent];
+    if (byId('section').checked) legend.push(copyFor('Tranche X ', 'Slice X ') + byId('section-position').value);
+    if (byId('isolate').checked) legend.push(copyFor('Volet DRS seul', 'DRS flap only'));
+    const image = renderer.capture({
+      names: labels.map(label => label.textContent),
+      legend,
+      caption: copyFor('Raphaël Flipo · Reconstitutions Blender', 'Raphaël Flipo · Blender reconstructions')
+    });
+    const file = await new Promise(resolve => image.toBlob(resolve, 'image/png'));
+    if (!file) throw new Error();
+    const href = URL.createObjectURL(file);
+    const link = document.createElement('a');
+    link.href = href;
+    link.download = filename;
+    document.body.append(link);
+    link.click();
+    link.remove();
+    setTimeout(() => URL.revokeObjectURL(href), 30_000);
+    shareStatus.textContent = copyFor('PNG exporté.', 'PNG exported.');
+  } catch {
+    shareStatus.textContent = copyFor('Impossible d’exporter cette vue.', 'This view could not be exported.');
+  } finally {
+    exporting = false;
+    exportButton.disabled = busy || !ready;
+    requestDraw();
+  }
+});
 
 fillPicks();
 updatePicks();
 updateMaterial();
+updateOpacity();
+updateDepth();
+updateSection();
+displayView(view);
 renderLayout();
 loading.hidden = false;
+share.disabled = false;
 loading.addEventListener('click', () => showPair(true));
 picks.forEach((select, index) => select.addEventListener('change', () => {
   ids[index] = select.value;
@@ -318,10 +431,9 @@ neutral.addEventListener('click', () => {
   updateMaterial();
   requestDraw();
 });
-for (const [input, output, property] of [['opacity', 'percentage', 'opacity'], ['opacity-a', 'percentage-a', 'opacityA']]) {
-  byId(input).addEventListener('input', event => {
-    if (renderer) renderer[property] = Number(event.target.value) / 100;
-    byId(output).value = formatPercent.format(Number(event.target.value) / 100);
+for (const name of ['opacity', 'opacity-a']) {
+  byId(name).addEventListener('input', () => {
+    updateOpacity();
     requestDraw();
   });
 }
@@ -329,8 +441,25 @@ byId('sensitivity').addEventListener('input', () => {
   updateDepth();
   requestDraw();
 });
+for (const name of ['section', 'section-x']) {
+  byId(name).addEventListener('input', () => {
+    updateSection();
+    requestDraw();
+  });
+}
+byId('isolate').addEventListener('change', () => {
+  if (byId('isolate').checked) {
+    part.value = 'rearWing';
+    part.dispatchEvent(new Event('change'));
+  }
+  updateIsolation();
+  requestDraw();
+});
 part.addEventListener('change', () => {
+  if (part.value !== 'rearWing') byId('isolate').checked = false;
+  updateIsolation();
   if (renderer) renderer.choosePart(part.value, travel());
+  else retainedCamera = { orbits: [null, null], active: 0 };
   displayView(part.value === 'none' ? 'studio' : '');
   updateNotes();
   requestDraw();
@@ -338,6 +467,8 @@ part.addEventListener('change', () => {
 for (const button of views) button.addEventListener('click', () => {
   if (!renderer) return;
   part.value = 'none';
+  byId('isolate').checked = false;
+  updateIsolation();
   renderer.chooseView(button.dataset.view, travel());
   displayView(button.dataset.view);
   updateNotes();
@@ -350,8 +481,8 @@ function bouger(slot, azimuth, elevation, zoom) {
   if (azimuth || elevation) displayView('');
   requestDraw();
 }
-byId('in').addEventListener('click', () => bouger(renderer.active, 0, 0, 1.18));
-byId('out').addEventListener('click', () => bouger(renderer.active, 0, 0, 1 / 1.18));
+byId('in').addEventListener('click', () => bouger(renderer?.active ?? 0, 0, 0, 1.18));
+byId('out').addEventListener('click', () => bouger(renderer?.active ?? 0, 0, 0, 1 / 1.18));
 
 function activePanel(event) {
   if (renderer.mode !== 'split') return 0;

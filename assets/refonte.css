@@ -138,3 +138,30 @@ a{color:inherit;text-decoration:none}a:hover{color:var(--rf-green)}button,input{
   .portfolio .rf-header__inner { gap: 8px; }
   .portfolio .rf-nav-tools { margin-left: auto; }
 }
+
+.rf-search {
+  width: min(92vw, 34rem);
+  max-height: 82vh;
+  overflow: auto;
+  background: var(--rf-paper);
+  color: var(--rf-text);
+  border: 1px solid var(--rf-border);
+  border-radius: 16px;
+  padding: clamp(16px, 4vw, 28px);
+}
+.rf-search::backdrop { background: #0d1b15b8; }
+.rf-search h2 { font-size: 1.3rem; margin: 0 0 12px; }
+.rf-search input {
+  min-height: 44px;
+  width: 100%;
+  font: inherit;
+  border: 1px solid var(--rf-border);
+  border-radius: 9px;
+  background: var(--rf-bg);
+  color: var(--rf-text);
+  padding: 8px 12px;
+}
+.rf-search p:empty { display: none; }
+.rf-search ul { list-style: none; padding: 0; margin: 8px 0 12px; max-height: 46vh; overflow: auto; }
+.rf-search li a { display: block; min-height: 40px; padding: 8px 5px; border-bottom: 1px solid var(--rf-border); }
+.rf-search li a:focus-visible { outline-offset: -2px; }

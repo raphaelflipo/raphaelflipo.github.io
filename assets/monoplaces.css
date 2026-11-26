@@ -82,3 +82,118 @@ body:has(.w13-viewer.is-expanded) { overflow: hidden; }
 .car-surface legend { float: left; padding: 0; margin-right: .85rem; font-weight: 650; }
 .car-surface label { display: inline-flex; align-items: center; gap: .25rem; min-height: 44px; cursor: pointer; }
 .car-surface input { accent-color: var(--rf-green); }
+
+:is(#car-viewer, .w13-viewer)[data-backdrop="paper"] { --stage-background: radial-gradient(ellipse at 45% 30%, #f7f8f7, #bfc8c8 90%); }
+:is(#car-viewer, .w13-viewer)[data-backdrop="green"] { --stage-background: radial-gradient(ellipse at 45% 30%, #456e59, #102b20 82%); }
+:is(#car-viewer, .w13-viewer)[data-backdrop="graphite"] { --stage-background: radial-gradient(ellipse at 45% 30%, #536169, #29353b 82%); }
+
+.car-nomenclature, .car-workshop {
+  width: 100%;
+  min-width: 0;
+  border-top: 1px solid var(--rf-border);
+}
+
+.car-nomenclature summary, .car-workshop summary {
+  width: fit-content;
+  min-height: 44px;
+  padding: .65rem .1rem .45rem;
+  color: var(--rf-green);
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.car-catalogue-tools, .car-workshop-tools {
+  display: flex;
+  align-items: start;
+  gap: .45rem .7rem;
+  flex-wrap: wrap;
+}
+
+.car-catalogue-tools label, .car-workshop-tools label {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  font-size: .85rem;
+  font-weight: 650;
+}
+
+.car-catalogue-tools select, .car-workshop-tools select, .car-view-url {
+  min-height: 44px;
+  max-width: 100%;
+  padding: .4rem .6rem;
+  border: 1px solid var(--rf-border);
+  border-radius: .55rem;
+  background: var(--rf-paper);
+  color: var(--rf-text);
+  font: inherit;
+}
+
+.car-workshop-tools button, .car-text-link {
+  min-height: 44px;
+  font-size: .85rem;
+  font-weight: 650;
+}
+
+.car-workshop-tools button {
+  cursor: pointer;
+}
+
+.car-text-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--rf-green);
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}
+
+.car-component-note, .car-catalogue-help, .car-workshop-feedback {
+  margin: .55rem 0;
+  color: var(--rf-muted);
+  font-size: .88rem;
+}
+
+.car-component-note strong {
+  color: var(--rf-text);
+}
+
+.car-view-url {
+  width: 100%;
+  margin-top: .6rem;
+}
+
+.car-workshop-feedback:empty, .car-component-note:not(:has([data-part-name]:not(:empty))) {
+  display: none;
+}
+
+.car-dossier-link {
+  margin: .6rem 0 0;
+}
+
+.car-pin {
+  display: none;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border: 2px solid #abebd6;
+  border-radius: 50%;
+  background: #163c2a;
+  color: #fff;
+  font: inherit;
+  font-weight: 750;
+  cursor: pointer;
+}
+
+.car-pins-on .car-pin {
+  display: grid;
+}
+
+.car-pin[aria-pressed="true"] {
+  background: #def3e6;
+  color: #102b20;
+}
+
+@media (max-width: 430px) {
+  .car-pins-on .car-pin:not([aria-pressed="true"]) {
+    transform: scale(.85);
+  }
+}

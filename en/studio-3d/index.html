@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'sha256-yhlpZVZMy2vXExwTGihUWVSrOxyhMuvj+Ygg7pyBWek='; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' blob:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
   <meta name="referrer" content="no-referrer">
   <meta name="theme-color" content="#163c2a">
   <title>3D Studio · Mercedes W13 to W16 | Raphaël Flipo</title>
@@ -16,8 +16,10 @@
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <script src="/assets/theme.js"></script>
+  <link rel="preload" href="/fonts/geist-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/refonte.css">
   <link rel="stylesheet" href="/assets/studio-3d.css">
+  <link rel="stylesheet" href="/assets/photo-3d.css">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="en_GB">
   <meta property="og:locale:alternate" content="fr_FR">
@@ -31,6 +33,7 @@
   <meta property="og:image:alt" content="Front three-quarter Blender render of the silver and turquoise Mercedes W16">
   <meta name="twitter:card" content="summary_large_image">
   <script src="/assets/menu.js" defer></script>
+  <script type="module" src="/assets/garage-3d.js"></script>
 </head>
 <body class="portfolio studio">
   <a class="rf-skip" href="#contenu">Skip to content</a>
@@ -62,7 +65,7 @@
           <h1 id="studio-title">Mercedes F1, from the W13 to the W16.</h1>
           <p>I recreated these four Formula 1 cars in Blender to trace how Mercedes’ designs changed from 2022 to 2025.</p>
           <div class="rf-actions">
-            <a class="rf-btn" href="#collection">Browse the models</a>
+            <a class="rf-btn" href="#garage">Open the garage</a>
             <a class="rf-btn rf-btn--outline" href="/en/mercedes-comparateur/?gauche=w15&amp;droite=w16">Compare in 3D</a>
           </div>
         </div>
@@ -70,6 +73,44 @@
           <img src="/mercedes-w16/studio-800.webp" srcset="/mercedes-w16/studio-800.webp 800w, /mercedes-w16/studio.webp 1920w" sizes="(max-width: 760px) calc(100vw - 34px), (max-width: 1320px) 56vw, 720px" alt="Front three-quarter Blender render of the silver and turquoise Mercedes W16" width="1920" height="1080" fetchpriority="high">
           <figcaption>W16 · Melbourne 2025 · Blender render</figcaption>
         </figure>
+      </div>
+    </section>
+    <section class="rf-shell studio-section studio-garage" id="garage" aria-labelledby="garage-title">
+      <div class="rf-section__head">
+        <h2 id="garage-title">Virtual garage</h2>
+        <p>Change car, viewpoint and lighting. The model loads when you open the 3D scene.</p>
+      </div>
+      <div class="garage-frame">
+        <div class="garage-stage" data-backdrop="graphite">
+          <img class="garage-poster" src="/mercedes-w16/studio-800.webp" alt="Blender render of the W16" width="800" height="450" loading="lazy" decoding="async">
+          <model-viewer alt="Mercedes-AMG W16" camera-controls touch-action="pan-y" interaction-prompt="none"
+            aria-describedby="garage-status" environment-image="neutral" tone-mapping="neutral"
+            min-camera-orbit="auto 1deg 1.25m" max-camera-orbit="auto 179deg 30m"
+            field-of-view="28deg" max-field-of-view="38deg" shadow-softness=".78"><span slot="ar-button" hidden></span></model-viewer>
+        </div>
+        <div class="garage-actions" hidden>
+          <div class="garage-settings" role="group" aria-label="Scene settings">
+        <label for="garage-car"><span>Car</span><select id="garage-car"><option value="w13">W13</option><option value="w14">W14</option><option value="w15">W15</option><option value="w16" selected>W16</option></select></label>
+        <label for="garage-view"><span>View</span><select id="garage-view"><option value="studio" selected>Three-quarter</option><option value="front">Front</option><option value="side">Side</option><option value="top">Top</option><option value="rear">Rear</option></select></label>
+        <label for="garage-light"><span>Lighting</span><select id="garage-light"><option value="contrast" selected>Contrast</option><option value="soft">Soft</option></select></label>
+        <label for="garage-backdrop"><span>Backdrop</span><select id="garage-backdrop"><option value="graphite" selected>Graphite</option><option value="paper">Light</option><option value="green">Green</option></select></label>
+          </div>
+          <div class="garage-toolbar">
+            <button class="rf-btn" id="garage-load" type="button">Open the 3D scene</button>
+            <button class="rf-btn rf-btn--outline" id="garage-fullscreen" type="button" disabled>Fullscreen</button>
+            <button class="rf-btn rf-btn--outline" id="garage-photo" type="button" disabled>Download PNG</button>
+            <button class="rf-btn rf-btn--outline" id="garage-share" type="button">Share view</button>
+            <button class="rf-btn rf-btn--outline" id="garage-tour" type="button" aria-pressed="false">Guided tour</button>
+            <button class="rf-btn rf-btn--outline" id="garage-ar" type="button" hidden disabled>View in AR</button>
+          </div>
+          <input class="garage-url" id="garage-url" aria-label="Link to this view" type="text" readonly hidden>
+          <p class="garage-status" id="garage-status" role="status">Blender render of the W16.</p>
+        </div>
+      </div>
+      <div class="studio-dossier-links">
+        <a id="garage-model-page" href="/en/mercedes-w16/">Full model page</a>
+        <a id="garage-dossier" href="/en/ingenierie/w16/">Engineering dossier</a>
+        <a href="/en/ingenierie/glossaire/">Glossary</a>
       </div>
     </section>
     <section class="rf-shell studio-section" id="collection" aria-labelledby="studio-collection">
@@ -149,6 +190,22 @@
           <a class="rf-btn" href="/en/mercedes-comparateur/?gauche=w15&amp;droite=w16">Compare in 3D</a>
         </div>
       </div>
+    </section>
+    <section class="rf-shell studio-section" id="ecoulements" aria-labelledby="studio-flow">
+      <div class="rf-section__head">
+        <h2 id="studio-flow">How the flow travels around the car</h2>
+        <p>Follow the schematic from the front wing to the rear assembly.</p>
+      </div>
+      <figure class="studio-flow-figure">
+        <img src="/assets/ecoulements-f1.svg" alt="Schematic side view with four markers from front to rear, solid flow arrows and dashed wake arrows" width="800" height="340" loading="lazy" decoding="async">
+        <figcaption>Qualitative illustration of aerodynamic principles. This is not a CFD result.</figcaption>
+      </figure>
+      <ol class="studio-flow-key">
+          <li><strong>Front wing and wheels</strong><p>The front elements deflect the flow. The rotating wheel leaves a turbulent wake, represented by dashed lines.</p></li>
+          <li><strong>Sidepods</strong><p>Air captured by the inlet feeds the cooling circuit. External flow passes around the bodywork and interacts with the floor edge.</p></li>
+          <li><strong>Floor and diffuser</strong><p>The underbody passage guides the flow. The expanding diffuser passage allows partial pressure recovery while the boundary layer stays attached.</p></li>
+          <li><strong>Rear wing and DRS</strong><p>The wing leaves a deflected wake. Opening the DRS reduces the circulation and forces generated by the wing.</p></li>
+      </ol>
     </section>
     <section class="rf-shell studio-section" id="chronologie" aria-labelledby="studio-timeline">
       <div class="rf-section__head">

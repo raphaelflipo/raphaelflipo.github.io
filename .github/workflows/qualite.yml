@@ -7,8 +7,7 @@ on:
       - '**/*.html'
       - '**/*.js'
       - '**/*.css'
-      - 'scripts/visual-check.mjs'
-      - 'scripts/audit.mjs'
+      - 'scripts/*.mjs'
       - 'sitemap.xml'
       - 'robots.txt'
       - '.github/workflows/qualite.yml'
@@ -47,6 +46,28 @@ jobs:
           name: captures-responsive
           path: screenshots/
           if-no-files-found: ignore
+  parcours:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [chromium, firefox, webkit, chrome, msedge]
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - run: npm install --no-save playwright@1.55.1
+      - run: npx playwright install --with-deps "$PORTFOLIO_BROWSER"
+        env:
+          PORTFOLIO_BROWSER: ${{ matrix.browser }}
+      - run: node scripts/parcours-v3.mjs
+        env:
+          PORTFOLIO_BROWSER: ${{ matrix.browser }}
   lighthouse:
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-24.04

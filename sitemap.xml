@@ -147,4 +147,160 @@
   <url>
     <loc>https://raphaelflipo.github.io/jarvis/app/</loc>
   </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/journal/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/journal/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/journal/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/journal/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/projets/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/projets/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/projets/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/projets/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/projets/jarvis/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/projets/jarvis/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/projets/jarvis/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/projets/jarvis/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/projets/la-boussole/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/projets/la-boussole/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/projets/la-boussole/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/projets/la-boussole/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/projets/mercedes/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/projets/mercedes/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/projets/mercedes/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/projets/mercedes/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/statut/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/statut/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/statut/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/statut/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/telechargements/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/telechargements/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/telechargements/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/telechargements/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/journal/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/journal/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/journal/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/journal/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/projets/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/projets/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/projets/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/projets/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/projets/jarvis/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/projets/jarvis/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/projets/jarvis/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/projets/jarvis/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/projets/la-boussole/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/projets/la-boussole/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/projets/la-boussole/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/projets/la-boussole/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/projets/mercedes/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/projets/mercedes/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/projets/mercedes/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/projets/mercedes/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/statut/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/statut/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/statut/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/statut/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/telechargements/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/telechargements/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/telechargements/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/telechargements/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/ingenierie/glossaire/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/ingenierie/glossaire/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/ingenierie/glossaire/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/ingenierie/glossaire/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/ingenierie/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/ingenierie/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/ingenierie/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/ingenierie/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/ingenierie/w13/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/ingenierie/w13/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/ingenierie/w13/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/ingenierie/w13/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/ingenierie/w14/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/ingenierie/w14/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/ingenierie/w14/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/ingenierie/w14/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/ingenierie/w15/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/ingenierie/w15/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/ingenierie/w15/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/ingenierie/w15/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/ingenierie/w16/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/ingenierie/w16/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/ingenierie/w16/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/ingenierie/w16/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/ingenierie/glossaire/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/ingenierie/glossaire/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/ingenierie/glossaire/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/ingenierie/glossaire/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/ingenierie/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/ingenierie/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/ingenierie/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/ingenierie/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/ingenierie/w13/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/ingenierie/w13/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/ingenierie/w13/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/ingenierie/w13/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/ingenierie/w14/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/ingenierie/w14/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/ingenierie/w14/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/ingenierie/w14/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/ingenierie/w15/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/ingenierie/w15/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/ingenierie/w15/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/ingenierie/w15/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/ingenierie/w16/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/ingenierie/w16/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/ingenierie/w16/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/ingenierie/w16/" />
+  </url>
 </urlset>

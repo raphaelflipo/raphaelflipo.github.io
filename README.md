@@ -71,3 +71,19 @@ Les pages CV et leurs versions PDF/Word sont indépendantes : actualiser tous le
 L'application Jarvis Local a ses sources principales dans `raphaelflipo/jarvis/local-app/`. Lors d'une mise à jour, copier l'ensemble de `jarvis/app/`, y compris les licences, les dépendances, le manifeste et le service worker. Incrémenter la version du cache dans `sw.js`.
 
 Les polices sont distribuées sous les licences indiquées dans `fonts/licences/`.
+
+## Portfolio et dossiers d’ingénierie
+
+- `projets/` et `en/projets/` regroupent les projets et études de cas. Les filtres restent dans le navigateur. Le raccourci Cmd + K ou Ctrl + K charge la recherche rapide à la demande.
+- `telechargements/` centralise les actifs déjà publiés et les documents CV. Les conditions de compatibilité restent sur la fiche de chaque produit.
+- `statut/` lance, à la demande, des requêtes HEAD vers les pages publiques. Le délai affiché correspond à une requête du navigateur. Ce contrôle porte sur la page consultable.
+- Le garage charge une monoplace à la fois. Les dossiers `ingenierie/` séparent faits publics, principes physiques et reconstitution Blender. Les mesures du comparateur s’appliquent aux exports consultés.
+- Le service worker Jarvis reste sous `jarvis/app/`. Le portfolio utilise ses pages statiques et les CV téléchargeables. Une installation hors ligne du portfolio demanderait une politique de mise à jour des pages partagées avec les applications sur la même origine.
+
+### Étendre la collection
+
+La W11 et la W12 permettraient d’illustrer l’architecture qui précède le règlement 2022. La W17 demande une documentation propre au règlement 2026, notamment pour ses deux ailerons à géométrie variable. La W196 nécessite de choisir une carrosserie et une configuration de course avant de réunir des références. Une fiche documentaire seule et un modèle 3D validé constituent deux étapes distinctes. [Présentation de la W17 par Mercedes](https://www.mercedesamgf1.com/news/mercedes-amg-f1-2026-challenger-w17-revealed)
+
+### Contrôles des parcours
+
+`node scripts/parcours-v3.mjs` exerce les pages clés, la recherche, le raccourci clavier et le contrôle de disponibilité. La matrice de pull request utilise Chromium, WebKit, Firefox, Chrome et Edge sur les runners publics standards.

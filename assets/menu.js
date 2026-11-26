@@ -49,3 +49,25 @@ if (englishRecovery) {
     englishRecovery.hidden = false;
   }
 }
+
+const searchOpeners = [...document.querySelectorAll('[data-search-open]')];
+const canOpenSearch = typeof HTMLDialogElement !== 'undefined' && typeof HTMLDialogElement.prototype.showModal === 'function';
+async function openQuickSearch(opener) {
+  try {
+    const { openSearch } = await import('/assets/recherche-rapide.js');
+    openSearch(opener);
+  } catch {
+    location.assign(document.documentElement.lang === 'en' ? '/en/projets/' : '/projets/');
+  }
+}
+if (canOpenSearch) {
+  for (const opener of searchOpeners) {
+    opener.hidden = false;
+    opener.addEventListener('click', () => openQuickSearch(opener));
+  }
+  document.addEventListener('keydown', event => {
+    if ((!event.metaKey && !event.ctrlKey) || event.altKey || event.shiftKey || event.key.toLowerCase() !== 'k' || event.repeat) return;
+    event.preventDefault();
+    openQuickSearch(document.activeElement);
+  });
+}

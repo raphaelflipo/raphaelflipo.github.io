@@ -14,9 +14,11 @@
   <link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/mercedes-w15/">
   <link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/mercedes-w15/">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="/fonts/geist-var.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/refonte.css">
   <link rel="stylesheet" href="/mercedes-w13/w13.css">
-  <link rel="stylesheet" href="/assets/monoplaces.css?v=2">
+  <link rel="stylesheet" href="/assets/monoplaces.css?v=3">
+  <link rel="stylesheet" href="/assets/photo-3d.css">
   <link rel="stylesheet" href="/assets/collection-mercedes.css">
   <script src="/assets/theme.js"></script>
   <script src="/assets/menu.js" defer></script>
@@ -29,7 +31,7 @@
   <meta property="og:image" content="https://raphaelflipo.github.io/mercedes-w15/studio.webp">
   <meta property="og:image:alt" content="Front three-quarter Blender render of the No. 44 Mercedes-AMG W15">
   <meta name="twitter:card" content="summary_large_image">
-  <script type="module" src="/mercedes-w15/pilote.js?v=2"></script>
+  <script type="module" src="/mercedes-w15/pilote.js?v=3"></script>
 </head>
 <body>
   <a class="rf-skip" href="#contenu">Skip to content</a>
@@ -120,12 +122,33 @@
               </fieldset>
             </div>
           </details>
+          <details class="car-nomenclature" hidden>
+            <summary>Component catalogue</summary>
+            <p class="car-catalogue-help">Choose a component to move the camera. Numbered markers refer to the geometry in this model.</p>
+            <div class="car-catalogue-tools">
+              <div class="w13-angles" data-part-list></div>
+              <label>Level <select data-part-level><option value="discovery">Discovery</option><option value="engineering">Engineering</option></select></label>
+            </div>
+            <p class="car-component-note" aria-live="polite"><strong data-part-name></strong> <span data-part-description></span></p>
+            <a class="car-text-link" data-part-dossier href="/en/ingenierie/w15/">Engineering dossier</a>
+          </details>
+          <details class="car-workshop" hidden>
+            <summary>Photography and sharing</summary>
+            <div class="car-workshop-tools">
+              <label>Backdrop <select data-car-backdrop><option value="graphite">Graphite</option><option value="paper">Light</option><option value="green">Green</option></select></label>
+              <button class="rf-btn rf-btn--outline" data-car-photo type="button">Download PNG</button>
+              <button class="rf-btn rf-btn--outline" data-car-share type="button">Share this view</button>
+            </div>
+            <input class="car-view-url" data-car-url aria-label="Link to this view" type="text" readonly hidden>
+            <p class="car-workshop-feedback" data-workshop-status role="status"></p>
+          </details>
         </div>
         <div class="w13-status car-statusbar">
           <span id="car-status" role="status">W15 render made in Blender.</span>
           <button class="rf-btn car-load" id="car-load" type="button" hidden>Explore in 3D</button>
         </div>
       </div>
+      <p class="car-dossier-link"><a class="car-text-link" href="/en/ingenierie/w15/">Engineering dossier</a></p>
     </section>
     <section class="w13-detail mercedes-editorial" aria-labelledby="details">
       <div class="w13-detail__intro">

@@ -1,0 +1,16 @@
+/* Keep the display layout while model-viewer renders a single larger PNG frame. */
+.w13-stage model-viewer[data-photo-scale], .garage-stage model-viewer[data-photo-scale] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: auto;
+  bottom: auto;
+  width: calc(1281px / var(--photo-dpr, 1));
+  height: calc(721px / var(--photo-dpr, 1));
+  opacity: 0;
+  pointer-events: none;
+}
+
+model-viewer[data-photo-scale="2"] { --photo-dpr: 2; }
+model-viewer[data-photo-scale="3"] { --photo-dpr: 3; }
+model-viewer[data-photo-scale="4"] { --photo-dpr: 4; }

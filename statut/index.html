@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Vérifie les pages publiques depuis ton navigateur. Chaque résultat correspond à une requête effectuée à cet instant.">
+  <meta name="referrer" content="no-referrer">
+  <meta name="color-scheme" content="light dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; connect-src 'self'">
+  <title>État des services | Raphaël Flipo</title>
+  <link rel="canonical" href="https://raphaelflipo.github.io/statut/">
+  <link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/statut/">
+  <link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/statut/">
+  <link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/statut/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="État des services | Raphaël Flipo">
+  <meta property="og:description" content="Vérifie les pages publiques depuis ton navigateur. Chaque résultat correspond à une requête effectuée à cet instant.">
+  <meta property="og:url" content="https://raphaelflipo.github.io/statut/">
+  <meta property="og:image" content="https://raphaelflipo.github.io/img/og.jpg">
+  <meta property="og:locale" content="fr_FR">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="stylesheet" href="/assets/refonte.css">
+  <link rel="stylesheet" href="/assets/projets.css">
+  <script src="/assets/theme.js"></script>
+  <script src="/assets/menu.js" defer></script>
+  <script src="/assets/statut.js" defer></script>
+</head>
+<body class="rf-catalogue">
+  <a class="rf-skip" href="#contenu">Aller au contenu</a>
+  <header class="rf-header">
+    <div class="rf-shell rf-header__inner">
+      <a class="rf-brand" href="/">Raphaël <span>Flipo.</span></a>
+      <nav class="rf-nav rf-nav--desktop" aria-label="Navigation principale"><a href="/projets/">Projets</a><a href="/studio-3d/">Studio 3D</a><a href="/cv/">CV</a></nav>
+      <div class="rf-nav-tools">
+        <a class="rf-lang" href="/en/statut/" lang="en" hreflang="en" aria-label="English">EN</a>
+        <details class="rf-menu"><summary>Menu</summary><nav aria-label="Navigation mobile"><a href="/projets/">Projets</a><a href="/studio-3d/">Studio 3D</a><a href="/cv/">CV</a></nav></details>
+      </div>
+    </div>
+  </header>
+  <main id="contenu" class="rf-shell rf-detail" tabindex="-1">
+    <div class="rf-detail__intro"><h1>État des services</h1><p class="rf-detail__lead">Vérifie les pages publiques depuis ton navigateur. Chaque résultat correspond à une requête effectuée à cet instant.</p></div>
+    <div class="rf-actions"><button id="verification-services" type="button" class="rf-btn" hidden>Vérifier maintenant</button></div>
+    <p class="rf-resultats" id="resume-services" role="status"></p>
+    <ul class="rf-transfer rf-service-list"><li><a href="/">Portfolio</a><span data-status-path="/">En attente de vérification</span></li><li><a href="/studio-3d/">Studio 3D</a><span data-status-path="/studio-3d/">En attente de vérification</span></li><li><a href="/jarvis/">Jarvis</a><span data-status-path="/jarvis/">En attente de vérification</span></li><li><a href="/la-boussole/">La Boussole</a><span data-status-path="/la-boussole/">En attente de vérification</span></li></ul>
+    <p>Le test vérifie l’accès aux pages. Les applications natives et le téléchargement des modèles de Jarvis ont leurs propres conditions de disponibilité.</p>
+    <p><a class="rf-link" href="https://www.githubstatus.com/">État de la plateforme GitHub</a></p>
+  </main>
+  <footer class="rf-footer">
+    <div class="rf-shell rf-footer__inner"><a href="/telechargements/">Téléchargements</a><a href="/journal/">Journal de développement</a><a href="/statut/" aria-current="page">État des services</a><a href="/confidentialite/">Confidentialité</a></div>
+  </footer>
+</body>
+</html>
