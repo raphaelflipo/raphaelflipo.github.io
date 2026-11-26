@@ -16,6 +16,7 @@ const étatInitial = () => ({ ...cadrages.studio, zoom: 1 });
 const interpolation = (value, lo, hi) => Math.max(lo, Math.min(hi, value));
 const mix = (a, b, t) => a + (b - a) * t;
 const TAU = 2 * Math.PI;
+const drsLayer = 1;
 const range = { near: .01, far: 60 };
 const intensites = { studio: [1.66, 2.84, 1.84, 1.7], graphite: [1.14, 2.12, 1.36, 1.44] };
 
@@ -34,6 +35,15 @@ function marqueurs(scene) {
     }
   });
   return found;
+}
+
+function registerDrs(scene) {
+  // These roots are exported with the moving flap in all four originals.
+  const root = scene.getObjectByName('Aileron_Arriere_Volet_DRS') ??
+    scene.getObjectByName('Volet_mobile')?.parent;
+  root?.traverse(object => {
+    if (object.isMesh) object.layers.enable(drsLayer);
+  });
 }
 
 export function profondeurEnMillimetres(a, b) {
@@ -221,6 +231,7 @@ export class Comparateur {
       scene.environment = this.environment?.texture ?? null;
       scene.environmentIntensity = .9;
       const lights = éclairer(scene);
+      lights.forEach(light => light.layers.enable(drsLayer));
       return { scene, lights, car: null, orbit: étatInitial() };
     });
     this.draco = new DRACOLoader().setDecoderPath('/mercedes-w13/draco/').setWorkerLimit(2);
@@ -244,6 +255,13 @@ export class Comparateur {
     this.threshold = 5;
     this.quality = 'auto';
     this.active = 0;
+    this.isolateDrs = false;
+    this.section = null;
+    this.sectionPlanes = [
+      new THREE.Plane(new THREE.Vector3(1, 0, 0)),
+      new THREE.Plane(new THREE.Vector3(-1, 0, 0))
+    ];
+    this.fullPlanes = this.renderer.clippingPlanes;
   }
 
   async load(ids) {
@@ -253,6 +271,7 @@ export class Comparateur {
       const cached = current.get(id);
       if (cached) return cached;
       const { scene } = await this.loader.loadAsync(monoplaces[id].model);
+      registerDrs(scene);
       const group = new THREE.Group();
       group.add(scene);
       return { id, group, markings: marqueurs(scene) };
@@ -293,6 +312,23 @@ export class Comparateur {
 
   choosePart(part, duration = 0) {
     this.reframe(part, pieces[part] ?? cadrages.studio, duration);
+  }
+
+  cameraState() {
+    return {
+      orbits: this.slots.map(slot => ({ ...slot.orbit })),
+      active: this.active
+    };
+  }
+
+  restoreCamera({ orbits, active }) {
+    this.active = active;
+    this.slots.forEach((slot, index) => {
+      if (orbits[index]) {
+        const { yaw, pitch, zoom } = orbits[index];
+        slot.orbit = { yaw, pitch: interpolation(pitch, -Math.PI / 2, Math.PI / 2), zoom };
+      }
+    });
   }
 
   reframe(part, { yaw, pitch }, duration) {
@@ -390,10 +426,21 @@ export class Comparateur {
     for (const [index, light] of slot.lights.entries()) {
       light.intensity = intensites[this.light][index];
     }
-    this.renderer.render(slot.scene, this.camera);
+    if (this.section !== null) {
+      this.sectionPlanes[0].constant = .12 - this.section;
+      this.sectionPlanes[1].constant = .12 + this.section;
+      this.renderer.clippingPlanes = this.sectionPlanes;
+    }
+    this.camera.layers.set(this.isolateDrs ? drsLayer : 0);
+    try {
+      this.renderer.render(slot.scene, this.camera);
+    } finally {
+      this.renderer.clippingPlanes = this.fullPlanes;
+      this.camera.layers.set(0);
+    }
   }
 
-  render(time = performance.now()) {
+  render(time = performance.now(), captureRatio = null) {
     if (!this.slots.every(slot => slot.car)) return null;
     const width = this.canvas.clientWidth;
     const height = this.canvas.clientHeight;
@@ -401,7 +448,7 @@ export class Comparateur {
     const stacked = width < 620;
     const eco = this.quality === 'eco';
     const pixelLimit = eco ? 650_000 : 1_750_000;
-    const pixelRatio = Math.min(devicePixelRatio || 1, stacked || eco ? 1 : 1.35,
+    const pixelRatio = captureRatio ?? Math.min(devicePixelRatio || 1, stacked || eco ? 1 : 1.35,
       (eco ? 900 : 1800) / width, Math.sqrt(pixelLimit / (width * height)));
     if (this.canvas.width !== Math.floor(width * pixelRatio) || this.canvas.height !== Math.floor(height * pixelRatio)) {
       this.renderer.setPixelRatio(pixelRatio);
@@ -436,7 +483,7 @@ export class Comparateur {
       // et éclairage sont identiques.
       const stamp = JSON.stringify([
         this.bufferSize.x, this.bufferSize.y, slotA.car.id, slotB.car.id,
-        poses[0], poses[1].point, this.align, this.mode, this.material, this.light, this.quality
+        poses[0], poses[1].point, this.align, this.mode, this.material, this.light, this.quality, this.section, this.isolateDrs
       ]);
       if (this.targetStamp !== stamp) {
         this.slots.forEach((slot, index) => {
@@ -465,6 +512,62 @@ export class Comparateur {
       this.renderer.render(scene, this.camera);
     }
     return scale * poses[this.active].zoom;
+  }
+
+  capture({ names, legend, caption }) {
+    const width = this.canvas.clientWidth;
+    const height = this.canvas.clientHeight;
+    if (!width || !height || this.renderer.getContext().isContextLost()) throw new Error();
+    const limit = Math.min(2400, this.renderer.capabilities.maxTextureSize);
+    const ratio = Math.min(limit / Math.max(width, height), Math.sqrt(4_600_000 / (width * height)));
+    const image = document.createElement('canvas');
+    const time = performance.now();
+    try {
+      const scale = this.render(time, ratio);
+      if (!scale) throw new Error();
+      const { width: pixels, height: sceneHeight } = this.canvas;
+      const unit = Math.max(1, Math.round(Math.min(pixels, sceneHeight) / 740));
+      image.width = pixels;
+      image.height = sceneHeight + 84 * unit;
+      const paint = image.getContext('2d');
+      if (!paint) throw new Error();
+      const gradient = paint.createRadialGradient(pixels / 2, sceneHeight * .53, 0, pixels / 2, sceneHeight * .53, Math.hypot(pixels, sceneHeight) * .49);
+      const colors = this.light === 'studio' ? ['#eef3f2', '#d6dfdc', '#b3c4bf'] : ['#3b4b4b', '#232e30', '#121a1c'];
+      colors.forEach((color, index) => gradient.addColorStop(index / 2, color));
+      paint.fillStyle = gradient;
+      paint.fillRect(0, 0, pixels, sceneHeight);
+      // Copy the freshly rendered buffer in the same task, before WebGL clears it.
+      paint.drawImage(this.canvas, 0, 0);
+      const stacked = width < 620;
+      const split = this.mode === 'split';
+      const edge = 18 * unit;
+      if (split) {
+        paint.fillStyle = '#aec6c487';
+        if (stacked) paint.fillRect(0, Math.floor(sceneHeight / 2), pixels, unit);
+        else paint.fillRect(Math.floor(pixels / 2), 0, unit, sceneHeight);
+      }
+      paint.font = '600 ' + 19 * unit + 'px system-ui, sans-serif';
+      paint.textBaseline = 'middle';
+      names.forEach((name, index) => {
+        const x = edge + (index && (split && !stacked ? pixels / 2 : !split ? pixels * .25 : 0));
+        const y = edge + (index && split && stacked ? sceneHeight / 2 : 0);
+        const label = (index ? 'B · ' : 'A · ') + name;
+        paint.fillStyle = '#142124';
+        paint.fillRect(x, y, paint.measureText(label).width + 20 * unit, 34 * unit);
+        paint.fillStyle = index ? '#ffc987' : '#7ce8d1';
+        paint.fillText(label, x + 10 * unit, y + 17 * unit);
+      });
+      paint.fillStyle = '#142124';
+      paint.fillRect(0, sceneHeight, pixels, image.height - sceneHeight);
+      paint.fillStyle = '#fbfdfb';
+      paint.fillText(legend.join(' · '), edge, sceneHeight + 24 * unit, pixels - 2 * edge);
+      paint.font = 16 * unit + 'px system-ui, sans-serif';
+      paint.fillStyle = '#c4d4d1';
+      paint.fillText(caption, edge, sceneHeight + 54 * unit, pixels - 2 * edge);
+      return image;
+    } finally {
+      this.render(time);
+    }
   }
 
   dispose() {

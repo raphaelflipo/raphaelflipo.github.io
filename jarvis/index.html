@@ -87,7 +87,7 @@
         <p class="jarvis-tagline">Un assistant qui tourne sur votre appareil.</p>
         <p class="rf-lead" itemprop="description">Essayez Jarvis sans compte, directement dans votre navigateur. Téléchargez un modèle une première fois, puis discutez hors ligne tant que ses fichiers restent en cache.</p>
         <div class="rf-actions">
-          <a class="rf-btn" href="/jarvis/app/">Essayer la version web</a>
+          <a class="rf-btn" href="/jarvis/app/?lang=fr">Essayer la version web</a>
           <a class="rf-btn rf-btn--outline" href="#installer">Téléchargements</a>
         </div>
       </div>
@@ -118,6 +118,7 @@
         <a class="rf-btn" href="https://github.com/raphaelflipo/jarvis/releases/download/v3.3.0-rc.1/Jarvis-3.3.0-rc.1-macOS-arm64.dmg">Télécharger le DMG</a>
         <details>
           <summary>Installation et essais</summary>
+          <p>SHA-256 publié par GitHub<br><code>d24b8038868b21ea<wbr>68d34c83c3d2d200<wbr>4961413174c238b1<wbr>e420421277fd308a</code></p>
           <p>Ouvrez le DMG, glissez Jarvis dans Applications, puis ouvrez le menu Jarvis → Installer le modèle local. L’ouverture dépend des contrôles de sécurité de macOS.</p>
           <p>La fiche de la RC1 documente un essai sur MacBook Air M5 avec installation à partir du DMG, réponse locale et historique retrouvé après relance. <a href="https://github.com/raphaelflipo/jarvis/releases/tag/v3.3.0-rc.1">Compte rendu et empreintes de la RC1</a>.</p>
         </details>
@@ -130,6 +131,7 @@
         <a class="rf-btn" href="https://github.com/raphaelflipo/jarvis/releases/download/v3.3.0-rc.2/Jarvis-3.3.0-rc.2-Windows-x64-Setup.exe">Télécharger l’installateur EXE</a>
         <details>
           <summary>Installation et essais</summary>
+          <p>SHA-256 publié par GitHub<br><code>5c35d40224c673b7<wbr>b3834456ef265a43<wbr>a04216fc87a9ed60<wbr>743956e4982180bb</code></p>
           <p>La RC2 a été installée et testée sur Windows Server 2025 dans GitHub Actions, avec une réponse locale et une réouverture hors ligne. Le comportement de SmartScreen sur un PC personnel reste à vérifier.</p>
         </details>
       </article>
@@ -141,6 +143,7 @@
         <a class="rf-btn" href="https://github.com/raphaelflipo/jarvis/releases/download/v3.3.0-rc.2/Jarvis-3.3.0-rc.2-Android.apk">Télécharger l’APK</a>
         <details>
           <summary>Installation et essais</summary>
+          <p>SHA-256 publié par GitHub<br><code>869669b36708e7ec<wbr>fde17cda38197c57<wbr>f88973f2d43517ed<wbr>1eb771aa8e95c855</code></p>
           <p>La RC2 corrige un défaut d’affichage avec le clavier ouvert. Les essais couvrent la mise à jour depuis la RC1, la conservation du modèle et de l’historique, ainsi qu’une réponse hors ligne.</p>
         </details>
       </article>
@@ -149,7 +152,7 @@
         <p class="jarvis-version">Safari · Version web installable</p>
         <p>Ouvrez Jarvis dans Safari. Pour le retrouver sur l’écran d’accueil, utilisez Partager → Sur l’écran d’accueil, puis téléchargez le modèle dans l’application web installée.</p>
         <p>La version native a été lancée sur un iPhone physique avec une signature personnelle de développement. L’archive de distribution publique ne bénéficie encore d’aucun canal App Store ou TestFlight.</p>
-        <a class="rf-btn rf-btn--outline" href="/jarvis/app/">Ouvrir dans Safari</a>
+        <a class="rf-btn rf-btn--outline" href="/jarvis/app/?lang=fr">Ouvrir dans Safari</a>
         <details>
           <summary>Statut de l’application native</summary>
           <p>La RC2 native cible iOS 17 et versions ultérieures. Le profil de développement personnel expire après sept jours. La conversation locale et le rechargement depuis le cache ont aussi été testés sur simulateur iOS 27.2. <a href="https://github.com/raphaelflipo/jarvis/blob/main/native/ios/SUBMISSION.md">État de la distribution iOS</a>.</p>
@@ -166,7 +169,7 @@
           <dt>Qwen3 0.6B · environ 628 Mo</dt>
           <dd>Mieux adapté au français. Il demande plus de mémoire et peut prendre plus de temps à répondre.</dd>
         </dl>
-        <p>Prévoyez au moins 4 Go de RAM pour commencer. Vérifiez les informations importantes fournies par les modèles.</p>
+        <p>Le navigateur peut disposer de moins de mémoire que l’appareil. Commencez par SmolLM2 sur un appareil aux ressources limitées et vérifiez les informations importantes fournies par les modèles.</p>
       </div>
       <div id="edition-mac">
         <h2>Travailler avec des fichiers sur Mac</h2>
@@ -179,7 +182,7 @@
       <div class="jarvis-faq">
         <details>
           <summary>Comment démarrer ?</summary>
-          <p>Ouvrez la version web ou l’application native, choisissez un modèle puis cliquez sur « Télécharger / charger le modèle ». Attendez que Jarvis soit prêt avant d’envoyer un message.</p>
+          <p>Ouvrez la version web ou l’application native, choisissez un modèle puis cliquez sur « Télécharger ou charger ». Attendez que Jarvis soit prêt avant d’envoyer un message.</p>
         </details>
         <details>
           <summary>Jarvis fonctionne-t-il sans Internet ?</summary>
@@ -201,7 +204,7 @@
     <section class="rf-shell jarvis-section jarvis-columns" aria-label="Développement et documentation">
       <div id="evolutions">
         <h2>Évolutions</h2>
-        <p>Les prochaines étapes portent sur la reprise des téléchargements, les messages de chargement et la validation sur plus d’appareils. La diffusion publique sur iOS reste à finaliser.</p>
+        <p>La version web propose une interface bilingue, des conseils de choix du modèle et la mesure du débit de génération. Le moteur se charge au premier essai. Si un téléchargement est interrompu, relancez-le pour reprendre avec les fichiers déjà conservés.</p>
       </div>
       <div>
         <h2>Documentation et vérifications</h2>

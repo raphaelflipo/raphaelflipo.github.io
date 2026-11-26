@@ -87,7 +87,7 @@
         <p class="jarvis-tagline">An assistant that runs on your device.</p>
         <p class="rf-lead" itemprop="description">Try Jarvis in your browser without an account. Download a model once, then chat offline while its files remain cached.</p>
         <div class="rf-actions">
-          <a class="rf-btn" href="/jarvis/app/" hreflang="fr">Try Jarvis in your browser</a>
+          <a class="rf-btn" href="/jarvis/app/?lang=en">Try Jarvis in your browser</a>
           <a class="rf-btn rf-btn--outline" href="#installer">Downloads</a>
         </div>
       </div>
@@ -118,6 +118,7 @@
         <a class="rf-btn" href="https://github.com/raphaelflipo/jarvis/releases/download/v3.3.0-rc.1/Jarvis-3.3.0-rc.1-macOS-arm64.dmg">Download the disk image</a>
         <details>
           <summary>Installation and testing</summary>
+          <p>SHA-256 reported by GitHub<br><code>d24b8038868b21ea<wbr>68d34c83c3d2d200<wbr>4961413174c238b1<wbr>e420421277fd308a</code></p>
           <p>Open the disk image, drag Jarvis into Applications, then open the Jarvis menu and choose to install a local model. Opening the app is subject to macOS security checks.</p>
           <p>The RC1 notes document testing on an M5 MacBook Air, including installation from the disk image, a local reply and chat history after reopening. <a href="https://github.com/raphaelflipo/jarvis/releases/tag/v3.3.0-rc.1">RC1 test notes and checksums</a>.</p>
         </details>
@@ -130,6 +131,7 @@
         <a class="rf-btn" href="https://github.com/raphaelflipo/jarvis/releases/download/v3.3.0-rc.2/Jarvis-3.3.0-rc.2-Windows-x64-Setup.exe">Download the EXE installer</a>
         <details>
           <summary>Installation and testing</summary>
+          <p>SHA-256 reported by GitHub<br><code>5c35d40224c673b7<wbr>b3834456ef265a43<wbr>a04216fc87a9ed60<wbr>743956e4982180bb</code></p>
           <p>RC2 was installed and tested on Windows Server 2025 in GitHub Actions, including a local reply and reopening offline. SmartScreen behaviour on a personal PC remains unverified.</p>
         </details>
       </article>
@@ -141,6 +143,7 @@
         <a class="rf-btn" href="https://github.com/raphaelflipo/jarvis/releases/download/v3.3.0-rc.2/Jarvis-3.3.0-rc.2-Android.apk">Download the APK</a>
         <details>
           <summary>Installation and testing</summary>
+          <p>SHA-256 reported by GitHub<br><code>869669b36708e7ec<wbr>fde17cda38197c57<wbr>f88973f2d43517ed<wbr>1eb771aa8e95c855</code></p>
           <p>RC2 fixes a layout issue when the keyboard is open. Tests covered upgrading from RC1 with the model and chat history preserved, plus sending a message offline.</p>
         </details>
       </article>
@@ -149,7 +152,7 @@
         <p class="jarvis-version">Safari · Installable web app</p>
         <p>Open Jarvis in Safari. Use Share → Add to Home Screen, then download a model inside the installed web app.</p>
         <p>A native development build launched on a physical iPhone using a personal signing profile. The public distribution archive is still awaiting an App Store or TestFlight channel.</p>
-        <a class="rf-btn rf-btn--outline" href="/jarvis/app/" hreflang="fr">Open in Safari</a>
+        <a class="rf-btn rf-btn--outline" href="/jarvis/app/?lang=en">Open in Safari</a>
         <details>
           <summary>Native app status</summary>
           <p>The native RC2 targets iOS 17 and later. The personal development profile expires after seven days. Local chat and cached model loading were also tested in an iOS 27.2 simulator. <a href="https://github.com/raphaelflipo/jarvis/blob/main/native/ios/SUBMISSION.md">iOS distribution status</a>.</p>
@@ -166,7 +169,7 @@
           <dt>Qwen3 0.6B · about 628 MB</dt>
           <dd>Better suited to French. It needs more memory and may take longer to reply.</dd>
         </dl>
-        <p>Allow at least 4 GB of RAM to get started. Check important information in model replies.</p>
+        <p>Your browser may have access to less memory than your device. Start with SmolLM2 on a device with limited resources and check important information in model replies.</p>
       </div>
       <div id="edition-mac">
         <h2>Work with files on Mac</h2>
@@ -179,7 +182,7 @@
       <div class="jarvis-faq">
         <details>
           <summary>How do I get started?</summary>
-          <p>Open the web or native app, choose a model, then select the download or load button. Wait for Jarvis to be ready before sending a message. The web app interface is in French.</p>
+          <p>Open the web or native app, choose a model, then select the download or load button. Wait for Jarvis to be ready before sending a message.</p>
         </details>
         <details>
           <summary>Can I use Jarvis offline?</summary>
@@ -201,7 +204,7 @@
     <section class="rf-shell jarvis-section jarvis-columns" aria-label="Development and documentation">
       <div id="evolutions">
         <h2>What’s next</h2>
-        <p>The next priorities are resumable downloads, clearer loading messages and testing on more devices. Public iOS distribution is still in preparation.</p>
+        <p>The web app offers a bilingual interface, model recommendations and measured generation speed. The engine loads when you first try a model. Retry an interrupted download to reuse completed files still stored in your browser.</p>
       </div>
       <div>
         <h2>Documentation and test records</h2>

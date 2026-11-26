@@ -36,6 +36,7 @@ let compact = panel.clientWidth < 620;
 const inertOutsidePanel = [];
 let activeView;
 let loading = false;
+let workshopRequested = false;
 
 function selectView(button) {
   const [azimuth, elevation, radius] = button.dataset.orbit.split(' ');
@@ -72,6 +73,8 @@ viewer.addEventListener('camera-change', event => {
   activeView = null;
   for (const button of views) button.setAttribute('aria-pressed', 'false');
 });
+
+panel.addEventListener('workshop-camera-change', () => { activeView = null; });
 
 function updateDrs() {
   const angle = Number(slider.value);
@@ -243,6 +246,11 @@ viewer.addEventListener('load', () => {
   applySurface();
   status.textContent = copy.loaded;
   if (focusWasOnLoad) initialView.focus({ preventScroll: true });
+  if (!workshopRequested && controls.querySelector('.car-workshop')) {
+    workshopRequested = true;
+    import('./atelier-monoplace.js').then(({ setupWorkshop }) => setupWorkshop(panel, viewer, controls, views))
+      .catch(() => { workshopRequested = false; });
+  }
 });
 
 loadButton.hidden = false;

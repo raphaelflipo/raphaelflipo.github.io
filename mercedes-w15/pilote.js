@@ -1,4 +1,4 @@
-import '/assets/visionneuse-monoplace.js?v=2';
+import '/assets/visionneuse-monoplace.js?v=3';
 
 const panel = document.querySelector('#car-viewer');
 const picker = panel.querySelector('#car-driver');
@@ -40,7 +40,12 @@ function applyDriver() {
     : `Rendu de la W15 n° ${option.value} réalisé dans Blender.`;
 }
 
+const requestedDriver = new URL(location.href).searchParams.get('pilote');
 picker.value = panel.dataset.driver;
+if ([...picker.options].some(option => option.value === requestedDriver)) {
+  picker.value = requestedDriver;
+  applyDriver();
+}
 picker.closest('.mercedes-driver').hidden = false;
 picker.addEventListener('change', () => {
   if (isLoading()) {

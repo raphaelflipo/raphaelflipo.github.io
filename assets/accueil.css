@@ -327,3 +327,35 @@
     grid-template-columns: 1fr;
   }
 }
+
+.rf-project-shortcuts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 16px;
+  margin: -8px 0 22px;
+}
+.rf-project-shortcuts a,
+.rf-shortcut-button { min-height: 44px; display: inline-flex; align-items: center; }
+.rf-shortcut-button {
+  gap: 8px;
+  border: 1px solid var(--rf-border);
+  border-radius: 10px;
+  background: var(--rf-paper);
+  color: var(--rf-text);
+  padding-inline: 12px;
+  cursor: pointer;
+}
+.rf-shortcut-button:hover { background: var(--rf-soft); }
+.rf-shortcut-button[hidden] { display: none; }
+.rf-shortcut-button kbd { color: var(--rf-muted); font-size: .85em; }
+.rf-job details { margin-top: 5px; }
+.rf-job summary {
+  width: fit-content;
+  min-height: 44px;
+  padding: 10px 4px;
+  color: var(--rf-green);
+  font-size: .9rem;
+  cursor: pointer;
+}
+.rf-job details p:last-child { margin-top: 0; }

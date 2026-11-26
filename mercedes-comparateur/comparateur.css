@@ -253,6 +253,47 @@
   font-size: .84rem;
   border-bottom: 1px solid var(--rf-border);
 }
+.cmp-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 12px;
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--rf-border);
+}
+.cmp-actions button {
+  min-height: 44px;
+}
+.cmp-actions input {
+  flex-basis: 100%;
+  min-width: 0;
+  padding: 8px;
+  color: var(--rf-text);
+  background: var(--rf-bg);
+  border: 1px solid var(--rf-border);
+  border-radius: 8px;
+}
+.cmp-actions p, .cmp-section-controls p {
+  margin: 0;
+  color: var(--rf-muted);
+  font-size: .84rem;
+}
+.cmp-actions p:empty {
+  display: none;
+}
+.cmp-section-controls {
+  margin-top: 12px;
+  border-top: 1px solid var(--rf-border);
+}
+.cmp-inspection-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 18px;
+}
+.cmp-section-controls p {
+  max-width: 74ch;
+  margin-top: 4px;
+}
 .cmp-controls {
   padding: 16px 20px 18px;
 }
@@ -450,6 +491,45 @@
   color: var(--rf-green);
   text-decoration: underline;
 }
+.cmp-note-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 16px;
+}
+.cmp-comparison h2 {
+  margin: 0;
+  font-size: clamp(1.55rem, 3vw, 2.45rem);
+  letter-spacing: -.045em;
+  line-height: 1.13;
+}
+.cmp-comparison table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  text-align: left;
+  font-size: .86rem;
+  overflow-wrap: anywhere;
+}
+.cmp-comparison th, .cmp-comparison td {
+  padding: 10px;
+  vertical-align: top;
+  border-top: 1px solid var(--rf-border);
+}
+.cmp-comparison th:first-child {
+  width: 26%;
+}
+.cmp-comparison a {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.cmp-sources {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin-bottom: 0;
+  color: var(--rf-muted);
+  font-size: .85rem;
+}
 .cmp-boundary {
   margin-top: 13px;
   font-size: .82rem;
@@ -489,8 +569,11 @@
     width: 100%;
     min-width: 0;
   }
-  .cmp-status, .cmp-controls {
+  .cmp-status, .cmp-controls, .cmp-actions {
     padding-inline: 12px;
+  }
+  .cmp-comparison th, .cmp-comparison td {
+    padding: 7px 6px;
   }
   .cmp-notes {
     grid-template-columns: 1fr;
