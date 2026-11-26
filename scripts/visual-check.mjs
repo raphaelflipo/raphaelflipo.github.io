@@ -69,6 +69,41 @@ async function loadModel(page, viewer, button, requests) {
   return Math.round(performance.now() - start);
 }
 
+async function checkDrivers(page, viewer, requests) {
+  const driver = page.locator('#car-driver');
+  await driver.selectOption('63');
+  const poster = page.locator('.w13-poster');
+  assert.match(await poster.getAttribute('src'), /studio-63\.webp$/);
+  assert(await poster.evaluate(async image => {
+    await image.decode();
+    return image.naturalWidth > 0 && image.alt.includes('George Russell');
+  }));
+  assert.equal(await viewer.getAttribute('src'), null);
+  assert(!requests.some(path => path.endsWith('mercedes-w15-63.glb')), 'Le choix du pilote ne doit pas charger de GLB');
+  await driver.selectOption('44');
+}
+
+async function checkDriverSwitches(page, viewer) {
+  const driver = page.locator('#car-driver');
+  const slider = page.getByRole('slider', { name: 'Ouverture du DRS' });
+  for (const number of ['63', '44', '63', '44']) {
+    const path = number === '63' ? '/mercedes-w15/mercedes-w15-63.glb' : '/mercedes-w15/mercedes-w15.glb';
+    await driver.selectOption(number);
+    await page.waitForFunction(expected => {
+      const panel = document.querySelector('#car-viewer');
+      const viewer = panel.querySelector('model-viewer');
+      return panel.classList.contains('is-ready') && viewer.loaded && new URL(viewer.src).pathname === expected;
+    }, path, { timeout: 90000 });
+    assert.equal(await slider.inputValue(), '0');
+    assert.equal(await viewer.evaluate(model => model.currentTime), 0);
+    await slider.focus();
+    await slider.press('End');
+    assert.equal(await slider.inputValue(), '22');
+    assert(await viewer.evaluate(model => model.currentTime >= .99 * model.duration && model.duration > 0));
+  }
+  await slider.press('Home');
+}
+
 async function checkCars(page, width) {
   const errors = [];
   const requests = [];
@@ -82,8 +117,9 @@ async function checkCars(page, width) {
   page.on('request', onRequest);
   try {
     await page.goto(origin + '/#projets');
-    await page.locator('main a[href="/mercedes-w14/"]').first().click();
-    for (const car of ['w14', 'w13']) {
+    const generations = ['w15', 'w14', 'w13'];
+    await page.locator('#collection-mercedes a[href="/mercedes-w15/"]').click();
+    for (const [i, car] of generations.entries()) {
       const route = '/mercedes-' + car + '/';
       assert.equal(new URL(page.url()).pathname, route);
       assert.equal(await page.locator('.car-switch [aria-current="page"]').getAttribute('href'), route);
@@ -92,7 +128,8 @@ async function checkCars(page, width) {
       const viewer = page.locator('model-viewer');
       const poster = page.locator('.w13-poster');
       assert(await poster.evaluate(async el => { await el.decode(); return el.naturalWidth > 0; }));
-      const loadButton = page.locator(car === 'w14' ? '#car-load' : '#w13-load');
+      const loadButton = page.locator('.car-load');
+      if (car === 'w15') await checkDrivers(page, viewer, requests);
       const loadMs = await loadModel(page, viewer, loadButton, requests);
       const details = await viewer.evaluate(model => ({
         animations: model.availableAnimations,
@@ -116,10 +153,13 @@ async function checkCars(page, width) {
       await drs.press('Home');
       assert.equal(await drs.inputValue(), '0');
       assert.equal(await viewer.evaluate(model => model.currentTime), 0);
-      if (car === 'w14') {
+      if (car !== 'w13') {
         const inspection = page.locator('#car-inspection');
         await inspection.locator('summary').click();
-        for (const name of ['sidepod', 'suspension', 'cockpit']) {
+        const parts = car === 'w15'
+          ? ['sidepod', 'suspension', 'rear-suspension', 'front-wing', 'cockpit']
+          : ['sidepod', 'suspension', 'cockpit'];
+        for (const name of parts) {
           const detail = inspection.locator('[data-view="' + name + '"]');
           await detail.click();
           assert.equal(await detail.getAttribute('aria-pressed'), 'true');
@@ -137,6 +177,7 @@ async function checkCars(page, width) {
         await expand.click();
         await page.waitForFunction(() => !document.fullscreenElement && !document.querySelector('#car-viewer.is-expanded'));
       }
+      if (car === 'w15' && width === 390) await checkDriverSwitches(page, viewer);
       await viewer.scrollIntoViewIfNeeded();
       const metrics = await measureRenderRate(viewer);
       assert(metrics.drawnFrames > 0, 'Aucune image WebGL dessinée pendant l’orbite');
@@ -157,10 +198,15 @@ async function checkCars(page, width) {
       });
       for (const photo of await page.locator('.w13-gallery img').all()) {
         await photo.scrollIntoViewIfNeeded();
-        assert(await photo.evaluate(async el => { await el.decode(); return Boolean(el.naturalWidth && el.alt); }));
+        const image = await photo.evaluate(async el => {
+          await el.decode();
+          return { width: el.naturalWidth, height: el.naturalHeight, alt: el.alt };
+        });
+        assert(image.width && image.height && image.alt);
+        if (car === 'w15') assert.deepEqual([image.width, image.height], [1440, 810]);
       }
       await page.screenshot({ path: 'screenshots/' + car + '-page-' + width + '.png', fullPage: true });
-      const other = car === 'w14' ? 'w13' : 'w14';
+      const other = generations[i + 1] ?? generations[0];
       requests.length = 0;
       await page.locator('.car-switch a[href="/mercedes-' + other + '/"]').click();
       await page.waitForURL(origin + '/mercedes-' + other + '/');
@@ -170,6 +216,74 @@ async function checkCars(page, width) {
     page.off('pageerror', onError);
     page.off('response', onResponse);
     page.off('request', onRequest);
+  }
+}
+
+async function checkComparator(page, requests, width) {
+  const errors = [];
+  const onError = error => errors.push(error.message);
+  const onResponse = response => {
+    if (response.status() >= 400) errors.push(response.status() + ' ' + response.url());
+  };
+  page.on('pageerror', onError);
+  page.on('response', onResponse);
+  try {
+    requests.length = 0;
+    await page.goto(origin + '/mercedes-comparateur/?gauche=w14&droite=w15');
+    const first = page.locator('#cmp-left');
+    const second = page.locator('#cmp-right');
+    const load = page.locator('#cmp-load');
+    const canvas = page.locator('#cmp-canvas');
+    await load.waitFor();
+    assert.equal(await first.inputValue(), 'w14');
+    assert.equal(await second.inputValue(), 'w15');
+    assert(!requests.some(path => /\.glb$|\/three\.module\.min\.js$/.test(path)), 'Le comparateur doit charger sa 3D à la demande');
+    await page.locator('#cmp-part').selectOption('inlets');
+    assert.match(await page.locator('#cmp-notes').innerText(), /triangulaire/i);
+    assert.equal(await page.locator('#cmp-notes a[href^="https://"]').count(), 2);
+    assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+    const start = performance.now();
+    await load.click();
+    await page.locator('#cmp-canvas[data-rendered="true"]').waitFor({ timeout: 90000 });
+    const loadMs = Math.round(performance.now() - start);
+    assert(await canvas.isVisible());
+    assert(requests.some(path => path.endsWith('mercedes-w14.glb')));
+    assert(requests.some(path => path.endsWith('mercedes-w15.glb')));
+    const stage = page.locator('#cmp-stage');
+    async function chooseMode(mode) {
+      const radio = page.locator('input[name="cmp-mode"][value="' + mode + '"]');
+      await page.locator('label').filter({ has: radio }).click();
+      assert(await radio.isChecked());
+      assert.equal(await stage.getAttribute('data-mode'), mode);
+    }
+    await chooseMode('overlay');
+    await page.locator('#cmp-align').selectOption('rear');
+    const part = page.locator('#cmp-opacity');
+    await part.focus();
+    await part.press('End');
+    assert.equal(await part.inputValue(), '100');
+    assert.match(await page.locator('#cmp-percentage').innerText(), /100/);
+    await page.locator('#cmp-composite').selectOption('wipe');
+    await part.press('Home');
+    assert.equal(await part.inputValue(), '0');
+    await chooseMode('silhouette');
+    await chooseMode('split');
+    await page.locator('#cmp-sync').uncheck();
+    await page.locator('#cmp-material').selectOption('wire');
+    await page.locator('#cmp-material').selectOption('clay');
+    await page.locator('#cmp-light').selectOption('studio');
+    await page.locator('[data-view="top"]').click();
+    assert.equal(await page.locator('[data-view="top"]').getAttribute('aria-pressed'), 'true');
+    await page.locator('#cmp-swap').click();
+    assert.equal(await first.inputValue(), 'w15');
+    assert.equal(await second.inputValue(), 'w14');
+    assert(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1));
+    await page.screenshot({ path: 'screenshots/comparateur-' + width + '.png', fullPage: true, animations: 'disabled', timeout: 90000 });
+    assert.deepEqual(errors, []);
+    console.log('MESURE_3D ' + JSON.stringify({ model: 'comparateur', width, loadMs }));
+  } finally {
+    page.off('pageerror', onError);
+    page.off('response', onResponse);
   }
 }
 
@@ -232,9 +346,10 @@ try {
       assert(await page.locator('.rf-nav--desktop').isVisible(), 'Navigation ordinateur absente');
     }
     await checkCars(page, width);
+    await checkComparator(page, requests, width);
     await page.close();
   }
-  console.log('Tests visuels terminés : monoplaces, DRS, rendus, menus et débordements vérifiés.');
+  console.log('Tests visuels terminés : trois monoplaces, DRS, comparateur et débordements vérifiés.');
 } finally {
   await browser.close();
   server.kill('SIGTERM');

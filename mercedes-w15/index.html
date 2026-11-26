@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self' 'sha256-yhlpZVZMy2vXExwTGihUWVSrOxyhMuvj+Ygg7pyBWek='; img-src 'self' data: blob:; font-src 'self'; connect-src 'self' blob:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#163c2a">
+  <meta name="description" content="Explore la Mercedes-AMG W15 n° 44 du Grand Prix de Bahreïn 2024. Observe les prises d’air des pontons, les poussoirs arrière et l’aileron avant en 3D.">
+  <meta name="author" content="Raphaël Flipo">
+  <title>Mercedes-AMG W15 en 3D | Raphaël Flipo</title>
+  <link rel="canonical" href="https://raphaelflipo.github.io/mercedes-w15/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/refonte.css">
+  <link rel="stylesheet" href="/mercedes-w13/w13.css">
+  <link rel="stylesheet" href="/assets/monoplaces.css">
+  <link rel="stylesheet" href="/assets/collection-mercedes.css">
+  <script src="/assets/menu.js" defer></script>
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
+  <meta property="og:site_name" content="Raphaël Flipo">
+  <meta property="og:title" content="Mercedes-AMG W15 en 3D | Raphaël Flipo">
+  <meta property="og:description" content="La Mercedes de Lewis Hamilton à Bahreïn en 2024. Tourne autour du modèle, actionne le DRS et compare trois générations en 3D.">
+  <meta property="og:url" content="https://raphaelflipo.github.io/mercedes-w15/">
+  <meta property="og:image" content="https://raphaelflipo.github.io/mercedes-w15/studio.webp">
+  <meta property="og:image:alt" content="Rendu Blender de la Mercedes-AMG W15 n° 44 de trois quarts avant">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="module" src="./pilote.js"></script>
+</head>
+<body>
+  <a class="rf-skip" href="#contenu">Aller au contenu</a>
+  <header class="rf-header">
+    <div class="rf-shell rf-header__inner">
+      <a class="rf-brand" href="/">Raphaël <span>Flipo.</span></a>
+      <nav class="rf-nav rf-nav--desktop" aria-label="Navigation principale">
+        <a href="/#projets">Projets</a><a href="/#competences">Compétences</a><a href="/#parcours">Parcours</a><a href="/cv/">CV</a><a href="/#contact" class="rf-nav__contact">Contact</a>
+      </nav>
+      <details class="rf-menu">
+        <summary>Menu</summary>
+        <nav aria-label="Navigation mobile">
+          <a href="/#projets">Projets</a><a href="/#competences">Compétences</a><a href="/#parcours">Parcours</a><a href="/cv/">CV</a><a href="/#contact">Contact</a>
+        </nav>
+      </details>
+    </div>
+  </header>
+  <main id="contenu" class="rf-shell w13">
+    <section aria-labelledby="titre">
+      <div class="w13-intro">
+        <div class="car-navigation">
+          <a class="w13-back" href="/#collection-mercedes">← Collection Mercedes</a>
+          <nav class="car-switch" aria-label="Choisir une monoplace">
+            <a href="/mercedes-w13/">W13 <span>· 2022</span></a><a href="/mercedes-w14/">W14 <span>· 2023</span></a><a href="/mercedes-w15/" aria-current="page">W15 <span>· 2024</span></a>
+          </nav>
+          <a class="collection-compare" href="/mercedes-comparateur/?gauche=w14&amp;droite=w15">Comparer les monoplaces <span aria-hidden="true">↗</span></a>
+        </div>
+        <p class="rf-eyebrow">Formule 1 · Blender</p>
+        <h1 id="titre">Mercedes-AMG W15</h1>
+        <p class="w13-subtitle">Lewis Hamilton n° 44 · Grand Prix de Bahreïn · 2 mars 2024</p>
+      </div>
+      <div class="w13-viewer" id="car-viewer" data-car="W15" data-driver="44" data-camera-scale="1.22" data-light="dark" data-model="./mercedes-w15.glb">
+        <div class="mercedes-driver" hidden>
+          <label for="car-driver">Pilote</label>
+          <select id="car-driver" aria-describedby="car-driver-note">
+            <option value="44" data-model="./mercedes-w15.glb">44 · Lewis Hamilton</option>
+            <option value="63" data-model="./mercedes-w15-63.glb" data-poster="./studio-63.webp">63 · George Russell</option>
+          </select>
+          <p id="car-driver-note">La n° 63 reprend les marquages observés à Bahreïn.</p>
+        </div>
+        <div class="w13-stage">
+          <img class="w13-poster" src="./studio.webp" srcset="./studio-800.webp 800w, ./studio.webp 1920w" sizes="(max-width: 900px) 100vw, (max-width: 1320px) 94vw, 1240px" alt="Mercedes-AMG W15 argent, carbone et turquoise, vue de trois quarts avant dans Blender" width="1920" height="1080" fetchpriority="high">
+          <model-viewer id="car-model" aria-describedby="car-status" alt="W15 de Lewis Hamilton à Bahreïn. Utilise les flèches du clavier pour pivoter."
+            camera-controls touch-action="pan-y" disable-pan interaction-prompt="none"
+            camera-target="-0.15m 0.48m 0m" camera-orbit="-47deg 69deg 7.8m"
+            min-camera-orbit="auto 1deg 0.8m" max-camera-orbit="auto 179deg 30m"
+            field-of-view="28deg" max-field-of-view="38deg" exposure="1.12" shadow-intensity="0.65" shadow-softness="0.78" environment-image="neutral" tone-mapping="neutral"></model-viewer>
+          <button class="w13-expand" id="car-expand" type="button" hidden aria-label="Passer en plein écran" title="Passer en plein écran" aria-pressed="false">
+            <svg aria-hidden="true" viewBox="0 0 24 24" fill="none" width="20" height="20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H4v5m11-5h5v5M4 15v5h5m11-5v5h-5"/></svg>
+          </button>
+        </div>
+        <div class="w13-controls" id="car-controls" hidden>
+          <div class="w13-angles" role="group" aria-label="Points de vue">
+            <button type="button" data-view="studio" data-target="-0.15m 0.48m 0m" data-orbit="-47deg 69deg 7.8m">Trois quarts</button>
+            <button type="button" data-view="side" data-target="-0.15m 0.48m 0m" data-orbit="0deg 84deg 10.8m">Profil</button>
+            <button type="button" data-view="front" data-target="-0.8m 0.38m 0m" data-orbit="-90deg 84deg 7m">Face</button>
+            <button type="button" data-view="top" data-target="-0.15m 0.35m 0m" data-orbit="0deg 1deg 10.5m">Dessus</button>
+            <button type="button" data-view="rear" data-target="2m 0.66m 0m" data-orbit="63deg 74deg 4m">DRS</button>
+            <button type="button" data-view="under" data-target="0m 0.26m 0m" data-orbit="26deg 154deg 9.8m">Dessous</button>
+          </div>
+          <div class="w13-drs" hidden>
+            <label for="car-drs">Ouverture du DRS</label>
+            <input id="car-drs" type="range" min="0" max="22" value="0" step="1">
+            <output for="car-drs" id="car-opening">0°</output>
+          </div>
+          <details class="car-inspection" id="car-inspection">
+            <summary>Inspecter un détail</summary>
+            <div class="car-inspection-tools">
+              <div class="w13-angles" role="group" aria-label="Détails de la W15">
+                <button type="button" data-view="sidepod" data-target="-0.04m 0.49m 0.53m" data-orbit="-40deg 66deg 2.55m">Ponton</button>
+                <button type="button" data-view="suspension" data-target="-1.52m 0.39m 0.39m" data-orbit="-33deg 50deg 2.55m">Suspension avant</button>
+                <button type="button" data-view="rear-suspension" data-target="1.48m 0.40m 0.40m" data-orbit="46deg 49deg 2.55m">Poussoir arrière</button>
+                <button type="button" data-view="front-wing" data-target="-2.72m 0.19m 0m" data-orbit="-61deg 54deg 2.85m">Raccord du nez</button>
+                <button type="button" data-view="cockpit" data-target="-0.22m 0.58m 0m" data-orbit="30deg 32deg 1.9m">Habitacle</button>
+              </div>
+              <fieldset class="car-light">
+                <legend>Éclairage</legend>
+                <label><input type="radio" name="car-light" value="dark" checked> Sombre</label>
+                <label><input type="radio" name="car-light" value="light"> Clair</label>
+              </fieldset>
+            </div>
+          </details>
+        </div>
+        <div class="w13-status car-statusbar">
+          <span id="car-status" role="status">Rendu de la W15 réalisé dans Blender.</span>
+          <button class="rf-btn car-load" id="car-load" type="button" hidden>Explorer en 3D</button>
+        </div>
+      </div>
+    </section>
+    <section class="w13-detail mercedes-editorial" aria-labelledby="details">
+      <div class="w13-detail__intro">
+        <h2 id="details">La W15 de Bahreïn</h2>
+        <p>Mercedes inaugure un nouveau châssis et un nouveau carter de boîte en 2024. Le cockpit recule et la suspension arrière passe aux poussoirs. La galerie présente la n° 44 de Lewis Hamilton avec les pneus tendres C3 à flanc rouge du départ. Hamilton termine septième à Sakhir, deux places derrière son coéquipier George Russell, au volant de la n° 63.</p>
+        <p class="mercedes-source"><a href="https://www.mercedesamgf1.com/reports/battling-performance-on-frustrating-evening-in-bahrain">Compte rendu de Mercedes</a><a href="https://press.pirelli.com/verstappen-kicks-off-with-a-grand-chelem-0/">Pneumatiques du Grand Prix</a></p>
+      </div>
+
+      <dl class="mercedes-facts" aria-label="Chiffres publiés par Mercedes">
+        <div><dt>Longueur</dt><dd>&gt; 5 m</dd></div>
+        <div><dt>Largeur</dt><dd>2 m</dd></div>
+        <div><dt>Hauteur</dt><dd>970 mm</dd></div>
+        <div><dt>Masse</dt><dd>798 kg</dd></div>
+      </dl>
+      <p class="mercedes-source"><a href="https://www.mercedesamgf1.com/cars/2024">Dimensions et fiche technique Mercedes</a></p>
+
+      <h3 class="mercedes-section-title">Les détails à observer</h3>
+      <div class="w13-gallery car-gallery">
+        <figure>
+          <a href="./profil.webp" aria-label="Agrandir la vue de profil"><img src="./profil.webp" alt="Silhouette argent et carbone de la W15, de l’aileron avant au diffuseur" width="1440" height="810" loading="lazy" decoding="async"></a>
+          <figcaption><strong>Profil et cockpit</strong><span>Le nouvel emplacement du cockpit vers l’arrière change les proportions du capot et de la cellule de survie.</span></figcaption>
+        </figure>
+        <figure>
+          <a href="./ponton.webp" aria-label="Agrandir le détail du ponton"><img src="./ponton.webp" alt="Prise d’air triangulaire et passage sous le ponton de la Mercedes W15" width="1440" height="810" loading="lazy" decoding="async"></a>
+          <figcaption><strong>Pontons</strong><span>L’ouverture prend une forme triangulaire. Le volume se resserre en dessous, puis dirige le regard vers le train arrière.</span></figcaption>
+        </figure>
+        <figure>
+          <a href="./suspension.webp" aria-label="Agrandir le détail de la suspension"><img src="./suspension.webp" alt="Gros plan des bras de suspension de la W15 entre la roue et le châssis" width="1440" height="810" loading="lazy" decoding="async"></a>
+          <figcaption><strong>Suspension</strong><span>La W15 utilise des poussoirs à l’avant et à l’arrière. Examine l’implantation des bras derrière les roues.</span></figcaption>
+        </figure>
+        <figure>
+          <a href="./arriere.webp" aria-label="Agrandir la vue trois quarts arrière"><img src="./arriere.webp" alt="Aileron arrière de la W15 et découpe du volet près de la dérive" width="1440" height="810" loading="lazy" decoding="async"></a>
+          <figcaption><strong>Volet arrière</strong><span>À Bahreïn, Mercedes déclare une découpe plus marquée à l’extrémité du volet. La vue DRS permet d’observer son articulation.</span></figcaption>
+        </figure>
+      </div>
+
+      <div class="mercedes-next">
+        <div><h3>Du nez au plancher</h3><p>À Bahreïn, le premier profil de l’aileron avant reste séparé du nez et une fine bande relie le volet supérieur. Mercedes décrit aussi une nouvelle courbure des cloisons d’entrée du plancher et deux profils d’aileron inférieur revus.</p></div>
+        <a class="rf-btn" href="/mercedes-comparateur/?gauche=w14&amp;droite=w15">Comparer la W14 et la W15</a>
+      </div>
+      <div class="car-reference">
+        <p>Reconstitution à partir de photographies et de documents publics. L’intérieur des conduits, les volumes cachés du plancher et la course du volet DRS dans la visionneuse sont estimés.</p>
+        <p class="mercedes-source"><a href="https://www.fia.com/sites/default/files/decision-document/2024%20Bahrain%20Grand%20Prix%20-%20Car%20Display%20Procedure.pdf" hreflang="en">Évolutions déclarées à la FIA</a><a href="https://www.formula1.com/en/latest/article/tech-analysis-the-major-changes-mercedes-have-made-with-their-w15-in-a-bid.1t0phywYt5RAh63aPZs7V9" hreflang="en">Analyse technique de Formula 1</a></p>
+      </div>
+    </section>
+  </main>
+  <footer class="rf-footer">
+    <div class="rf-shell rf-footer__inner"><span>© 2026 Raphaël Flipo</span><a href="/#contact">Me contacter</a></div>
+  </footer>
+</body>
+</html>
