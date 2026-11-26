@@ -44,7 +44,7 @@ Moteur : Transformers.js 3.8.1 et ONNX Runtime Web 1.22.0-dev.20250409-89f8206ba
 
 - Ouvrir `?lang=fr` ou `?lang=en` pour choisir la langue de l’interface. Le choix est conservé dans le navigateur. La conversation et les modèles déjà stockés sont accessibles dans les deux langues.
 - L’interface se place en cache dès la première visite. Les 22 528 676 octets du moteur sont récupérés lors du premier chargement du modèle. Le service worker réutilise les fichiers moteur de la version web précédente s’ils sont encore présents.
-- Une relance réutilise les fichiers complets déjà enregistrés. Un fichier interrompu repart du début. L’état « Prêt hors ligne » requiert le modèle et les fichiers du moteur en cache. Le navigateur peut retirer ces fichiers s’il libère de l’espace.
+- Une relance réutilise les fichiers complets déjà enregistrés. Les poids ONNX peuvent reprendre au premier bloc manquant de 4 Mio sur un serveur exposant Content-Range, dans un navigateur disposant de CacheStorage et de Web Locks. Le modèle complet entre dans son cache seulement après assemblage. Sans support des plages, le prochain essai télécharge le fichier entier. L’état « Prêt hors ligne » requiert le modèle et les fichiers du moteur en cache. Le navigateur peut retirer ces fichiers s’il libère de l’espace.
 - La recommandation emploie le signal approximatif de mémoire quand le navigateur le fournit. La vitesse affichée correspond au nombre de tokens produits par le moteur divisé par la durée de génération. Elle varie selon le modèle, la demande et l’appareil.
 
 ## Licences et références

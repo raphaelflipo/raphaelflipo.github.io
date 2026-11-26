@@ -303,6 +303,25 @@ function updateSection() {
   if (renderer) renderer.section = enabled ? millimetres / 1000 : null;
 }
 
+async function updateFamily(){
+  if(!renderer)return;
+  const family=byId('family').value;
+  try{
+    const counts=await renderer.selectFamily(family==='all'?'':family);
+    if(counts)stage.dataset.familyCounts=counts.join(',');
+    if(byId('family').value===family)stage.dataset.family=family;
+    requestDraw();
+  }catch{
+    byId('family').value='all';
+    await renderer?.selectFamily('');
+    status.textContent=copyFor('Isolation indisponible. Les voitures complètes restent visibles.', 'Isolation unavailable. The complete cars remain visible.');
+    requestDraw();
+  }
+}
+byId('family').addEventListener('change',()=>{
+  byId('isolate').checked=false;updateIsolation();updateFamily();
+});
+
 function updateIsolation() {
   const isolate = byId('isolate').checked;
   if (renderer) renderer.isolateDrs = isolate;
@@ -328,6 +347,7 @@ function syncSettings() {
   updateDepth();
   updateSection();
   updateIsolation();
+  updateFamily();
 }
 
 share.addEventListener('click', async () => {
@@ -448,6 +468,7 @@ for (const name of ['section', 'section-x']) {
   });
 }
 byId('isolate').addEventListener('change', () => {
+  byId('family').value='all';updateFamily();
   if (byId('isolate').checked) {
     part.value = 'rearWing';
     part.dispatchEvent(new Event('change'));

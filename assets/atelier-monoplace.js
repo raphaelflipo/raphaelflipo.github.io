@@ -150,6 +150,8 @@ export function setupWorkshop(panel, viewer, controls, viewButtons) {
   function componentDescription() {
     const items = labels[selected];
     if (!items) return;
+    const explore = catalogue.querySelector('[data-workshop-explore]');
+    if(explore) explore.href = prefix + '/mercedes-' + car.toLowerCase() + '/composants/?piece=' + selected;
     catalogueName.textContent = items[Number(english)];
     description.textContent = items[(level.value === 'engineering' ? 4 : 2) + Number(english)];
     article.href = `${prefix}/ingenierie/${car.toLowerCase()}/#${selected}`;

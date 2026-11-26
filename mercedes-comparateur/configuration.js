@@ -1,6 +1,6 @@
 const selectKeys = {
   material: 'matiere', align: 'repere', light: 'lumiere', quality: 'qualite',
-  composite: 'composition', part: 'piece'
+  composite: 'composition', part: 'piece', family: 'ensemble'
 };
 const rangeKeys = { opacity: 'opacity', 'opacity-a': 'opacityA', sensitivity: 'seuil', 'section-x': 'x' };
 
@@ -43,6 +43,7 @@ export function restoreSettings(params, byId, modes, views) {
 export function comparisonParams({ ids, byId, mode, view, sync, camera }) {
   const query = new URLSearchParams({ gauche: ids[0], droite: ids[1], mode, sync: sync ? '1' : '0' });
   for (const [id, key] of Object.entries({ ...selectKeys, ...rangeKeys })) query.set(key, byId(id).value);
+  if (byId('family').value==='all') query.delete('ensemble');
   if (byId('section').checked) query.set('coupe', '1');
   if (byId('isolate').checked) query.set('isole', 'drs');
   if (view) query.set('vue', view);

@@ -4,7 +4,7 @@ import { test } from 'node:test';
 import { runInNewContext } from 'node:vm';
 
 const scope = 'https://example.test/jarvis/app/';
-const shell = 'jarvis-local-shell-3.3.0-rc.2-web.2';
+const shell = 'jarvis-local-shell-3.3.0-rc.2-web.3';
 const previous = 'jarvis-local-shell-3.3.0-rc.2-web.1';
 const modelCache = 'jarvis-local-models-v1';
 const engineFiles = [
@@ -56,7 +56,7 @@ function createWorker() {
     clients: { async claim() {} },
     addEventListener(name, handler) { handlers.set(name, handler); },
   };
-  runInNewContext(worker, { self, URL, caches, fetch });
+  runInNewContext(worker, { self, URL, Request, caches, fetch });
   function event(name, request) {
     const jobs = [];
     let response;
@@ -103,15 +103,15 @@ test('engine loads on demand and its stored copy serves subsequent requests offl
   assert.deepEqual(sw.fetched, engineFiles.map(file => scope + file));
 });
 
-test('upgrade retains the previously downloaded engine and model cache', async () => {
+for (const legacyShell of [previous, 'jarvis-local-shell-3.3.0-rc.2']) test('upgrade retains engine and model cache from ' + legacyShell, async () => {
   const sw = createWorker();
-  const old = await sw.caches.open(previous);
+  const old = await sw.caches.open(legacyShell);
   for (const file of engineFiles) await old.put(file, new Response(file));
   await sw.caches.open(modelCache);
   await sw.event('install').jobs;
   await sw.event('activate').jobs;
   sw.offline();
-  assert.ok(!(await sw.caches.keys()).includes(previous));
+  assert.ok(!(await sw.caches.keys()).includes(legacyShell));
   assert.ok((await sw.caches.keys()).includes(shell));
   assert.ok((await sw.caches.keys()).includes(modelCache));
   for (const file of engineFiles) {

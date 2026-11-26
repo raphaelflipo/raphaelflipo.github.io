@@ -99,3 +99,8 @@
   .rf-case-study > div, .rf-change-log > li { grid-template-columns: 1fr; gap: 4px; }
   .rf-transfer > li { grid-template-columns: 1fr; gap: 0; }
 }
+.case-decision {max-width:760px;margin:2rem 0;}
+.case-decision h2 {margin:1.4em 0 .35em;}
+.case-proof {margin:20px 0;padding:14px;border:1px solid var(--rf-border);border-radius:12px;}
+.case-proof img {display:block;width:auto;max-width:100%;max-height:32rem;margin:auto;height:auto;}
+.case-proof figcaption {margin-top:12px;color:var(--rf-muted);}

@@ -303,4 +303,12 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/ingenierie/w16/" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/ingenierie/w16/" />
   </url>
+  <url><loc>https://raphaelflipo.github.io/mercedes-w13/composants/</loc></url>
+  <url><loc>https://raphaelflipo.github.io/mercedes-w14/composants/</loc></url>
+  <url><loc>https://raphaelflipo.github.io/mercedes-w15/composants/</loc></url>
+  <url><loc>https://raphaelflipo.github.io/mercedes-w16/composants/</loc></url>
+  <url><loc>https://raphaelflipo.github.io/en/mercedes-w13/composants/</loc></url>
+  <url><loc>https://raphaelflipo.github.io/en/mercedes-w14/composants/</loc></url>
+  <url><loc>https://raphaelflipo.github.io/en/mercedes-w15/composants/</loc></url>
+  <url><loc>https://raphaelflipo.github.io/en/mercedes-w16/composants/</loc></url>
 </urlset>

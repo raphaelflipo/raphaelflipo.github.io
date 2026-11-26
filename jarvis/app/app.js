@@ -1,3 +1,4 @@
+import { PARTIAL_CACHE } from './download.js';
 import { MODEL_CACHE, MODELS, boundedHistory, cacheState, restoreHistory } from './models.js';
 
 const $ = id => document.getElementById(id);
@@ -168,7 +169,7 @@ function failed(message, loading) {
   endWorker();
   partial = loading;
   keepPartial();
-  resetProgress(loading ? t('Les fichiers terminés et conservés seront réutilisés au prochain essai.', 'The next attempt reuses any completed files still in storage.') : '');
+  resetProgress(loading ? t('Les fichiers terminés et les blocs de poids enregistrés seront réutilisés.', 'The next attempt reuses saved files and completed weight blocks.') : '');
   idleStatus();
   error(message);
   controls();
@@ -322,7 +323,7 @@ $('stop-button').addEventListener('click', () => {
   partial = !generating;
   endWorker();
   keepPartial();
-  resetProgress(partial ? t('La reprise réutilise les fichiers terminés du cache.', 'Retrying reuses completed files in the cache.') : '');
+  resetProgress(partial ? t('Le prochain essai réutilise les fichiers et les blocs de poids conservés.', 'Retrying reuses saved files and weight blocks.') : '');
   status(t('Arrêté · Chargez le modèle pour reprendre', 'Stopped · Load the model to continue'));
   controls();
 });
@@ -337,7 +338,7 @@ $('delete-model').addEventListener('click', async () => {
   busy = deleting = true;
   controls();
   try {
-    await caches.delete(MODEL_CACHE);
+    await Promise.all([caches.delete(MODEL_CACHE), caches.delete(PARTIAL_CACHE)]);
     resetProgress();
     status(t('Modèles supprimés de cet appareil', 'Models removed from this device'));
   } catch {
