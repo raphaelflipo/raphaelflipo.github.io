@@ -1,0 +1,21 @@
+name: Source publiée de Jarvis
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  parite:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          persist-credentials: false
+      - name: Comparer les répertoires Git complets
+        run: |
+          set -eu
+          revision=$(cat scripts/jarvis-source.txt)
+          git fetch --no-tags --depth=1 https://github.com/raphaelflipo/jarvis.git refs/heads/main
+          published=$(git rev-parse HEAD:jarvis/app)
+          expected=$(git rev-parse FETCH_HEAD:local-app)
+          test "$published" = "$expected"
+          git fetch --no-tags --depth=1 https://github.com/raphaelflipo/jarvis.git "$revision"
+          test "$published" = "$(git rev-parse FETCH_HEAD:local-app)"

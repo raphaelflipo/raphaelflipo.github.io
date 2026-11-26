@@ -37,6 +37,18 @@ const inertOutsidePanel = [];
 let activeView;
 let loading = false;
 let workshopRequested = false;
+let photoRequested = false;
+function openPhotoTools(){
+  const photo=controls.querySelector('.car-workshop');
+  if(!photoRequested || !photo || photo.hidden)return;
+  photoRequested=false;photo.open=true;
+  photo.querySelector('summary').focus();
+}
+document.querySelector('[data-open-photo]')?.addEventListener('click',()=>{
+  photoRequested=true;
+  if(panel.classList.contains('is-ready'))openPhotoTools();
+  else loadButton.click();
+});
 
 function selectView(button) {
   const [azimuth, elevation, radius] = button.dataset.orbit.split(' ');
@@ -249,7 +261,7 @@ viewer.addEventListener('load', () => {
   if (!workshopRequested && controls.querySelector('.car-workshop')) {
     workshopRequested = true;
     import('./atelier-monoplace.js').then(({ setupWorkshop }) => setupWorkshop(panel, viewer, controls, views))
-      .catch(() => { workshopRequested = false; });
+      .then(openPhotoTools).catch(() => { workshopRequested = false; });
   }
 });
 

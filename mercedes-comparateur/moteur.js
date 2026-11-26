@@ -231,7 +231,7 @@ export class Comparateur {
       scene.environment = this.environment?.texture ?? null;
       scene.environmentIntensity = .9;
       const lights = éclairer(scene);
-      lights.forEach(light => light.layers.enable(drsLayer));
+      lights.forEach(light => { light.layers.enable(drsLayer);light.layers.enable(2); });
       return { scene, lights, car: null, orbit: étatInitial() };
     });
     this.draco = new DRACOLoader().setDecoderPath('/mercedes-w13/draco/').setWorkerLimit(2);
@@ -270,11 +270,13 @@ export class Comparateur {
     const results = await Promise.allSettled(ids.map(async id => {
       const cached = current.get(id);
       if (cached) return cached;
-      const { scene } = await this.loader.loadAsync(monoplaces[id].model);
+      const {scene,parser} = await this.loader.loadAsync(monoplaces[id].model);
+      const primitives=[];
+      scene.traverse(mesh=>{if(mesh.isMesh)primitives.push([mesh,parser.associations.get(mesh)]);});
       registerDrs(scene);
       const group = new THREE.Group();
       group.add(scene);
-      return { id, group, markings: marqueurs(scene) };
+      return { id, group, primitives, decoded:new Map(), markings: marqueurs(scene) };
     }));
     this.loading = false;
     const failure = results.find(result => result.status === 'rejected');
@@ -298,6 +300,25 @@ export class Comparateur {
       slot.scene.add(car.group);
     });
     this.alignCars();
+  }
+
+  async selectFamily(id){
+    const revision=this.filterRevision=(this.filterRevision??0)+1;
+    if(!id && !this.family)return;
+    const {clearSelection,prepareSelection}=await import('./isolation.js');
+    const cars=this.slots.map(s=>s.car);
+    const selections=id?await Promise.all(cars.map(car=>prepareSelection(car,id))):[[],[]];
+    if(this.disposed||this.filterRevision!==revision||cars.some((car,i)=>car!==this.slots[i].car)){
+      selections.flat().forEach(([,mesh])=>{if(mesh.userData.ownsIndex)mesh.geometry.dispose();});
+      return;
+    }
+    this.family=id;
+    cars.forEach((car,i)=>{
+      clearSelection(car);
+      for(const [source,mesh] of selections[i]){source.add(mesh);car.selection.push(mesh);}
+    });
+    this.targetStamp=null;
+    return selections.map(list=>list.length);
   }
 
   alignCars() {
@@ -431,7 +452,7 @@ export class Comparateur {
       this.sectionPlanes[1].constant = .12 + this.section;
       this.renderer.clippingPlanes = this.sectionPlanes;
     }
-    this.camera.layers.set(this.isolateDrs ? drsLayer : 0);
+    this.camera.layers.set(this.family ? 2 : this.isolateDrs ? drsLayer : 0);
     try {
       this.renderer.render(slot.scene, this.camera);
     } finally {
@@ -483,7 +504,7 @@ export class Comparateur {
       // et éclairage sont identiques.
       const stamp = JSON.stringify([
         this.bufferSize.x, this.bufferSize.y, slotA.car.id, slotB.car.id,
-        poses[0], poses[1].point, this.align, this.mode, this.material, this.light, this.quality, this.section, this.isolateDrs
+        poses[0], poses[1].point, this.align, this.mode, this.material, this.light, this.quality, this.section, this.isolateDrs, this.family
       ]);
       if (this.targetStamp !== stamp) {
         this.slots.forEach((slot, index) => {

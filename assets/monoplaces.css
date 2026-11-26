@@ -197,3 +197,5 @@ body:has(.w13-viewer.is-expanded) { overflow: hidden; }
     transform: scale(.85);
   }
 }
+.parts-photo-entry {display:inline-flex;min-height:44px;align-items:center;margin-inline:10px;font-weight:650;}
+.parts-entry-help {margin:4px 0 10px;max-width:65ch;font-size:.95rem;}

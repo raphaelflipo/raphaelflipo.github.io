@@ -64,3 +64,13 @@ Les fiches française et anglaise reprennent les empreintes SHA-256 que l’API 
 | iPhone et iPad | — | Version web installable depuis Safari. Archive native de préparation à la distribution, réservée aux vérifications techniques. |
 
 Le paquet Mac regroupe l’application, Python et Ollama. Les séparer allégerait le paquet initial et reporterait une partie de l’installation au premier démarrage. Le DMG publié correspond à l’édition autonome. Une diffusion notarialisée requiert les accès et certificats décrits par Apple. [Certificats Developer ID](https://developer.apple.com/help/account/certificates/create-developer-id-certificates)
+
+## Réception web du 26 novembre 2026
+
+Sur Linux x86-64, Chromium 149.0.7827.0, fenêtre 390 × 844. Le worker de production a exécuté SmolLM2-135M-Instruct q8, révision 12fd25f77366fa6b3b4b768ec3050bf629380bac, en WebAssembly mono-thread. L’ONNX de 137 147 981 octets téléchargé depuis Hugging Face avait pour SHA-256 ecc1a19eece6494e2963cf74f78ace35916e8d0b803168ddd41db00979f18e39.
+
+Les réponses HTTP du serveur de test ont rejoué les octets authentiques. Une interruption imposée après le premier bloc a laissé un bloc dans CacheStorage. Le nouvel essai a demandé l’octet 4 194 304 et a terminé le fichier. Les quatre fichiers de configuration et de tokenizer ont été chargés. Le modèle a produit « The capital of France is Paris. ». Après coupure réseau et rechargement complet, il a produit « The capital of Italy is Rome. ». L’historique contenait les quatre messages. Un arrêt durant une nouvelle génération puis le retour à l’interface française ont été vérifiés. Les réponses du modèle sont calculées dans le véritable worker. La livraison Internet par le CDN, le temps d’un téléphone et Qwen font l’objet de validations distinctes.
+
+Les tests Node exécutent le service worker distribué avec des API de cache et de réseau simulées. Les essais de novembre cités plus haut constituent l’historique de la bêta.
+
+La migration a aussi été exercée dans CacheStorage sur la même origine. L’ancienne source installait le cache `jarvis-local-shell-3.3.0-rc.2`. Après mise à jour, les octets du moteur WASM avaient la même empreinte, l’entrée témoin du cache modèle et un message d’historique étaient conservés. Le second nom historique `-web.1` est couvert par un test du service worker exécuté avec des API simulées.

@@ -1,8 +1,8 @@
-const CACHE = 'jarvis-local-shell-3.3.0-rc.2-web.2';
-const PREVIOUS = 'jarvis-local-shell-3.3.0-rc.2-web.1';
+const CACHE = 'jarvis-local-shell-3.3.0-rc.2-web.3';
+const LEGACY_SHELLS = ['jarvis-local-shell-3.3.0-rc.2', 'jarvis-local-shell-3.3.0-rc.2-web.1'];
 const ENGINE = 'jarvis-local-engine-onnx-1.22.0-dev.20250409-89f8206ba4';
 const FILES = [
-  './', './index.html', './styles.css', './app.js', './models.js', './inference-worker.js',
+  './', './index.html', './styles.css', './app.js', './models.js', './download.js', './inference-worker.js',
   './manifest.webmanifest', './icon-192.png', './icon-512.png', './apple-touch-icon.png',
 ];
 const ENGINE_FILES = [
@@ -12,24 +12,24 @@ const ENGINE_FILES = [
 ];
 const engineURLs = new Set(ENGINE_FILES.map(file => new URL(file, self.registration.scope).href));
 
-self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES))));
+self.addEventListener('install', event => event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(FILES.map(file => new Request(new URL(file, self.registration.scope), { cache: 'reload' }))))));
 self.addEventListener('activate', event => event.waitUntil((async () => {
   const names = await caches.keys();
-  if (names.includes(PREVIOUS)) {
-    const previous = await caches.open(PREVIOUS);
+  const retained = new Set();
+  for (const legacy of LEGACY_SHELLS.filter(name => names.includes(name))) {
+    const previous = await caches.open(legacy);
     const engine = await caches.open(ENGINE);
     for (const file of ENGINE_FILES) {
       const saved = await previous.match(file);
-      if (saved && !await engine.match(file)) {
-        try { await engine.put(file, saved); } catch { /* The previous copy remains available. */ }
-      }
-    }
-    if (!(await Promise.all(ENGINE_FILES.map(file => engine.match(file)))).every(Boolean)) {
-      await self.clients.claim();
-      return;
+      if (!saved || await engine.match(file)) continue;
+      try { await engine.put(file, saved); }
+      catch { retained.add(legacy); }
     }
   }
-  for (const name of names) if (name.startsWith('jarvis-local-shell-') && name !== CACHE) await caches.delete(name);
+  for (const name of names) {
+    if (name === CACHE || retained.has(name)) continue;
+    if (name.startsWith('jarvis-local-shell-')) await caches.delete(name);
+  }
   await self.clients.claim();
 })()));
 

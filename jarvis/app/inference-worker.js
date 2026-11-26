@@ -1,4 +1,5 @@
 import { AutoTokenizer, AutoModelForCausalLM, TextStreamer, env } from './vendor/transformers.min.js';
+import { prepareWeights } from './download.js';
 import { MODEL_CACHE, MODELS, boundedHistory } from './models.js';
 
 // No prompt, response or history is sent to a server. Only public model files are fetched.
@@ -38,6 +39,7 @@ self.onmessage = async ({ data }) => {
       storageWarning = false;
       const options = { revision: selected.revision, local_files_only: data.offline,
         progress_callback: p => { if (p.status === 'progress') send('progress', { file: p.file, loaded: p.loaded, total: p.total, progress: p.progress }); } };
+      if (!data.offline) await prepareWeights(data.key, p => send('progress', p));
       tokenizer = await AutoTokenizer.from_pretrained(selected.id, options);
       tokenizer.truncation_side = 'left';
       model = await AutoModelForCausalLM.from_pretrained(selected.id, { ...options, device: 'wasm', dtype: 'q8' });

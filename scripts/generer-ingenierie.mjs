@@ -151,7 +151,7 @@ function carPage(lang, id, model) {
     }).join('');
     return `<article class="eng-piece" id="${piece.id}" aria-labelledby="${piece.id}-title">
       <div class="eng-piece__copy">
-        ${sectionHeading(piece.id + '-title', component)}
+        ${sectionHeading(piece.id + '-title', component)}<a class="eng-component-link" href="${viewerPath}composants/?piece=${piece.id}">${text(lang,'Repérer sur la monoplace','Locate on the car')}</a>
         <p class="eng-discovery">${escapeHtml(local(lang, piece.simple))}</p>
         <p>${escapeHtml(local(lang, observation))}</p>
         ${refs(lang, observation.slice(2))}

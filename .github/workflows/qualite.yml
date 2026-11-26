@@ -28,6 +28,7 @@ jobs:
         with:
           node-version: '22'
       - run: node scripts/audit.mjs
+      - run: node scripts/composants-verification.mjs
   visuel:
     runs-on: ubuntu-24.04
     steps:

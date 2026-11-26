@@ -87,3 +87,11 @@ La W11 et la W12 permettraient d’illustrer l’architecture qui précède le r
 ### Contrôles des parcours
 
 `node scripts/parcours-v3.mjs` exerce les pages clés, la recherche, le raccourci clavier et le contrôle de disponibilité. La matrice de pull request utilise Chromium, WebKit, Firefox, Chrome et Edge sur les runners publics standards.
+
+### Publication de Jarvis Local
+
+Le répertoire `local-app` de [raphaelflipo/jarvis](https://github.com/raphaelflipo/jarvis/tree/main/local-app) est la source de référence. Intégrer les changements web dans ce dépôt, puis copier le répertoire complet vers `jarvis/app` et reporter le commit dans `scripts/jarvis-source.txt`. Le contrôle de publication compare les arbres Git complets avec la source épinglée et avec la branche principale.
+
+### Reproduction des ateliers de composants
+
+Les six exports dans `assets/composants/mercedes-*.json` relient les triangles des GLB d’origine aux objets des projets Blender. Le script `scripts/composants/exporter.py` lit un maître Blender, son GLB publié et un chemin JSON de sortie. L’index conserve les groupes par primitive et l’empreinte SHA-256 du GLB. Le navigateur partage les attributs de sommets et les matériaux d’origine et partitionne uniquement la liste des triangles. Le mode éclaté déplace des ensembles existants. Les marquages non attribués restent des éléments de contexte. Les surfaces continues « tunnel et diffuseur » appartiennent au plancher, tandis que les cloisons et lèvres distinctes du diffuseur sont sélectionnables. Les fentes sont des vides entre profils.

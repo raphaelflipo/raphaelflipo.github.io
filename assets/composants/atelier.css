@@ -1,0 +1,29 @@
+.parts-page { padding-block:clamp(24px,5vw,64px); max-width:1080px; }
+.parts-page h1 { font-size:clamp(2.2rem,6vw,4.4rem); line-height:1.02; margin:.2em 0; }
+.parts-layout { display:grid; gap:clamp(14px,3vw,36px); grid-template-columns:minmax(0,1.3fr) minmax(240px,.85fr); margin-top:20px; align-items:start; }
+.parts-panel, .parts-copy { min-width:0; }
+.parts-copy p { max-width:64ch; }
+.parts-page label { display:grid; gap:4px; font-weight:600; }
+.parts-fields { display:flex; flex-wrap:wrap; gap:10px 18px; margin:16px 0; }
+.parts-fields label { flex:1 1 145px; }
+.parts-page select,.parts-page button,.parts-page summary,.parts-link { min-height:44px; }
+.parts-page select,.parts-toolbar button { border:1px solid var(--rf-border); background:var(--rf-paper); color:var(--rf-text); padding:8px 12px; border-radius:7px; font:inherit; }
+.parts-page summary {cursor:pointer;display:list-item;padding-block:10px;}
+.parts-stage { position:relative; height:clamp(245px,42vw,495px); background:#263238; border-radius:12px; overflow:hidden; }
+.parts-stage img,.parts-stage canvas { width:100%; height:100%; display:block; object-fit:cover; }
+.parts-stage canvas { touch-action:pan-y; }
+.parts-toolbar { display:flex; flex-wrap:wrap; align-items:center; gap:7px; margin-block:10px; }
+.parts-toolbar button {cursor:pointer;}
+.parts-toolbar button:disabled {opacity:.55;cursor:default;}
+.parts-stage [hidden],.parts-page [hidden] {display:none!important;}
+.parts-panel:fullscreen,.parts-panel.full-window {background:var(--rf-paper);color:var(--rf-text);padding:12px;overflow:auto;}
+.parts-panel.full-window {position:fixed;inset:0;z-index:999;}
+.parts-panel:fullscreen .parts-stage,.parts-panel.full-window .parts-stage {height:65dvh;}
+.parts-link {display:inline-flex;align-items:center;font-weight:700;}
+.parts-article h2 {font-size:1.5rem;margin:0;}
+.parts-status {min-height:1.5em;}
+.parts-page input[readonly] {width:100%;font:inherit;padding:9px;}
+.parts-copy img {width:100%;height:auto;display:block;}
+@media(max-width:740px){.parts-layout{grid-template-columns:1fr;}.parts-page{padding-inline:16px}.parts-page .parts-layout{margin-top:10px}.parts-stage{height:clamp(225px,66vw,360px)}}
+@media(max-width:740px){.parts-copy{order:-1;}.parts-article{padding-block:8px;border-bottom:1px solid var(--rf-border);}}
+.parts-marker {position:absolute;z-index:1;pointer-events:none;background:#163c30;color:white;border:1px solid #acf0d7;border-radius:5px;padding:2px 6px;font:600 .74rem/1.4 system-ui;max-width:45%;}

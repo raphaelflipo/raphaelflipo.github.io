@@ -10,7 +10,7 @@ const server = spawn('python3', ['-m', 'http.server', '8773', '--bind', '127.0.0
 const routes = [
   '/', '/en/', '/projets/', '/en/projets/',
   '/telechargements/', '/en/telechargements/', '/journal/', '/en/journal/', '/statut/',
-  '/ingenierie/', '/en/ingenierie/w16/', '/cv/en/', '/studio-3d/', '/en/jarvis/',
+  '/ingenierie/', '/en/ingenierie/w16/', '/mercedes-w16/composants/', '/en/mercedes-w15/composants/', '/cv/en/', '/studio-3d/', '/en/jarvis/',
 ];
 
 async function waitForServer() {
@@ -60,6 +60,14 @@ try {
   await page.keyboard.press('Escape');
   assert.equal(await palette.isVisible(), false);
 
+  await page.goto(origin + '/mercedes-w16/composants/');
+  await page.locator('#part').selectOption('flaps');
+  await page.locator('#level').selectOption('engineering');
+  assert(await page.locator('[data-family="flaps"] details[open]').isVisible());
+  await page.locator('.rf-lang').click();
+  assert.equal(await page.locator('html').getAttribute('lang'),'en');
+  assert.equal(await page.locator('#part').inputValue(),'flaps');
+  assert.equal(await page.locator('#stage canvas').count(),0);
   await page.goto(origin + '/statut/');
   await page.getByRole('button', { name: 'Vérifier maintenant' }).click();
   await page.waitForFunction(() => document.getElementById('resume-services').textContent.startsWith('Vérifié'));
