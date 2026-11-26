@@ -9,7 +9,8 @@ const shift = {
   cockpit:[0,1.05,0], airbox:[0,1.35,0], engineCover:[.3,.85,0],
   rearSuspension:[.3,.65,0], rearWing:[.65,.65,0], drs:[.85,1.05,0],
   mainplane:[-.8,-.05,0], flaps:[-.65,.55,0], endplates:[-.85,.25,0],
-  fences:[-.25,-.75,0], beamWing:[.65,.1,0]
+  fences:[-.25,-.75,0], beamWing:[.65,.1,0], diffuserRamp:[.45,-.45,0],
+  tyres:[0,1.25,0], rims:[0,.77,0], brakes:[0,.18,0]
 };
 
 async function splitScene(gltf, map) {
@@ -65,7 +66,11 @@ export async function openScene(host, model, signal, onLoss, onPick, label) {
   const renderer = new T.WebGLRenderer({antialias:true,preserveDrawingBuffer:true,alpha:false});
   let observer,frame=0;
   const originals=new Set();
-  const root = new T.Scene(), camera=new T.PerspectiveCamera(34,1,.025,75);
+  const root = new T.Scene();
+  const perspective=new T.PerspectiveCamera(34,1,.025,75);
+  const orthographic=new T.OrthographicCamera(-1,1,1,-1,.025,75);
+  const halfFov=Math.tan(perspective.fov*Math.PI/360);
+  let camera=perspective;
   const draco = new DRACOLoader().setDecoderPath('/mercedes-w13/draco/').setWorkerLimit(2);
   const lightMaterial = new T.MeshStandardMaterial({color:0x22dcc3,emissive:0x126957,emissiveIntensity:.55,roughness:.56,side:T.DoubleSide});
   const glass = new T.MeshBasicMaterial({color:0xb6cad3,transparent:true,opacity:.13,depthWrite:false,side:T.FrontSide});
@@ -104,7 +109,14 @@ export async function openScene(host, model, signal, onLoss, onPick, label) {
     const target=new T.Vector3();let yaw=-.85,pitch=.34,radius=6;
     function draw(){
       frame=0;const width=Math.max(1,host.clientWidth),height=Math.max(1,host.clientHeight);
-      renderer.setSize(width,height,false);camera.aspect=width/height;camera.updateProjectionMatrix();
+      renderer.setSize(width,height,false);
+      const aspect=width/height;
+      if(camera.isOrthographicCamera){
+        const halfHeight=radius*halfFov;
+        camera.top=halfHeight;camera.bottom=-halfHeight;
+        camera.left=-halfHeight*aspect;camera.right=halfHeight*aspect;
+      }else camera.aspect=aspect;
+      camera.updateProjectionMatrix();
       camera.position.set(target.x+radius*Math.sin(yaw)*Math.cos(pitch),target.y+radius*Math.sin(pitch),target.z+radius*Math.cos(yaw)*Math.cos(pitch));
       camera.lookAt(target);renderer.render(root,camera);
       if(anchor && anchorMesh){
@@ -173,11 +185,10 @@ export async function openScene(host, model, signal, onLoss, onPick, label) {
       if(fit){
         const box=mode==='explode'?all:selected;
         box.getCenter(target);const size=box.getSize(new T.Vector3());
-        const halfFov=Math.tan(camera.fov*Math.PI/360);
         const aspect=host.clientWidth/Math.max(1,host.clientHeight);
         radius=limit(Math.max(size.length()*.56,.4)/(halfFov*Math.min(1,aspect))*(mode==='explode'?1.55:1.1),1,24);
-        yaw=(id==='diffuser'||id==='rearWing'||id==='drs'||id==='beamWing')?.9:-.8;
-        pitch=id==='floor'||id==='diffuser'||id==='fences'?-.36:.32;
+        yaw=(id==='diffuser'||id==='diffuserRamp'||id==='rearWing'||id==='drs'||id==='beamWing')?.9:-.8;
+        pitch=id==='floor'||id==='diffuser'||id==='diffuserRamp'||id==='fences'?-.36:.32;
       }
       redraw();return {visible,marked,moved,ghosted,total:pieces.length};
     }
@@ -197,6 +208,11 @@ export async function openScene(host, model, signal, onLoss, onPick, label) {
         return await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));
       }finally{renderer.setPixelRatio(ratio);draw();}
     }
-    return {show,view,turn,zoom,dispose,photo};
+    function projection(value){
+      camera=value==='ortho'?orthographic:perspective;
+      draw();
+      return camera.type;
+    }
+    return {show,view,turn,zoom,dispose,photo,projection};
   }catch(e){dispose();throw e;}
 }

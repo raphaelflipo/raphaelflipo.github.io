@@ -5,13 +5,15 @@ const part=find('part'),level=find('level'),mode=find('mode'),driver=find('varia
 const stage=find('stage'), area=find('scene-panel'), load=find('load-parts'), status=find('parts-status');
 const language=document.querySelector('.rf-lang'), originalLanguage=language.href;
 const fields=new URLSearchParams(location.search);
+const projection=find('projection');
 function choose(field,value){if(field&&[...field.options].some(o=>o.value===value))field.value=value;}
-choose(part,fields.get('piece'));choose(level,fields.get('niveau'));choose(mode,fields.get('mode'));choose(driver,fields.get('pilote'));
+choose(projection,fields.get('projection'));choose(part,fields.get('piece'));choose(level,fields.get('niveau'));choose(mode,fields.get('mode'));choose(driver,fields.get('pilote'));
 let scene, controller, pendingView=fields.get('vue')?.split(',').map(Number);
 const readyButtons=[...area.querySelectorAll('[data-action]')];
 function link(base=location.href){
   const url=new URL(base);url.search='';url.hash='';
   for(const [name,field] of [['piece',part],['niveau',level],['mode',mode],['pilote',driver]])if(field)url.searchParams.set(name,field.value);
+  if(projection.value==='ortho')url.searchParams.set('projection','ortho');
   const view=scene?.view()??pendingView;if(view?.length===6)url.searchParams.set('vue',view.join(','));
   return url;
 }
@@ -36,7 +38,7 @@ function closeScene(){
   controller?.abort();controller=undefined;scene?.dispose();scene=undefined;
   for(const b of readyButtons)b.disabled=true;
   stage.querySelector('img').hidden=false;stage.querySelector('.parts-marker').hidden=true;load.hidden=false;load.disabled=false;
-  delete stage.dataset.selection;
+  delete stage.dataset.selection;delete stage.dataset.camera;
 }
 function error(){
   closeScene();load.textContent=t('Réessayer en 3D','Retry 3D');
@@ -50,12 +52,16 @@ async function activate(){
     const {openScene}=await import('./scene.js');
     const loaded=await openScene(stage,model,attempt.signal,error, id=>{choose(part,id);display();}, ()=>part.selectedOptions[0].text);
     if(attempt.signal.aborted){loaded.dispose();return;}
-    scene=loaded;stage.querySelector('img').hidden=true;load.hidden=true;
+    scene=loaded;stage.dataset.camera=scene.projection(projection.value);stage.querySelector('img').hidden=true;load.hidden=true;
     readyButtons.forEach(b=>b.disabled=false);display();
     if(pendingView)scene.view(pendingView);pendingView=undefined;
   }catch{if(!attempt.signal.aborted)error();}
 }
 load.addEventListener('click',activate);
+projection.onchange=()=>{
+  if(scene)stage.dataset.camera=scene.projection(projection.value);
+  updateText();
+};
 part.onchange=()=>{pendingView=undefined;display();};level.onchange=updateText;mode.onchange=()=>display();
 driver?.addEventListener('change',()=>{pendingView=undefined;if(scene||controller)activate();else updateText();});
 language.addEventListener('click',()=>{language.href=link(originalLanguage).href;});
