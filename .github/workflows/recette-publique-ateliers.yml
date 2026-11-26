@@ -88,3 +88,131 @@ jobs:
           finally:
               browser.quit()
           PY
+  tactile:
+    runs-on: macos-latest
+    timeout-minutes: 16
+    steps:
+      - name: Construire le scénario de toucher
+        run: |
+          set -eu
+          command -v xcodegen >/dev/null || brew install xcodegen
+          mkdir -p Host Tests
+          cat > Host/App.swift <<'SWIFT'
+          import UIKit
+          @main class App: UIResponder, UIApplicationDelegate { var window: UIWindow? }
+          SWIFT
+          cat > project.yml <<'SPEC'
+          name: PublicSafari
+          options:
+            deploymentTarget:
+              iOS: '17.0'
+          settings:
+            base:
+              GENERATE_INFOPLIST_FILE: YES
+              CODE_SIGNING_ALLOWED: NO
+          targets:
+            Host:
+              type: application
+              platform: iOS
+              sources: [Host]
+              settings:
+                PRODUCT_BUNDLE_IDENTIFIER: local.receipt.host
+            SafariTests:
+              type: bundle.ui-testing
+              platform: iOS
+              sources: [Tests]
+              dependencies:
+                - target: Host
+              settings:
+                PRODUCT_BUNDLE_IDENTIFIER: local.receipt.safaritests
+                TEST_TARGET_NAME: Host
+          schemes:
+            Receipt:
+              build:
+                targets:
+                  Host: all
+                  SafariTests: [test]
+              test:
+                targets: [SafariTests]
+          SPEC
+          cat > Tests/SafariTouch.swift <<'SWIFT'
+          import XCTest
+          final class SafariTouch: XCTestCase {
+              func testActivation() throws {
+                  let safari = XCUIApplication(bundleIdentifier: "com.apple.mobilesafari")
+                  safari.activate()
+                  let web = safari.webViews.firstMatch
+                  XCTAssertTrue(web.waitForExistence(timeout: 40), safari.debugDescription)
+                  func dismissSafariTip() {
+                      let close = safari.buttons.matching(identifier: "xmark.circle.fill").firstMatch
+                      if close.exists && close.isHittable {
+                          close.tap()
+                          print("OS_SAFARI_TIP_DISMISSED")
+                      }
+                  }
+                  dismissSafariTip()
+                  let button = web.buttons["Activer la 3D"].firstMatch
+                  XCTAssertTrue(button.waitForExistence(timeout: 45), safari.debugDescription)
+                  for _ in 0..<12 {
+                      dismissSafariTip()
+                      if button.isHittable && button.frame.midY >= 120 && button.frame.midY <= safari.frame.height - 150 { break }
+                      let start = safari.coordinate(withNormalizedOffset: CGVector(dx: 0.84, dy: 0.76))
+                      let end = safari.coordinate(withNormalizedOffset: CGVector(dx: 0.84, dy: 0.38))
+                      start.press(forDuration: 0.10, thenDragTo: end)
+                  }
+                  print("OS_BEFORE", button.frame, safari.frame, button.isHittable)
+                  XCTAssertTrue(button.isHittable, safari.debugDescription)
+                  button.tap()
+                  let ready = web.staticTexts.matching(NSPredicate(format: "label CONTAINS[c] %@ AND label CONTAINS[c] %@", "Sélection", "Rampe du diffuseur")).firstMatch
+                  let capture = web.buttons["Télécharger le PNG"].firstMatch
+                  let enabled = XCTNSPredicateExpectation(predicate: NSPredicate(format: "enabled == true"), object: capture)
+                  XCTAssertEqual(XCTWaiter.wait(for: [enabled], timeout: 65), .completed, safari.debugDescription)
+                  XCTAssertTrue(ready.waitForExistence(timeout: 15), safari.debugDescription)
+                  XCTAssertTrue(ready.label.contains("Isoler"), ready.label)
+                  print("OS_TOUCH_OK", capture.label, capture.isEnabled, ready.exists ? ready.label : "active stage", safari.frame)
+              }
+          }
+          SWIFT
+          xcodegen generate
+      - name: Appuyer sur le bouton public dans MobileSafari
+        run: |
+          set -eu
+          id=$(xcrun simctl list devices available -j | python3 -c 'import json,sys;d=json.load(sys.stdin)["devices"];print(next(v["udid"] for k in reversed(list(d)) if "iOS" in k for v in d[k] if v["name"].startswith("iPhone")))')
+          xcrun simctl boot "$id"
+          xcrun simctl bootstatus "$id" -b
+          xcrun simctl list devices available | grep -F "$id"
+          xcrun simctl openurl "$id" 'https://raphaelflipo.github.io/mercedes-w16/composants/?piece=diffuserRamp&mode=isolate&projection=ortho'
+          xcodebuild -project PublicSafari.xcodeproj -scheme Receipt -destination "platform=iOS Simulator,id=$id" -parallel-testing-enabled NO -derivedDataPath /tmp/SafariTouch CODE_SIGNING_ALLOWED=NO test
+  lecture:
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [firefox, webkit]
+    timeout-minutes: 12
+    steps:
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with: {node-version: '22'}
+      - run: npm install --no-save playwright@1.55.1
+      - run: npx playwright install --with-deps "${{ matrix.browser }}"
+      - name: Lire un schéma et un article sur le site déployé
+        env:
+          BROWSER: ${{ matrix.browser }}
+        run: |
+          node --input-type=module <<'JS'
+          import {firefox,webkit} from 'playwright';
+          import assert from 'node:assert/strict';
+          const b=await ({firefox,webkit})[process.env.BROWSER].launch();
+          const p=await b.newPage({viewport:{width:390,height:844},reducedMotion:'no-preference'});
+          await p.goto('https://raphaelflipo.github.io/mercedes-w16/composants/?piece=wheels');
+          const f=p.locator('[data-family=wheels] .part-flow');
+          assert(await f.isVisible());await f.locator('input').check();
+          assert.equal(await f.locator('.flow-motion').first().evaluate(el=>getComputedStyle(el).animationName),'flow-direction');
+          assert.equal(await p.evaluate(()=>performance.getEntriesByType('resource').filter(x=>x.name.endsWith('.glb')).length),0);
+          await p.selectOption('#projection','ortho');await p.selectOption('#part','brakes');
+          await p.locator('.rf-lang').click();assert.equal(await p.inputValue('#part'),'brakes');assert.equal(await p.inputValue('#projection'),'ortho');
+          await p.goto('https://raphaelflipo.github.io/en/journal/comparer-w15-w16/');
+          assert.equal(await p.locator('figure img').evaluate(async el=>{await el.decode();return el.naturalWidth>0}),true);
+          assert.equal(await p.evaluate(()=>document.documentElement.scrollWidth),390);
+          console.log('PUBLIC_READING',JSON.stringify({engine:process.env.BROWSER,version:b.version(),viewport:[390,844],reading:true,flow:true,language:true,modelRequested:false}));await b.close();
+          JS
