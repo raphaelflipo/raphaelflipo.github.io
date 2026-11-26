@@ -14,29 +14,91 @@ on:
       - '.github/workflows/qualite.yml'
 permissions:
   contents: read
+concurrency:
+  group: qualite-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   audit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: '22'
       - run: node scripts/audit.mjs
   visuel:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: '22'
       - run: npm install --no-save playwright@1.55.1
       - run: npx playwright install --with-deps chromium
       - run: node scripts/visual-check.mjs
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
         if: always()
         with:
           name: captures-responsive
           path: screenshots/
+          if-no-files-found: ignore
+  lighthouse:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with:
+          node-version: '22'
+      - name: Mesurer l’accueil avant et après
+        env:
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+        run: |
+          git worktree add --detach "$RUNNER_TEMP/portfolio-before" "$BASE_SHA"
+          python3 -m http.server 8766 --bind 127.0.0.1 --directory "$RUNNER_TEMP/portfolio-before" >/dev/null 2>&1 &
+          before_pid=$!
+          python3 -m http.server 8767 --bind 127.0.0.1 >/dev/null 2>&1 &
+          after_pid=$!
+          trap 'kill "$before_pid" "$after_pid"' EXIT
+          mkdir -p reports
+          for port in 8766 8767; do
+            version=avant
+            if [ "$port" = 8767 ]; then version=apres; fi
+            url="http://127.0.0.1:$port/"
+            curl --fail --retry 5 --retry-connrefused --silent "$url" >/dev/null
+            for device in mobile desktop; do
+              options=()
+              if [ "$device" = desktop ]; then options+=(--preset=desktop); fi
+              npx --yes lighthouse@12.8.2 "$url" "${options[@]}" --quiet --chrome-flags='--headless --no-sandbox' \
+                --output=json --output-path="reports/$version-$device.json"
+            done
+          done
+          node --input-type=module <<'JS' | tee -a "$GITHUB_STEP_SUMMARY"
+          import {readFileSync} from 'node:fs';
+          console.log('| Version | Écran | Performance | Accessibilité | Bonnes pratiques | SEO | LCP (ms) | CLS |');
+          console.log('|:---|:---|---:|---:|---:|---:|---:|---:|');
+          for (const version of ['avant', 'apres']) {
+            for (const device of ['mobile', 'desktop']) {
+              const {categories, audits, runtimeError} = JSON.parse(readFileSync('reports/' + version + '-' + device + '.json'));
+              if (runtimeError) throw new Error(runtimeError.message);
+              const scores = ['performance', 'accessibility', 'best-practices', 'seo'].map(key => Math.round(categories[key].score * 100));
+              const row = [version, device, ...scores, Math.round(audits['largest-contentful-paint'].numericValue), audits['cumulative-layout-shift'].numericValue.toFixed(3)];
+              console.log('| ' + row.join(' | ') + ' |');
+            }
+          }
+          JS
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        if: always()
+        with:
+          name: lighthouse-avant-apres
+          path: reports/
           if-no-files-found: ignore

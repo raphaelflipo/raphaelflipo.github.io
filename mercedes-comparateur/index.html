@@ -10,15 +10,23 @@
   <meta name="author" content="Raphaël Flipo">
   <title>Comparer les Mercedes F1 en 3D | Raphaël Flipo</title>
   <link rel="canonical" href="https://raphaelflipo.github.io/mercedes-comparateur/">
+  <link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/mercedes-comparateur/">
+  <link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/mercedes-comparateur/">
+  <link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/mercedes-comparateur/">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/refonte.css">
   <link rel="stylesheet" href="./comparateur.css?v=2">
+  <script src="/assets/theme.js"></script>
   <script src="/assets/menu.js" defer></script>
   <meta property="og:type" content="website">
+  <meta property="og:locale" content="fr_FR">
   <meta property="og:title" content="Comparer les Mercedes F1 en 3D">
+  <meta property="og:description" content="Compare les Mercedes W13, W14, W15 et W16 en 3D à la même échelle. Superpose les silhouettes et compare les surfaces visibles en millimètres.">
   <meta property="og:url" content="https://raphaelflipo.github.io/mercedes-comparateur/">
   <meta property="og:image" content="https://raphaelflipo.github.io/mercedes-w16/studio.webp">
-  <script type="module" src="./comparateur.js?v=2"></script>
+  <meta property="og:image:alt" content="Rendu Blender de la Mercedes-AMG W16 n° 63 de trois quarts avant">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="module" src="./comparateur.js?v=4"></script>
 </head>
 <body>
   <a class="rf-skip" href="#contenu">Aller au contenu</a>
@@ -26,12 +34,12 @@
     <div class="rf-shell rf-header__inner">
       <a class="rf-brand" href="/">Raphaël <span>Flipo.</span></a>
       <nav class="rf-nav rf-nav--desktop" aria-label="Navigation principale">
-        <a href="/#projets">Projets</a><a href="/#competences">Compétences</a><a href="/#parcours">Parcours</a><a href="/cv/">CV</a><a href="/#contact" class="rf-nav__contact">Contact</a>
+        <a href="/#projets">Projets</a><a href="/#competences">Compétences</a><a href="/#parcours">Parcours</a><a href="/cv/">CV</a><a href="/#contact" class="rf-nav__contact">Contact</a><a class="rf-lang" data-language="en" href="/en/mercedes-comparateur/" hreflang="en" lang="en" aria-label="Read this page in English">EN</a>
       </nav>
       <details class="rf-menu">
         <summary>Menu</summary>
         <nav aria-label="Navigation mobile">
-          <a href="/#projets">Projets</a><a href="/#competences">Compétences</a><a href="/#parcours">Parcours</a><a href="/cv/">CV</a><a href="/#contact">Contact</a>
+          <a href="/#projets">Projets</a><a href="/#competences">Compétences</a><a href="/#parcours">Parcours</a><a href="/cv/">CV</a><a href="/#contact">Contact</a><a class="rf-lang" data-language="en" href="/en/mercedes-comparateur/" hreflang="en" lang="en" aria-label="Read this page in English">EN</a>
         </nav>
       </details>
     </div>
@@ -39,7 +47,7 @@
   <main id="contenu" class="rf-shell cmp">
     <section class="cmp-intro" aria-labelledby="titre">
       <nav class="cmp-nav" aria-label="Collection Mercedes">
-        <a href="/#projets">← Mes projets</a>
+        <a href="/studio-3d/">← Studio 3D</a>
         <div><a href="/mercedes-w13/">W13</a><a href="/mercedes-w14/">W14</a><a href="/mercedes-w15/">W15</a><a href="/mercedes-w16/">W16</a></div>
       </nav>
       <p class="rf-eyebrow">Collection · Mercedes-AMG F1</p>
@@ -54,7 +62,7 @@
       </div>
       <div id="cmp-stage" class="cmp-stage" data-mode="split" data-light="graphite">
         <div class="cmp-labels" aria-hidden="true"><span id="cmp-label-a"></span><span id="cmp-label-b"></span></div>
-        <div class="cmp-posters" aria-hidden="true"><img id="cmp-poster-a" alt=""><img id="cmp-poster-b" alt=""></div>
+        <div class="cmp-posters"><img id="cmp-poster-a" src="/mercedes-w15/studio-800.webp" alt="Mercedes W15 · 2024"><img id="cmp-poster-b" src="/mercedes-w16/studio-800.webp" alt="Mercedes W16 · 2025"></div>
         <canvas hidden id="cmp-canvas" tabindex="0" role="application" aria-label="Comparaison 3D des deux monoplaces" aria-describedby="cmp-help"></canvas>
         <button id="cmp-load" class="cmp-load" type="button" hidden>Comparer en 3D</button>
         <button id="cmp-full" class="cmp-full" type="button" aria-pressed="false" hidden>Plein écran</button>

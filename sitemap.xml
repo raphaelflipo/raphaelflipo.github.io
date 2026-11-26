@@ -1,50 +1,150 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   <url>
     <loc>https://raphaelflipo.github.io/</loc>
-    <lastmod>2026-11-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/" />
   </url>
   <url>
     <loc>https://raphaelflipo.github.io/cv/</loc>
-    <lastmod>2026-11-25</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/cv/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/cv/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/cv/" />
   </url>
   <url>
     <loc>https://raphaelflipo.github.io/cv/en/</loc>
-    <lastmod>2026-11-25</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/cv/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/cv/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/cv/" />
   </url>
   <url>
     <loc>https://raphaelflipo.github.io/jarvis/</loc>
-    <lastmod>2026-11-25</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/jarvis/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/jarvis/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/jarvis/" />
   </url>
   <url>
-    <loc>https://raphaelflipo.github.io/jarvis/app/</loc>
-    <lastmod>2026-11-25</lastmod>
+    <loc>https://raphaelflipo.github.io/en/jarvis/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/jarvis/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/jarvis/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/jarvis/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/studio-3d/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/studio-3d/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/studio-3d/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/studio-3d/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/studio-3d/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/studio-3d/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/studio-3d/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/studio-3d/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/confidentialite/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/confidentialite/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/confidentialite/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/confidentialite/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/confidentialite/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/confidentialite/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/confidentialite/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/confidentialite/" />
   </url>
   <url>
     <loc>https://raphaelflipo.github.io/la-boussole/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/la-boussole/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/la-boussole/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/la-boussole/" />
   </url>
   <url>
-    <loc>https://raphaelflipo.github.io/aileron-f1/</loc>
-    <lastmod>2026-11-25</lastmod>
+    <loc>https://raphaelflipo.github.io/la-boussole/en/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/la-boussole/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/la-boussole/en/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/la-boussole/" />
   </url>
   <url>
     <loc>https://raphaelflipo.github.io/mercedes-w13/</loc>
-    <lastmod>2026-11-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/mercedes-w13/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/mercedes-w13/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/mercedes-w13/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/mercedes-w13/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/mercedes-w13/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/mercedes-w13/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/mercedes-w13/" />
   </url>
   <url>
     <loc>https://raphaelflipo.github.io/mercedes-w14/</loc>
-    <lastmod>2026-11-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/mercedes-w14/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/mercedes-w14/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/mercedes-w14/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/mercedes-w14/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/mercedes-w14/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/mercedes-w14/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/mercedes-w14/" />
   </url>
   <url>
     <loc>https://raphaelflipo.github.io/mercedes-w15/</loc>
-    <lastmod>2026-11-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/mercedes-w15/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/mercedes-w15/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/mercedes-w15/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/mercedes-w15/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/mercedes-w15/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/mercedes-w15/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/mercedes-w15/" />
   </url>
   <url>
     <loc>https://raphaelflipo.github.io/mercedes-w16/</loc>
-    <lastmod>2026-11-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/mercedes-w16/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/mercedes-w16/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/mercedes-w16/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/mercedes-w16/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/mercedes-w16/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/mercedes-w16/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/mercedes-w16/" />
   </url>
   <url>
     <loc>https://raphaelflipo.github.io/mercedes-comparateur/</loc>
-    <lastmod>2026-11-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/mercedes-comparateur/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/mercedes-comparateur/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/mercedes-comparateur/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/mercedes-comparateur/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/mercedes-comparateur/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/mercedes-comparateur/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/mercedes-comparateur/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/aileron-f1/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/aileron-f1/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/aileron-f1/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/aileron-f1/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/en/aileron-f1/</loc>
+    <xhtml:link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/aileron-f1/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/aileron-f1/" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/aileron-f1/" />
+  </url>
+  <url>
+    <loc>https://raphaelflipo.github.io/jarvis/app/</loc>
   </url>
 </urlset>

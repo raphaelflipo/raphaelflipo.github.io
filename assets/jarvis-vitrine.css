@@ -1,0 +1,297 @@
+.jarvis-page .rf-header__inner {
+  gap: clamp(12px, 2.2vw, 34px);
+}
+
+.jarvis-languages {
+  display: flex;
+  align-items: center;
+}
+
+.jarvis-languages a {
+  display: grid;
+  min-width: 44px;
+  min-height: 44px;
+  place-items: center;
+  border-radius: 8px;
+  color: var(--rf-muted);
+  font-size: .82rem;
+  font-weight: 680;
+}
+
+.jarvis-languages a:hover,
+.jarvis-languages [aria-current] {
+  background: var(--rf-soft);
+  color: var(--rf-green);
+}
+
+.jarvis-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  padding-block: 8px;
+  color: var(--rf-muted);
+  font-size: .87rem;
+}
+
+.jarvis-breadcrumb a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+
+.jarvis-hero {
+  display: grid;
+  grid-template-columns: minmax(0, .86fr) minmax(0, 1.14fr);
+  gap: clamp(25px, 5vw, 72px);
+  align-items: center;
+  padding-block: clamp(18px, 3vw, 48px) clamp(32px, 6vw, 80px);
+}
+
+.jarvis-hero h1 {
+  margin: 0;
+  font-size: clamp(3.75rem, 8vw, 7rem);
+  line-height: .98;
+  letter-spacing: -.081em;
+}
+
+.jarvis-hero h1 span {
+  color: var(--rf-green);
+}
+
+.jarvis-tagline {
+  margin: 16px 0 8px;
+  max-width: 21ch;
+  font-size: clamp(1.33rem, 2.4vw, 2rem);
+  font-weight: 670;
+  line-height: 1.2;
+  letter-spacing: -.045em;
+}
+
+.jarvis-hero .rf-lead {
+  font-size: 1rem;
+  line-height: 1.7;
+}
+
+.jarvis-hero .rf-actions {
+  margin-top: 24px;
+}
+
+.jarvis-image {
+  min-width: 0;
+  margin: 0;
+}
+
+.jarvis-image img {
+  display: block;
+  width: 100%;
+  background: #111c14;
+  border: 1px solid var(--rf-border);
+  border-radius: 16px;
+}
+
+.jarvis-image figcaption {
+  margin-top: 9px;
+  color: var(--rf-muted);
+  font-size: .85rem;
+}
+
+.jarvis-anchor-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 24px;
+  border-block: 1px solid var(--rf-border);
+}
+
+.jarvis-anchor-nav a,
+.jarvis-docs a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  color: var(--rf-green);
+  font-size: .92rem;
+  font-weight: 660;
+}
+
+.jarvis-anchor-nav a:hover,
+.jarvis-docs a:hover {
+  text-decoration: underline;
+  text-underline-offset: .22em;
+}
+
+.jarvis-section {
+  padding-block: clamp(42px, 6.5vw, 82px);
+}
+
+.jarvis-section + .jarvis-section {
+  border-top: 1px solid var(--rf-border);
+}
+
+.jarvis-section h2 {
+  margin: 0 0 12px;
+  font-size: clamp(1.8rem, 4.3vw, 3.5rem);
+  line-height: 1.14;
+  letter-spacing: -.064em;
+}
+
+.jarvis-section h3 {
+  margin: 0;
+  font-size: 1.28rem;
+  line-height: 1.3;
+  letter-spacing: -.035em;
+}
+
+.jarvis-section p {
+  max-width: 72ch;
+  color: var(--rf-muted);
+}
+
+.jarvis-section p a,
+.jarvis-footer p a {
+  color: var(--rf-green);
+  text-decoration: underline;
+  text-underline-offset: .18em;
+}
+
+.jarvis-section p strong {
+  color: var(--rf-text);
+}
+
+.jarvis-platforms,
+.jarvis-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(12px, 2vw, 24px);
+}
+
+.jarvis-platforms {
+  margin: 24px 0;
+}
+
+.jarvis-platform {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  padding: clamp(16px, 2.4vw, 30px);
+  background: var(--rf-paper);
+  border: 1px solid var(--rf-border);
+  border-radius: 12px;
+}
+
+.jarvis-platform .jarvis-version {
+  margin-block: 5px 12px;
+  color: var(--rf-green);
+  font-size: .87rem;
+  font-weight: 700;
+}
+
+.jarvis-platform p {
+  margin: 0 0 14px;
+}
+
+.jarvis-platform .rf-btn {
+  min-height: 44px;
+  align-self: start;
+  margin-top: auto;
+}
+
+.jarvis-platform details,
+.jarvis-faq details {
+  border-top: 1px solid var(--rf-border);
+}
+
+.jarvis-platform details {
+  margin-top: 15px;
+}
+
+.jarvis-platform summary,
+.jarvis-faq summary,
+.jarvis-footer summary {
+  width: fit-content;
+  min-height: 44px;
+  padding-block: 9px;
+  color: var(--rf-text);
+  font-weight: 650;
+  cursor: pointer;
+}
+
+.jarvis-platform details p {
+  font-size: .93rem;
+}
+
+.jarvis-platform details p:last-child,
+.jarvis-faq details p:last-child {
+  margin-bottom: 15px;
+}
+
+.jarvis-columns {
+  column-gap: clamp(20px, 5vw, 76px);
+}
+
+.jarvis-models dt {
+  font-weight: 700;
+}
+
+.jarvis-models dd {
+  margin: 3px 0 12px;
+  color: var(--rf-muted);
+}
+
+.jarvis-faq {
+  max-width: 76ch;
+  margin-top: 23px;
+}
+
+.jarvis-faq p {
+  margin-top: 0;
+}
+
+.jarvis-docs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 22px;
+}
+
+.jarvis-footer {
+  margin-top: 0;
+}
+
+.jarvis-footer .rf-footer__inner a {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+}
+
+.jarvis-footer .rf-footer__inner span {
+  align-self: center;
+}
+
+.jarvis-footer details p {
+  max-width: 72ch;
+}
+
+@media (max-width: 760px) {
+  .jarvis-hero,
+  .jarvis-platforms,
+  .jarvis-columns {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .jarvis-hero .rf-actions {
+    margin-top: 18px;
+  }
+
+  .jarvis-languages a[aria-current] {
+    display: none;
+  }
+}
+
+@media (max-width: 370px) {
+  .jarvis-page .rf-header__inner,
+  .jarvis-page .rf-secondary-tools {
+    gap: 4px;
+  }
+
+  .jarvis-page .rf-brand {
+    font-size: 1rem;
+  }
+}

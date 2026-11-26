@@ -1,6 +1,14 @@
 import { monoplaces } from '/assets/donnees-mercedes.js?v=2';
 import { annotations } from '/assets/annotations-mercedes.js?v=2';
 
+const english = document.documentElement.lang === 'en';
+const englishAnnotations = english ? await import('/assets/annotations-mercedes-en.js').catch(() => null) : null;
+const copyFor = (fr, en) => english ? en : fr;
+const helpText = copyFor(
+  'Glisse pour pivoter, pince pour zoomer. Au clavier, utilise les flèches et les touches + ou − dans la vue 3D.',
+  'Drag to rotate and pinch to zoom. With the 3D view focused, use the arrow keys and + or −.'
+);
+
 const byId = id => document.getElementById('cmp-' + id);
 const panel = byId('panel');
 const stage = byId('stage');
@@ -38,10 +46,12 @@ let loadAttempt = 0;
 let pendingFrame = null;
 let busy = false;
 let ready = false;
+let stageVisible = true;
 let isSynced = true;
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
 const travel = () => reducedMotion.matches || byId('quality').value === 'eco' ? 0 : 280;
-const format = new Intl.NumberFormat('fr-FR');
+const format = new Intl.NumberFormat(copyFor('fr-FR', 'en-GB'));
+const formatPercent = new Intl.NumberFormat(copyFor('fr-FR', 'en-GB'), { style: 'percent' });
 
 function renderLayout() {
   stage.dataset.layout = stage.clientWidth < 620 ? 'stack' : 'columns';
@@ -49,9 +59,10 @@ function renderLayout() {
 }
 
 function requestDraw() {
-  if (pendingFrame !== null || !ready || document.hidden) return;
+  if (pendingFrame !== null || !ready || !stageVisible || document.hidden) return;
   pendingFrame = requestAnimationFrame(time => {
     pendingFrame = null;
+    if (!ready || !stageVisible || document.hidden) return;
     try {
       const pixels = renderer.render(time);
       if (!pixels) return;
@@ -62,10 +73,10 @@ function requestDraw() {
       ruler.querySelector('span').textContent = format.format(increment) + ' m';
       // Le nombre décrit l'échelle de la comparaison synchronisée, ou
       // celle de la dernière vue manipulée si les vues sont indépendantes.
-      ruler.setAttribute('aria-label', 'Échelle de la vue active');
+      ruler.setAttribute('aria-label', copyFor('Échelle de la vue active', 'Scale of the active view'));
       if (renderer.transitioning) requestDraw();
     } catch {
-      fail('Le moteur 3D a rencontré une erreur. Les rendus restent disponibles.');
+      fail(copyFor('Le moteur 3D a rencontré une erreur. Les rendus restent disponibles.', 'The 3D viewer encountered an error. The renders are still available.'));
     }
   });
 }
@@ -87,6 +98,7 @@ function updatePicks() {
     select.value = ids[index];
     for (const option of select.options) option.disabled = option.value === ids[1 - index];
     labels[index].textContent = `${car.name} · ${car.year}`;
+    posters[index].alt = car.name + ' · ' + car.year;
     if (posters[index].getAttribute('src') !== car.poster) posters[index].src = car.poster;
   });
   updateNotes();
@@ -102,9 +114,16 @@ function updateNotes() {
     const copy = document.createElement('p');
     const link = document.createElement('a');
     title.textContent = `${car.name} · ${car.year}`;
-    copy.textContent = entry?.text ?? `Configuration représentée à ${car.circuit}.`;
-    link.textContent = entry?.credit ?? `Voir la fiche ${car.name}`;
-    link.href = entry?.source ?? car.page;
+    if (entry) {
+      copy.textContent = englishAnnotations?.annotationText[id]?.[part.value] ?? entry.text;
+      link.textContent = englishAnnotations?.annotationCredits[entry.credit] ?? entry.credit;
+      link.href = entry.source;
+    } else {
+      const circuit = car.circuit === 'Bahreïn' ? 'Bahrain' : car.circuit;
+      copy.textContent = copyFor(`Configuration représentée à ${car.circuit}.`, `Modelled in its ${circuit} specification.`);
+      link.textContent = copyFor(`Voir la fiche ${car.name}`, `Explore the ${car.name}`);
+      link.href = copyFor(car.page, '/en' + car.page);
+    }
     box.append(title, copy, link);
     notes.append(box);
   }
@@ -131,7 +150,7 @@ function fail(message) {
   stage.dataset.mode = 'split';
   stage.querySelector('.cmp-posters').hidden = false;
   loading.hidden = false;
-  loading.textContent = 'Réessayer la 3D';
+  loading.textContent = copyFor('Réessayer la 3D', 'Retry 3D view');
   status.textContent = message;
   setBusy(false);
 }
@@ -140,10 +159,10 @@ async function showPair(giveFocus = false) {
   if (busy) return;
   const attempt = ++loadAttempt;
   setBusy(true);
-  status.textContent = 'Chargement des deux monoplaces…';
+  status.textContent = copyFor('Chargement des deux monoplaces…', 'Loading both cars…');
   try {
     if (!renderer) {
-      const { Comparateur } = await import('./moteur.js?v=2');
+      const { Comparateur } = await import('./moteur.js?v=3');
       if (attempt !== loadAttempt) return;
       renderer = new Comparateur(canvas);
     }
@@ -160,7 +179,11 @@ async function showPair(giveFocus = false) {
     updateMode(modeInputs.find(input => input.checked)?.value ?? 'split');
     renderer.choosePart(part.value);
     displayView(part.value === 'none' ? 'studio' : '');
-    status.textContent = `${monoplaces[ids[0]].name} et ${monoplaces[ids[1]].name} · projection orthographique en mètres.`;
+    const [left, right] = ids.map(id => monoplaces[id].name);
+    status.textContent = copyFor(
+      `${left} et ${right} · projection orthographique en mètres.`,
+      `${left} and ${right} · orthographic projection in metres.`
+    );
     requestDraw();
     if (giveFocus) canvas.focus({ preventScroll: true });
   } catch {
@@ -169,7 +192,10 @@ async function showPair(giveFocus = false) {
       ids = [...loadedIds];
       updatePicks();
     }
-    fail('La 3D est indisponible. Réessaie le chargement ou ouvre les galeries des monoplaces.');
+    fail(copyFor(
+      'La 3D est indisponible. Réessaie le chargement ou ouvre les galeries des monoplaces.',
+      'The 3D view is unavailable. Try again or open the cars’ render galleries.'
+    ));
   } finally {
     if (attempt === loadAttempt) setBusy(false);
   }
@@ -194,10 +220,16 @@ function updateMode(mode) {
   neutral.disabled = material.disabled;
   const text = byId('help');
   const help = {
-    silhouette: 'Le turquoise montre la zone propre à A, l’ocre celle propre à B. Le gris indique la surface projetée commune.',
-    depth: 'Tourne les deux modèles ensemble pour observer les écarts sous plusieurs angles.'
+    silhouette: copyFor(
+      'Le turquoise montre la zone propre à A, l’ocre celle propre à B. Le gris indique la surface projetée commune.',
+      'Turquoise shows the area unique to A, ochre the area unique to B, and grey the shared projected surface.'
+    ),
+    depth: copyFor(
+      'Tourne les deux modèles ensemble pour observer les écarts sous plusieurs angles.',
+      'Rotate both models together to see how the differences change with the viewing angle.'
+    )
   };
-  text.textContent = help[mode] ?? 'Glisse pour pivoter, pince pour zoomer. Au clavier, utilise les flèches et les touches + ou − dans la vue 3D.';
+  text.textContent = help[mode] ?? helpText;
   renderLayout();
 }
 
@@ -217,7 +249,11 @@ function updateComposite() {
   const value = byId('composite').value;
   if (renderer) renderer.blend = value;
   byId('range-a').hidden = value !== 'independent';
-  const labels = { mix: 'Part de la monoplace B', wipe: 'Position du balayage', independent: 'Opacité B' };
+  const labels = {
+    mix: copyFor('Part de la monoplace B', 'Car B blend'),
+    wipe: copyFor('Position du balayage', 'Wipe position'),
+    independent: copyFor('Opacité B', 'Car B opacity')
+  };
   byId('slider-label').textContent = labels[value];
 }
 
@@ -225,8 +261,8 @@ function updateDepth() {
   const threshold = Number(byId('sensitivity').value);
   if (renderer) renderer.threshold = threshold;
   byId('threshold').value = threshold + ' mm';
-  byId('depth-minus').textContent = '−' + threshold * 5 + ' mm · B en retrait';
-  byId('depth-plus').textContent = '+' + threshold * 5 + ' mm · B en avant';
+  byId('depth-minus').textContent = '−' + threshold * 5 + copyFor(' mm · B en retrait', ' mm · B further back');
+  byId('depth-plus').textContent = '+' + threshold * 5 + copyFor(' mm · B en avant', ' mm · B further forward');
 }
 
 function syncSettings() {
@@ -285,7 +321,7 @@ neutral.addEventListener('click', () => {
 for (const [input, output, property] of [['opacity', 'percentage', 'opacity'], ['opacity-a', 'percentage-a', 'opacityA']]) {
   byId(input).addEventListener('input', event => {
     if (renderer) renderer[property] = Number(event.target.value) / 100;
-    byId(output).value = `${event.target.value} %`;
+    byId(output).value = formatPercent.format(Number(event.target.value) / 100);
     requestDraw();
   });
 }
@@ -371,10 +407,18 @@ const siblings = [...document.querySelectorAll('.rf-header, .cmp-intro, .cmp-tec
 function updateFull() {
   const open = document.fullscreenElement === panel || panel.classList.contains('cmp-expanded');
   fullScreen.setAttribute('aria-pressed', String(open));
-  fullScreen.textContent = open ? 'Quitter le plein écran' : 'Plein écran';
+  requestDraw();
+  fullScreen.textContent = open ? copyFor('Quitter le plein écran', 'Exit full screen') : copyFor('Plein écran', 'Full screen');
 }
 function enlarged(value) {
   panel.classList.toggle('cmp-expanded', value);
+  if (value) {
+    panel.setAttribute('role', 'dialog');
+    panel.setAttribute('aria-modal', 'true');
+  } else {
+    panel.removeAttribute('role');
+    panel.removeAttribute('aria-modal');
+  }
   for (const item of siblings) item.inert = value;
   updateFull();
 }
@@ -393,8 +437,17 @@ document.addEventListener('keydown', event => {
 });
 
 new ResizeObserver(renderLayout).observe(stage);
+if ('IntersectionObserver' in window) {
+  new IntersectionObserver(([entry]) => {
+    stageVisible = entry.isIntersecting;
+    if (stageVisible) requestDraw();
+  }).observe(stage);
+}
 document.addEventListener('visibilitychange', requestDraw);
 canvas.addEventListener('webglcontextlost', event => {
   event.preventDefault();
-  fail('Le navigateur a interrompu la 3D. Réessaie pour restaurer les deux modèles.');
+  fail(copyFor(
+    'Le navigateur a interrompu la 3D. Réessaie pour restaurer les deux modèles.',
+    'The browser interrupted the 3D view. Try again to restore both models.'
+  ));
 });

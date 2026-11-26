@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'wasm-unsafe-eval'; style-src 'self'; img-src 'self' blob: data:; font-src 'self'; connect-src 'self' blob:; worker-src 'self' blob:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#163c2a">
+  <meta name="description" content="Compare the Mercedes W13, W14, W15 and W16 in 3D at the same scale. Overlay their silhouettes and compare visible surfaces in millimetres.">
+  <meta name="author" content="Raphaël Flipo">
+  <title>Compare Mercedes F1 cars in 3D | Raphaël Flipo</title>
+  <link rel="canonical" href="https://raphaelflipo.github.io/en/mercedes-comparateur/">
+  <link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/mercedes-comparateur/">
+  <link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/mercedes-comparateur/">
+  <link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/mercedes-comparateur/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/assets/refonte.css">
+  <link rel="stylesheet" href="/mercedes-comparateur/comparateur.css?v=2">
+  <script src="/assets/theme.js"></script>
+  <script src="/assets/menu.js" defer></script>
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="en_GB">
+  <meta property="og:title" content="Compare Mercedes F1 cars in 3D">
+  <meta property="og:description" content="Compare the Mercedes W13, W14, W15 and W16 in 3D at the same scale. Overlay their silhouettes and compare visible surfaces in millimetres.">
+  <meta property="og:url" content="https://raphaelflipo.github.io/en/mercedes-comparateur/">
+  <meta property="og:image" content="https://raphaelflipo.github.io/mercedes-w16/studio.webp">
+  <meta property="og:image:alt" content="Front three-quarter Blender render of the No. 63 Mercedes-AMG W16">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="module" src="/mercedes-comparateur/comparateur.js?v=4"></script>
+</head>
+<body>
+  <a class="rf-skip" href="#contenu">Skip to content</a>
+  <header class="rf-header">
+    <div class="rf-shell rf-header__inner">
+      <a class="rf-brand" href="/en/">Raphaël <span>Flipo.</span></a>
+      <nav class="rf-nav rf-nav--desktop" aria-label="Main navigation">
+        <a href="/en/#projets">Projects</a><a href="/en/#competences">Skills</a><a href="/en/#parcours">Experience</a><a href="/cv/en/">CV</a><a href="/en/#contact" class="rf-nav__contact">Contact</a><a class="rf-lang" data-language="fr" href="/mercedes-comparateur/" hreflang="fr" lang="fr" aria-label="Lire cette page en français">FR</a>
+      </nav>
+      <details class="rf-menu">
+        <summary>Menu</summary>
+        <nav aria-label="Mobile navigation">
+          <a href="/en/#projets">Projects</a><a href="/en/#competences">Skills</a><a href="/en/#parcours">Experience</a><a href="/cv/en/">CV</a><a href="/en/#contact">Contact</a><a class="rf-lang" data-language="fr" href="/mercedes-comparateur/" hreflang="fr" lang="fr" aria-label="Lire cette page en français">FR</a>
+        </nav>
+      </details>
+    </div>
+  </header>
+  <main id="contenu" class="rf-shell cmp">
+    <section class="cmp-intro" aria-labelledby="titre">
+      <nav class="cmp-nav" aria-label="Mercedes collection">
+        <a href="/en/studio-3d/">← 3D studio</a>
+        <div><a href="/en/mercedes-w13/">W13</a><a href="/en/mercedes-w14/">W14</a><a href="/en/mercedes-w15/">W15</a><a href="/en/mercedes-w16/">W16</a></div>
+      </nav>
+      <p class="rf-eyebrow">Collection · Mercedes-AMG F1</p>
+      <h1 id="titre">Compare the cars</h1>
+      <p>Compare four generations of Mercedes at the same scale. Place the W15 and W16 side by side to see changes to the nose, front suspension and sidepods.</p>
+    </section>
+    <section class="cmp-panel" id="cmp-panel" aria-label="3D comparison">
+      <div class="cmp-picks" role="group" aria-label="Cars to compare">
+        <label>Car A <select id="cmp-left" aria-label="Car A"></select></label>
+        <button type="button" id="cmp-swap" aria-label="Swap cars" title="Swap cars" class="cmp-swap">⇄</button>
+        <label>Car B <select id="cmp-right" aria-label="Car B"></select></label>
+      </div>
+      <div id="cmp-stage" class="cmp-stage" data-mode="split" data-light="graphite">
+        <div class="cmp-labels" aria-hidden="true"><span id="cmp-label-a"></span><span id="cmp-label-b"></span></div>
+        <div class="cmp-posters"><img id="cmp-poster-a" src="/mercedes-w15/studio-800.webp" alt="Mercedes W15 · 2024"><img id="cmp-poster-b" src="/mercedes-w16/studio-800.webp" alt="Mercedes W16 · 2025"></div>
+        <canvas hidden id="cmp-canvas" tabindex="0" role="application" aria-label="Interactive 3D comparison of both cars" aria-describedby="cmp-help"></canvas>
+        <button id="cmp-load" class="cmp-load" type="button" hidden>Compare in 3D</button>
+        <button id="cmp-full" class="cmp-full" type="button" aria-pressed="false" hidden>Full screen</button>
+        <div class="cmp-ruler" id="cmp-ruler" hidden><i></i><span>1 m</span></div>
+      </div>
+      <p id="cmp-state" class="cmp-status" role="status">Choose two cars to display their 3D models.</p>
+      <noscript><p class="cmp-status">Enable JavaScript to use the comparison tool. Each car’s page also includes a render gallery.</p></noscript>
+      <div id="cmp-controls" class="cmp-controls" hidden>
+        <div class="cmp-toolbar">
+          <fieldset class="cmp-segment" aria-label="Layout">
+            <label><input type="radio" name="cmp-mode" value="split" checked><span>Side by side</span></label>
+            <label><input type="radio" name="cmp-mode" value="overlay"><span>Overlay</span></label>
+            <label><input type="radio" name="cmp-mode" value="silhouette"><span>Silhouettes</span></label>
+            <label><input type="radio" name="cmp-mode" value="depth"><span>Surface differences</span></label>
+          </fieldset>
+          <label class="cmp-sync"><input type="checkbox" id="cmp-sync" checked> Sync camera views</label>
+        </div>
+        <div class="cmp-settings">
+          <button type="button" id="cmp-neutral" aria-pressed="false">Remove liveries</button>
+          <label>Finish <select id="cmp-material"><option value="paint">Liveries</option><option value="clay">Neutral grey</option><option value="wire">Wireframe</option></select></label>
+          <label>Align at <select id="cmp-align"><option value="chassis">Front of cockpit</option><option value="front">Front axle</option><option value="rear">Rear axle</option></select></label>
+          <label>Lighting <select id="cmp-light"><option value="graphite">Graphite</option><option value="studio">Bright studio</option></select></label>
+          <label>Quality <select id="cmp-quality"><option value="auto">Automatic</option><option value="eco">Economy</option></select></label>
+        </div>
+        <div class="cmp-overlay-tools" id="cmp-overlay-tools" hidden>
+          <label>Overlay method <select id="cmp-composite"><option value="mix">Blend</option><option value="wipe">Wipe</option><option value="independent">Separate opacity</option></select></label>
+          <div class="cmp-range" id="cmp-range-a" hidden>
+            <label for="cmp-opacity-a">Car A opacity</label><input type="range" min="0" max="100" value="100" id="cmp-opacity-a"><output for="cmp-opacity-a" id="cmp-percentage-a">100 %</output>
+          </div>
+          <div class="cmp-range">
+            <label id="cmp-slider-label" for="cmp-opacity">Car B blend</label><input type="range" min="0" max="100" value="50" id="cmp-opacity"><output for="cmp-opacity" id="cmp-percentage">50 %</output>
+          </div>
+        </div>
+        <div class="cmp-depth-tools" id="cmp-depth-tools" hidden>
+          <div class="cmp-range">
+            <label for="cmp-sensitivity">Difference threshold</label><input type="range" min="2" max="30" step="1" value="5" id="cmp-sensitivity"><output for="cmp-sensitivity" id="cmp-threshold">5 mm</output>
+          </div>
+          <div class="cmp-depth-legend" aria-label="Surface depth of B relative to A">
+            <span id="cmp-depth-minus">−25 mm · B further back</span><span>Small difference</span><span id="cmp-depth-plus">+25 mm · B further forward</span>
+          </div>
+          <p>Depth is measured along the camera axis to the first visible surface of each model. Silhouettes show areas where only one surface is visible.</p>
+        </div>
+        <div class="cmp-orientation" role="group" aria-label="Camera angles">
+          <button type="button" data-view="studio" aria-pressed="true">Three-quarter</button>
+          <button type="button" data-view="side" aria-pressed="false">Side</button>
+          <button type="button" data-view="front" aria-pressed="false">Front</button>
+          <button type="button" data-view="back" aria-pressed="false">Rear</button>
+          <button type="button" data-view="top" aria-pressed="false">Top</button>
+          <button type="button" data-view="below" aria-pressed="false">Underside</button>
+          <button type="button" id="cmp-out" aria-label="Zoom out">−</button>
+          <button type="button" id="cmp-in" aria-label="Zoom in">+</button>
+        </div>
+        <p class="cmp-help" id="cmp-help">Drag to rotate and pinch to zoom. With the 3D view focused, use the arrow keys and + or −.</p>
+      </div>
+    </section>
+    <section class="cmp-technical" aria-labelledby="cmp-tech-title">
+      <div class="cmp-technical-head">
+        <div><p class="rf-eyebrow">Technical details</p><h2 id="cmp-tech-title">Inspect a component</h2></div>
+        <label>Component <select id="cmp-part">
+          <option value="none">Whole car</option><option value="nose">Nose</option><option value="frontWing">Front wing</option><option value="frontSuspension">Front suspension</option><option value="sidepods">Sidepods</option><option value="inlets">Air intakes</option><option value="floor">Floor</option><option value="engineCover">Engine cover</option><option value="diffuser">Diffuser</option><option value="rearSuspension">Rear suspension</option><option value="rearWing">Rear wing</option>
+        </select></label>
+      </div>
+      <div id="cmp-notes" class="cmp-notes" aria-live="polite"></div>
+      <p class="cmp-boundary">Difference colours depend on the alignment, viewing angle and accuracy of the photo-based Blender reconstructions. Measurements describe the meshes shown. Hidden surfaces are outside the comparison.</p>
+    </section>
+  </main>
+  <footer class="rf-footer">
+    <div class="rf-shell rf-footer__inner"><span>© 2026 Raphaël Flipo</span><a href="/en/#contact">Get in touch</a></div>
+  </footer>
+</body>
+</html>

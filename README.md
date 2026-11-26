@@ -6,23 +6,25 @@ Portfolio statique hébergé gratuitement sur GitHub Pages. Aucun serveur PHP, s
 
 ## Organisation
 
-- `index.html` : accueil, projets, compétences, expériences et contact.
+- `index.html` et `en/index.html` : accueil, projets, compétences, parcours et contact dans les deux langues.
 - `assets/refonte.css` : charte graphique et mise en page responsive.
 - `aileron-f1/index.html` : page du projet de Sciences de l'ingénieur.
 - `aileron-f1/aileron-F1-2019.glb` : modèle 3D issu du STEP original.
 - `aileron-f1/vendor/model-viewer.min.js` : visionneuse Google model-viewer 4.1.0 hébergée localement.
 - `aileron-f1/vendor/LICENSE` : licence Apache 2.0 de la visionneuse.
 - `aileron-f1/visionneuse.js` : état de chargement et adaptation mobile.
-- `jarvis/index.html` : présentation, versions et téléchargements de Jarvis.
+- `jarvis/index.html` et `en/jarvis/index.html` : présentation, versions et téléchargements de Jarvis.
 - `jarvis/app/` : application web autonome Jarvis Local.
 - `cv/` et `cv/en/` : CV consultables en français et en anglais.
+- `studio-3d/` et `en/studio-3d/` : garage, chronologie et détails W15/W16, avec liens vers les visualisations individuelles et le comparateur dans chaque langue.
+- `confidentialite/` et `en/confidentialite/` : mentions légales et confidentialité.
 - `img/` et `fonts/` : médias et polices locales.
 
 Le site de La Boussole est publié séparément depuis `raphaelflipo/la-boussole`, à l'adresse `/la-boussole/`. Ne pas créer un second dossier de même nom dans ce dépôt.
 
 ## Modèle F1
 
-Le modèle GLB est chargé automatiquement depuis GitHub Pages. La visionneuse fonctionne sans CDN ni envoi du fichier vers un service externe. Le modèle peut aussi être téléchargé depuis sa page.
+Les fichiers GLB sont chargés depuis GitHub Pages à la demande. Les pages affichent immédiatement les rendus du modèle. Une fois la scène activée, les vues prédéfinies et les commandes au clavier offrent une alternative aux gestes de rotation. Le GLB de l’aileron est également téléchargeable. Les visionneuses utilisent des dépendances hébergées avec le site.
 
 Le fichier a été conservé sans modification après son export depuis le STEP fourni :
 
@@ -42,8 +44,9 @@ Les pages publiques n'envoient aucun formulaire à un serveur. Les fonctions web
 
 La pull request lance les contrôles GitHub Actions définis dans `.github/workflows/qualite.yml` :
 
-- `node scripts/audit.mjs` : syntaxe JavaScript, liens locaux, présence des CSP et contrastes de la palette.
-- `node scripts/visual-check.mjs` : captures et vérifications Chromium aux largeurs 390, 768 et 1440 pixels, navigation mobile et chargement de la page F1.
+- `node scripts/audit.mjs` : syntaxe JavaScript, liens locaux, présence des CSP, contrastes et cohérence des URL canoniques, des langues et du sitemap.
+- `node scripts/visual-check.mjs` : captures et vérifications Chromium à 390, 768 et 1440 pixels, avec navigation mobile, visionneuses et comparateur 3D.
+- Le workflow produit quatre rapports Lighthouse pour comparer l’accueil mobile et ordinateur au commit de base de chaque pull request. Le résumé est visible dans GitHub Actions.
 
 Les workflows utilisent Ubuntu 24.04 pour Playwright. Un seul lancement est effectué par mise à jour de la pull request, afin d'éviter les exécutions en double.
 
@@ -58,6 +61,8 @@ python3 -m http.server 8000
 Ouvrir http://localhost:8000/. Le déploiement public ne dépend pas de Python.
 
 GitHub Pages publie `main` depuis le dossier racine. Conserver `.nojekyll`, `404.html`, `robots.txt` et `sitemap.xml`.
+
+Dans la propriété Search Console du site, vérifier que la méthode de la balise HTML est toujours active puis soumettre `sitemap.xml` dans la rubrique Sitemaps. Les entrées bilingues portent des liens réciproques vers leurs traductions. Vérifier leur prise en compte avec l’inspection d’URL.
 
 ## Mises à jour
 

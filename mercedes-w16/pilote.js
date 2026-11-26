@@ -1,4 +1,4 @@
-import '/assets/visionneuse-monoplace.js';
+import '/assets/visionneuse-monoplace.js?v=2';
 
 const panel = document.querySelector('#car-viewer');
 const picker = panel.querySelector('#car-driver');
@@ -8,66 +8,10 @@ const controls = panel.querySelector('#car-controls');
 const expand = panel.querySelector('#car-expand');
 const load = panel.querySelector('#car-load');
 const status = panel.querySelector('#car-status');
-const surface = panel.querySelector('.w16-surface');
 const observation = panel.querySelector('.w16-observation');
 const initial = { src: poster.getAttribute('src'), srcset: poster.getAttribute('srcset') };
-const originals = new WeakMap();
 const loadedVariants = new Map();
-const grey = [.37, .37, .37, 1];
-
-function materialState(material) {
-  const pbr = material.pbrMetallicRoughness;
-  const textures = [pbr.baseColorTexture, pbr.metallicRoughnessTexture, material.normalTexture,
-    material.occlusionTexture, material.emissiveTexture].filter(Boolean);
-  return {
-    pbr,
-    textures: textures.map(info => [info, info.texture]),
-    baseColor: pbr.baseColorFactor,
-    metallic: pbr.metallicFactor,
-    roughness: pbr.roughnessFactor,
-    emissive: material.emissiveFactor,
-    clearcoat: material.clearcoatFactor,
-    alphaMode: material.getAlphaMode()
-  };
-}
-
-function applySurface() {
-  const technical = surface.querySelector('input:checked').value === 'clay';
-  panel.dataset.surface = technical ? 'clay' : 'livery';
-  if (!viewer.loaded) return;
-  for (const material of viewer.model.materials) {
-    const original = originals.get(material);
-    if (technical === Boolean(original)) continue;
-    if (technical) {
-      const saved = materialState(material);
-      originals.set(material, saved);
-      const graphic = material.name.startsWith('Décal ');
-      for (const [info, texture] of saved.textures) {
-        if (texture) info.setTexture(null);
-      }
-      saved.pbr.setBaseColorFactor(graphic ? [0, 0, 0, 0] : grey);
-      saved.pbr.setMetallicFactor(0);
-      saved.pbr.setRoughnessFactor(.72);
-      material.setEmissiveFactor([0, 0, 0]);
-      material.setClearcoatFactor(0);
-      if (graphic) material.setAlphaMode('BLEND');
-    } else {
-      for (const [info, texture] of original.textures) {
-        if (texture) info.setTexture(texture);
-      }
-      original.pbr.setBaseColorFactor(original.baseColor);
-      original.pbr.setMetallicFactor(original.metallic);
-      original.pbr.setRoughnessFactor(original.roughness);
-      material.setEmissiveFactor(original.emissive);
-      material.setClearcoatFactor(original.clearcoat);
-      if (material.name.startsWith('Décal ')) material.setAlphaMode(original.alphaMode);
-      originals.delete(material);
-    }
-  }
-}
-
-surface.addEventListener('change', applySurface);
-viewer.addEventListener('load', applySurface);
+const english = document.documentElement.lang.startsWith('en');
 
 function showObservation(text = '') {
   observation.hidden = !text;
@@ -104,9 +48,12 @@ function applyDriver() {
     poster.srcset = initial.srcset;
   }
   const driver = option.textContent.trim();
-  poster.alt = `Rendu Blender de la Mercedes-AMG W16 · ${driver} · Trois quarts avant`;
-  viewer.alt = `Mercedes-AMG W16 · ${driver} · Utilise les flèches du clavier pour pivoter.`;
-  status.textContent = `Rendu de la W16 n° ${option.value} réalisé dans Blender.`;
+  poster.alt = english ? `Blender render of the Mercedes-AMG W16 · ${driver} · Front three-quarter view`
+    : `Rendu Blender de la Mercedes-AMG W16 · ${driver} · Trois quarts avant`;
+  viewer.alt = english ? `Mercedes-AMG W16 · ${driver} · Use the arrow keys to rotate.`
+    : `Mercedes-AMG W16 · ${driver} · Utilise les flèches du clavier pour pivoter.`;
+  status.textContent = english ? `Blender render of the W16 no. ${option.value}.`
+    : `Rendu de la W16 n° ${option.value} réalisé dans Blender.`;
 }
 
 picker.value = panel.dataset.driver;
@@ -125,7 +72,8 @@ picker.addEventListener('change', () => {
   const cachedUrl = loadedVariants.get(panel.dataset.model);
   if (cachedUrl) {
     load.setAttribute('aria-disabled', 'true');
-    status.textContent = `Chargement de la W16 n° ${panel.dataset.driver}…`;
+    status.textContent = english ? `Loading the W16 no. ${panel.dataset.driver}…`
+      : `Chargement de la W16 n° ${panel.dataset.driver}…`;
     viewer.src = cachedUrl;
   } else {
     load.click();

@@ -1,4 +1,4 @@
-import { loadModel } from './charger-modele-3d.js';
+import { loadModel } from './charger-modele-3d.js?v=2';
 
 const panel = document.querySelector('[data-model]');
 const viewer = panel.querySelector('model-viewer');
@@ -12,14 +12,34 @@ const slider = drs.querySelector('input');
 const opening = drs.querySelector('output');
 const [initialView] = views;
 const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)');
-const compactStage = matchMedia('(max-width: 665px)');
+const english = document.documentElement.lang.startsWith('en');
+const copy = english ? {
+  before: 'Enter fullscreen',
+  after: 'Exit fullscreen',
+  dialog: '3D viewer for the',
+  retry: 'Try again',
+  error: 'The 3D view is unavailable. The rendered images are still available on this page.',
+  loaded: 'Drag or use the arrow keys to rotate. Scroll or pinch to zoom. Home resets the view.',
+  loading: 'Loading the',
+  degrees: 'degrees'
+} : {
+  before: 'Passer en plein écran',
+  after: 'Quitter le plein écran',
+  dialog: 'Visionneuse 3D de la',
+  retry: 'Réessayer',
+  error: 'La vue 3D est indisponible. Les rendus restent accessibles sur cette page.',
+  loaded: 'Fais glisser ou utilise les flèches pour pivoter. Utilise la molette ou pince l’écran pour zoomer. La touche Début réinitialise la vue.',
+  loading: 'Chargement de la',
+  degrees: 'degrés'
+};
+let compact = panel.clientWidth < 620;
 const inertOutsidePanel = [];
 let activeView;
 let loading = false;
 
 function selectView(button) {
   const [azimuth, elevation, radius] = button.dataset.orbit.split(' ');
-  const scale = panel.clientWidth < 620 && button.dataset.view !== 'front' ? Number(panel.dataset.cameraScale) : 1;
+  const scale = compact && button.dataset.view !== 'front' ? Number(panel.dataset.cameraScale) : 1;
   viewer.cameraTarget = button.dataset.target;
   viewer.cameraOrbit = `${azimuth} ${elevation} ${parseFloat(radius) * scale}m`;
   viewer.fieldOfView = '28deg';
@@ -29,9 +49,23 @@ function selectView(button) {
 }
 
 for (const button of views) button.addEventListener('click', () => selectView(button));
-compactStage.addEventListener('change', () => {
-  if (activeView) selectView(activeView);
+function resetCamera() {
+  selectView(initialView);
+  panel.querySelector('.w16-observation')?.setAttribute('hidden', '');
+}
+
+controls.querySelector('[data-reset-camera]')?.addEventListener('click', resetCamera);
+viewer.addEventListener('keydown', event => {
+  if (event.key !== 'Home' || !viewer.loaded) return;
+  event.preventDefault();
+  resetCamera();
 });
+new ResizeObserver(() => {
+  const next = panel.clientWidth < 620;
+  if (compact === next) return;
+  compact = next;
+  if (activeView) selectView(activeView);
+}).observe(panel);
 
 viewer.addEventListener('camera-change', event => {
   if (event.detail.source !== 'user-interaction' || !activeView) return;
@@ -45,21 +79,79 @@ function updateDrs() {
   const fraction = Math.min(angle / Number(slider.max), 1 - 1e-6);
   viewer.currentTime = viewer.duration * fraction;
   opening.value = `${angle}°`;
-  slider.setAttribute('aria-valuetext', `${angle} degrés`);
+  slider.setAttribute('aria-valuetext', `${angle} ${copy.degrees}`);
 }
 
 slider.addEventListener('input', updateDrs);
 
 controls.querySelector('.car-light')?.addEventListener('change', event => {
-  const light = event.target.value === 'light';
-  panel.dataset.light = light ? 'light' : 'dark';
-  viewer.exposure = light ? 1.5 : 1.12;
-  viewer.shadowIntensity = light ? 0.42 : 0.65;
+  panel.dataset.light = event.target.value;
+  applyLighting();
 });
+
+const studioExposure = Number(viewer.getAttribute('exposure'));
+const studioShadow = Number(viewer.getAttribute('shadow-intensity') ?? 0);
+
+function applyLighting() {
+  const light = panel.dataset.light === 'light';
+  viewer.exposure = light ? 1.5 : studioExposure;
+  viewer.shadowIntensity = light ? .42 : studioShadow;
+}
+
+const materialPicker = controls.querySelector('.car-surface');
+const originalMaterials = new WeakMap();
+
+function applySurface() {
+  if (!materialPicker || !viewer.loaded) return;
+  const clay = materialPicker.querySelector('input:checked').value === 'clay';
+  panel.dataset.surface = clay ? 'clay' : 'livery';
+  for (const material of viewer.model.materials) {
+    const original = originalMaterials.get(material);
+    if (clay === Boolean(original)) continue;
+    const pbr = material.pbrMetallicRoughness;
+    const decal = material.name.startsWith('Décal ');
+    if (clay) {
+      const textureSlots = [pbr.baseColorTexture, pbr.metallicRoughnessTexture, material.normalTexture,
+        material.occlusionTexture, material.emissiveTexture];
+      const saved = {
+        textures: textureSlots.filter(Boolean).map(slot => [slot, slot.texture]),
+        baseColor: pbr.baseColorFactor,
+        metallic: pbr.metallicFactor,
+        roughness: pbr.roughnessFactor,
+        emissive: material.emissiveFactor,
+        clearcoat: material.clearcoatFactor,
+        alphaMode: material.getAlphaMode()
+      };
+      originalMaterials.set(material, saved);
+      for (const [slot, texture] of saved.textures) {
+        if (texture) slot.setTexture(null);
+      }
+      pbr.setBaseColorFactor(decal ? [0, 0, 0, 0] : [.37, .37, .37, 1]);
+      pbr.setMetallicFactor(0);
+      pbr.setRoughnessFactor(.72);
+      material.setEmissiveFactor([0, 0, 0]);
+      material.setClearcoatFactor(0);
+      if (decal) material.setAlphaMode('BLEND');
+    } else {
+      for (const [slot, texture] of original.textures) {
+        if (texture) slot.setTexture(texture);
+      }
+      pbr.setBaseColorFactor(original.baseColor);
+      pbr.setMetallicFactor(original.metallic);
+      pbr.setRoughnessFactor(original.roughness);
+      material.setEmissiveFactor(original.emissive);
+      material.setClearcoatFactor(original.clearcoat);
+      if (decal) material.setAlphaMode(original.alphaMode);
+      originalMaterials.delete(material);
+    }
+  }
+}
+
+materialPicker?.addEventListener('change', applySurface);
 
 function updateExpandState() {
   const expanded = document.fullscreenElement === panel || panel.classList.contains('is-expanded');
-  const label = expanded ? 'Quitter le plein écran' : 'Passer en plein écran';
+  const label = expanded ? copy.after : copy.before;
   expand.setAttribute('aria-label', label);
   expand.title = label;
   expand.setAttribute('aria-pressed', String(expanded));
@@ -71,7 +163,7 @@ function setExpandedFallback(active) {
   if (active) {
     panel.setAttribute('role', 'dialog');
     panel.setAttribute('aria-modal', 'true');
-    panel.setAttribute('aria-label', `Visionneuse 3D de la ${panel.dataset.car}`);
+    panel.setAttribute('aria-label', `${copy.dialog} ${panel.dataset.car}`);
     for (let element = panel; element !== document.body; element = element.parentElement) {
       for (const sibling of element.parentElement.children) {
         if (sibling === element || sibling.inert) continue;
@@ -125,8 +217,8 @@ function showError() {
   controls.hidden = true;
   expand.hidden = true;
   loadButton.hidden = false;
-  loadButton.textContent = 'Réessayer';
-  status.textContent = 'La vue 3D est indisponible. Les rendus restent accessibles sur cette page.';
+  loadButton.textContent = copy.retry;
+  status.textContent = copy.error;
   if (focusWasInViewer) loadButton.focus({ preventScroll: true });
 }
 
@@ -145,9 +237,11 @@ viewer.addEventListener('load', () => {
     slider.value = '0';
     updateDrs();
   }
-  selectView(initialView);
+  resetCamera();
   viewer.jumpCameraToGoal();
-  status.textContent = 'Fais glisser pour pivoter ou utilise les flèches du clavier. Utilise la molette ou pince l’écran pour zoomer.';
+  applyLighting();
+  applySurface();
+  status.textContent = copy.loaded;
   if (focusWasOnLoad) initialView.focus({ preventScroll: true });
 });
 
@@ -156,9 +250,9 @@ loadButton.addEventListener('click', async () => {
   if (loading) return;
   loading = true;
   loadButton.setAttribute('aria-disabled', 'true');
-  status.textContent = `Chargement de la ${panel.dataset.car}…`;
+  status.textContent = `${copy.loading} ${panel.dataset.car}…`;
   try {
-    await loadModel(viewer, panel.dataset.model, '/mercedes-w13/draco/');
+    await loadModel(viewer, panel.dataset.model, '/mercedes-w13/draco/', 2);
   } catch {
     showError();
   }

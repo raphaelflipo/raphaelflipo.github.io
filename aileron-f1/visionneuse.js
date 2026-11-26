@@ -5,6 +5,8 @@ const container = document.getElementById('wing-viewport');
 const button = document.getElementById('wing-load');
 const status = document.getElementById('wing-status');
 const narrowStage = matchMedia('(max-width: 640px)');
+const english = document.documentElement.lang === 'en';
+const copyFor = (fr, en) => english ? en : fr;
 let loading = false;
 
 function centerModel() {
@@ -21,16 +23,22 @@ function finishLoading() {
 function showPoster() {
   finishLoading();
   container.classList.remove('rf-wing-viewer--ready');
-  button.textContent = 'Réessayer';
-  status.textContent = 'La vue 3D est indisponible. L’aperçu ci-dessus et le fichier GLB restent accessibles.';
+  button.textContent = copyFor('Réessayer', 'Try again');
+  status.textContent = copyFor(
+    'La vue 3D est indisponible. L’aperçu ci-dessus et le fichier GLB restent accessibles.',
+    'The 3D view is unavailable. The preview above and the GLB file are still available.'
+  );
 }
 
 viewer.addEventListener('load', () => {
   finishLoading();
   centerModel();
   container.classList.add('rf-wing-viewer--ready');
-  button.textContent = 'Recentrer la vue';
-  status.textContent = 'Fais glisser pour pivoter ou utilise les flèches du clavier. Utilise la molette ou pince l’écran pour zoomer.';
+  button.textContent = copyFor('Recentrer la vue', 'Reset view');
+  status.textContent = copyFor(
+    'Fais glisser pour pivoter ou utilise les flèches du clavier. Utilise la molette ou pince l’écran pour zoomer.',
+    'Drag or use the arrow keys to rotate. Scroll or pinch to zoom.'
+  );
 });
 viewer.addEventListener('error', showPoster);
 
@@ -43,7 +51,7 @@ button.addEventListener('click', async () => {
   if (loading) return;
   loading = true;
   button.setAttribute('aria-disabled', 'true');
-  status.textContent = 'Chargement de l’aileron…';
+  status.textContent = copyFor('Chargement de l’aileron…', 'Loading the rear wing…');
   try {
     await loadModel(viewer, container.dataset.model);
   } catch {

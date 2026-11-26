@@ -504,3 +504,17 @@
     flex-basis: 100%;
   }
 }
+
+@media (max-width: 661px) {
+  .cmp-stage:not([data-layout])[data-mode=split] {
+    height: clamp(385px, 126vw, 550px);
+  }
+  .cmp-stage:not([data-layout])[data-mode=split]::after {
+    inset: 50% 0 auto 0;
+    width: 100%;
+    height: 1px;
+  }
+  .cmp-stage:not([data-layout])[data-mode=split] :is(.cmp-posters,.cmp-labels) {
+    grid-template: repeat(2, minmax(0,1fr)) / minmax(0,1fr);
+  }
+}

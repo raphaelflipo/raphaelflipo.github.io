@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="google-site-verification" content="mFzw4RqTj2H0J_VtvcZ8isK3kCbDOhbrv5NUl8gkNBg">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-9aHWmYybVXjEE7jvnLunMXDaRYWmeRQYxsleQINMKJY='; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; font-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
   <meta name="referrer" content="no-referrer">
   <meta name="color-scheme" content="light dark">
   <meta name="theme-color" content="#163c2a">
@@ -12,14 +12,19 @@
   <meta name="description" content="Portfolio de Raphaël Flipo, commercial et développeur à Lille. Découvrez La Boussole, Jarvis, le comparateur 3D des Mercedes W13 à W16 et mon CV.">
   <meta name="author" content="Raphaël Flipo">
   <link rel="canonical" href="https://raphaelflipo.github.io/">
+  <link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/">
+  <link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/">
+  <link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preload" href="/fonts/geist-var.woff2" as="font" type="font/woff2" crossorigin>
+  <script src="/assets/theme.js"></script>
   <link rel="stylesheet" href="/assets/refonte.css">
   <link rel="stylesheet" href="/assets/accueil.css">
   <link rel="stylesheet" href="/assets/collection-mercedes.css">
   <meta property="og:type" content="profile">
   <meta property="og:locale" content="fr_FR">
+  <meta property="og:locale:alternate" content="en_GB">
   <meta property="og:site_name" content="Raphaël Flipo">
   <meta property="og:title" content="Raphaël Flipo | Commercial et développeur à Lille">
   <meta property="og:description" content="Commerce, développement et modélisation 3D à Lille. Découvrez La Boussole, Jarvis et mes modèles de Formule 1.">
@@ -29,7 +34,7 @@
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Raphaël Flipo, commerce, marketing et projets numériques">
   <meta name="twitter:card" content="summary_large_image">
-  <script src="/assets/menu.js" integrity="sha256-9aHWmYybVXjEE7jvnLunMXDaRYWmeRQYxsleQINMKJY=" defer></script>
+  <script src="/assets/menu.js" defer></script>
 </head>
 <body class="portfolio">
   <a class="rf-skip" href="#contenu">Aller au contenu</a>
@@ -37,14 +42,20 @@
     <div class="rf-shell rf-header__inner">
       <a class="rf-brand" href="/" aria-label="Raphaël Flipo, accueil">Raphaël <span>Flipo.</span></a>
       <nav class="rf-nav rf-nav--desktop" aria-label="Navigation principale">
-        <a href="#projets">Projets</a><a href="#competences">Compétences</a><a href="#parcours">Parcours</a><a href="/cv/">CV</a><a href="#contact" class="rf-nav__contact">Contact</a>
+        <a href="#projets">Projets</a><a href="/studio-3d/">Studio 3D</a><a href="#competences">Compétences</a><a href="#parcours">Parcours</a><a href="/cv/">CV</a><a href="#contact">Contact</a>
       </nav>
-      <details class="rf-menu">
-        <summary>Menu</summary>
-        <nav aria-label="Navigation mobile">
-          <a href="#projets">Projets</a><a href="#competences">Compétences</a><a href="#parcours">Parcours</a><a href="/cv/">CV</a><a href="#contact">Contact</a>
-        </nav>
-      </details>
+      <div class="rf-nav-tools">
+        <a class="rf-lang" href="/en/" lang="en" hreflang="en" aria-label="English" data-language="en">EN</a>
+        <button class="rf-theme-button" id="theme-toggle" type="button" aria-label="Changer de thème" hidden>
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5"/></svg>
+        </button>
+        <details class="rf-menu">
+          <summary>Menu</summary>
+          <nav aria-label="Navigation mobile">
+            <a href="#projets">Projets</a><a href="/studio-3d/">Studio 3D</a><a href="#competences">Compétences</a><a href="#parcours">Parcours</a><a href="/cv/">CV</a><a href="#contact">Contact</a>
+          </nav>
+        </details>
+      </div>
     </div>
   </header>
   <main id="contenu" tabindex="-1" itemscope itemtype="https://schema.org/ProfilePage">
@@ -54,7 +65,7 @@
         <meta itemprop="name" content="Raphaël Flipo">
         <h1 id="titre">Raphaël Flipo<span>.</span></h1>
         <p class="portfolio-hero__role">Commercial et développeur à Lille</p>
-        <p class="rf-lead" itemprop="description">En alternance chez Florimond Desprez, je participe au suivi commercial des semences de betterave. Je développe aussi des applications et je modélise des monoplaces de Formule 1 sur Blender.</p>
+        <p class="rf-lead" itemprop="description">Je travaille en commerce et marketing chez Florimond Desprez, en alternance avec l’Université de Lille. Sur mon temps libre, je développe des applications et je recrée des monoplaces de Formule 1 dans Blender.</p>
         <div class="rf-actions">
           <a class="rf-btn" href="#projets">Voir mes projets</a>
           <a class="rf-btn rf-btn--outline" href="/cv/">Lire mon CV</a>
@@ -63,6 +74,7 @@
       </div>
       <figure class="rf-portrait">
         <picture>
+          <source media="(max-width: 520px)" srcset="/img/portrait-160.webp" type="image/webp">
           <source srcset="/img/portrait.webp" type="image/webp">
           <img itemprop="image" src="/img/portrait.jpg" alt="Portrait de Raphaël Flipo" width="605" height="807" fetchpriority="high">
         </picture>
@@ -105,7 +117,10 @@
       <section class="portfolio-group" id="collection-mercedes" aria-labelledby="titre-modeles">
         <div class="collection-heading">
           <h3 class="portfolio-group__title" id="titre-modeles">Mercedes en Formule 1 · 2022–2025</h3>
-          <a class="collection-compare" href="/mercedes-comparateur/?gauche=w15&amp;droite=w16">Comparer les monoplaces <span aria-hidden="true">↗</span></a>
+          <div class="portfolio-collection-links">
+            <a class="collection-compare" href="/studio-3d/">Visiter le studio 3D <span aria-hidden="true">↗</span></a>
+            <a class="rf-link" href="/mercedes-comparateur/?gauche=w15&amp;droite=w16">Comparer les monoplaces</a>
+          </div>
         </div>
         <ol class="portfolio-grid portfolio-grid--models portfolio-grid--mercedes mercedes-timeline">
           <li class="portfolio-card">
@@ -169,10 +184,11 @@
     <section class="rf-section rf-section--tint" id="competences" aria-labelledby="titre-competences">
       <div class="rf-shell">
         <div class="rf-section__head"><h2 id="titre-competences">Mes compétences</h2></div>
-        <div class="rf-grid">
+        <div class="rf-grid portfolio-skills">
           <article class="rf-panel"><h3>Vente et relation client</h3><p>Prospection sur le terrain, conseil aux clients et suivi des échanges, en BtoB comme en BtoC.</p></article>
           <article class="rf-panel"><h3>Marketing et communication</h3><p>Je prépare des supports commerciaux, des photos et des vidéos. J’étudie le marketing digital, le e-business et l’entrepreneuriat en BUT Techniques de commercialisation à l’IUT de Roubaix.</p></article>
           <article class="rf-panel"><h3>Développement</h3><p>Swift est le langage que je pratique le plus. J’utilise aussi C++ et QML pour La Boussole. J’ai des bases en C, Java, HTML, CSS et PHP.</p></article>
+          <article class="rf-panel"><h3>Modélisation 3D</h3><p>Je modélise dans Blender à partir de références visuelles et j’exporte mes modèles en GLB pour les rendre consultables sur le web.</p></article>
         </div>
       </div>
     </section>
@@ -182,6 +198,10 @@
         <article class="rf-job"><time datetime="2026-09">Depuis septembre 2026</time><div><h3>Commerce, marketing et communication</h3><p class="rf-company">Florimond Desprez · Cappelle-en-Pévèle</p><p>Je participe au suivi commercial des betteraves fourragères et sucrières. Je prépare aussi des supports de communication et je travaille sur un outil de suivi des clients pour l’équipe.</p></div></article>
         <article class="rf-job"><time datetime="2025-06">Juin 2025 à juin 2026</time><div><h3>Commercial terrain et communication</h3><p class="rf-company">Brasserie des Lys · Roubaix</p><p>Je prospectais auprès des professionnels et des particuliers. Je m’occupais aussi des actions marketing et de la communication de la brasserie.</p></div></article>
         <article class="rf-job"><time datetime="2024-12">Décembre 2024 à janvier 2025</time><div><h3>Stage commercial</h3><p class="rf-company">Renault · Roubaix</p><p>Accueil en concession, conseil, prospection et remise des véhicules aux clients.</p></div></article>
+      </div>
+      <div class="portfolio-formation">
+        <h3>Formation</h3>
+        <p>BUT Techniques de commercialisation, parcours marketing digital, e-business et entrepreneuriat. IUT de Roubaix, Université de Lille.</p>
       </div>
       <div class="rf-actions"><a class="rf-btn rf-btn--outline" href="/cv/">Consulter mon CV</a><a class="rf-link" href="/cv/en/" lang="en" hreflang="en">CV in English</a></div>
     </section>
@@ -203,6 +223,6 @@
       </div>
     </section>
   </main>
-  <footer class="rf-footer"><div class="rf-shell rf-footer__inner"><span>© 2026 Raphaël Flipo</span><a href="#contenu">Retour en haut</a></div></footer>
+  <footer class="rf-footer"><div class="rf-shell rf-footer__inner"><span>© 2026 Raphaël Flipo</span><a href="/confidentialite/">Mentions légales et confidentialité</a><a href="#contenu">Retour en haut</a></div></footer>
 </body>
 </html>
