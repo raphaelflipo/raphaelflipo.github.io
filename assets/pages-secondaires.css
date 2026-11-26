@@ -48,6 +48,12 @@
   min-height: 44px;
 }
 
+.cv-page .site-footer .wrap > a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
 @media (min-width: 841px) {
   .rf-secondary-tools {
     margin-left: 0;
