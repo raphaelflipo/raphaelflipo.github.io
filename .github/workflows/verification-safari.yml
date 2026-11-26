@@ -1,121 +1,88 @@
-name: Safari du site public
+name: Toucher dans Safari iOS
 on:
   push:
     branches: [verification-safari-v3]
 permissions: {}
 jobs:
-  public:
-    strategy:
-      fail-fast: false
-      matrix:
-        target: [iOS]
+  tactile:
     runs-on: macos-latest
-    timeout-minutes: 15
+    timeout-minutes: 16
     steps:
-      - uses: actions/setup-python@v5
-        with: { python-version: '3.12' }
-      - run: python3 -m pip install selenium
-      - name: Préparer Safari
-        env:
-          TARGET: ${{ matrix.target }}
+      - name: Construire le scénario de toucher
         run: |
           set -eu
-          sudo safaridriver --enable
-          if [ "$TARGET" = iOS ]; then
-            id=$(xcrun simctl list devices available -j | python3 -c 'import json,sys;d=json.load(sys.stdin)["devices"];print(next(v["udid"] for k in reversed(list(d)) if "iOS" in k for v in d[k] if v["name"].startswith("iPhone")))')
-            xcrun simctl boot "$id"
-            xcrun simctl bootstatus "$id" -b
-            xcrun simctl list devices available | grep -F "$id"
-            xcrun simctl spawn "$id" defaults write com.apple.mobilesafari AllowRemoteAutomation -bool YES
-            xcrun simctl spawn "$id" defaults write com.apple.webinspectord RemoteAutomationEnabled -bool YES
-            xcrun simctl launch "$id" com.apple.mobilesafari
-            echo "SIMULATOR_ID=$id" >> "$GITHUB_ENV"
-          fi
-      - name: Vérifier la W16 sur le site publié
-        env:
-          TARGET: ${{ matrix.target }}
+          command -v xcodegen >/dev/null || brew install xcodegen
+          mkdir -p Host Tests
+          cat > Host/App.swift <<'SWIFT'
+          import UIKit
+          @main class App: UIResponder, UIApplicationDelegate { var window: UIWindow? }
+          SWIFT
+          cat > project.yml <<'SPEC'
+          name: PublicSafari
+          options:
+            deploymentTarget:
+              iOS: '17.0'
+          settings:
+            base:
+              GENERATE_INFOPLIST_FILE: YES
+              CODE_SIGNING_ALLOWED: NO
+          targets:
+            Host:
+              type: application
+              platform: iOS
+              sources: [Host]
+              settings:
+                PRODUCT_BUNDLE_IDENTIFIER: local.receipt.host
+            SafariTests:
+              type: bundle.ui-testing
+              platform: iOS
+              sources: [Tests]
+              dependencies:
+                - target: Host
+              settings:
+                PRODUCT_BUNDLE_IDENTIFIER: local.receipt.safaritests
+                TEST_TARGET_NAME: Host
+          schemes:
+            Receipt:
+              build:
+                targets:
+                  Host: all
+                  SafariTests: [test]
+              test:
+                targets: [SafariTests]
+          SPEC
+          cat > Tests/SafariTouch.swift <<'SWIFT'
+          import XCTest
+          final class SafariTouch: XCTestCase {
+              func testActivation() throws {
+                  let safari = XCUIApplication(bundleIdentifier: "com.apple.mobilesafari")
+                  safari.activate()
+                  let web = safari.webViews.firstMatch
+                  XCTAssertTrue(web.waitForExistence(timeout: 40), safari.debugDescription)
+                  let button = web.buttons["Activer la 3D"].firstMatch
+                  XCTAssertTrue(button.waitForExistence(timeout: 45), safari.debugDescription)
+                  for _ in 0..<10 {
+                      if button.isHittable && button.frame.midY >= 120 && button.frame.midY <= safari.frame.height - 150 { break }
+                      let start = safari.coordinate(withNormalizedOffset: CGVector(dx: 0.84, dy: 0.76))
+                      let end = safari.coordinate(withNormalizedOffset: CGVector(dx: 0.84, dy: 0.38))
+                      start.press(forDuration: 0.10, thenDragTo: end)
+                  }
+                  print("OS_BEFORE", button.frame, safari.frame, button.isHittable)
+                  XCTAssertTrue(button.isHittable, safari.debugDescription)
+                  button.tap()
+                  let ready = web.staticTexts.containing(NSPredicate(format: "label CONTAINS %@ AND label CONTAINS %@", "Sélection", "Beam wing")).firstMatch
+                  XCTAssertTrue(ready.waitForExistence(timeout: 60), String(safari.debugDescription.suffix(15000)))
+                  print("OS_TOUCH_OK",ready.label, safari.frame)
+              }
+          }
+          SWIFT
+          xcodegen generate
+      - name: Appuyer sur le bouton public dans MobileSafari
         run: |
-          python3 - <<'PY'
-          import json,os,time
-          from selenium.webdriver.common.actions.action_builder import ActionBuilder
-          from selenium.webdriver.common.actions.pointer_input import PointerInput
-          from selenium import webdriver
-          from selenium.webdriver.common.by import By
-          from selenium.webdriver.support.ui import Select,WebDriverWait
-          opts=webdriver.SafariOptions()
-          if os.environ['TARGET']=='iOS':
-              opts.set_capability('platformName','iOS')
-              opts.set_capability('safari:useSimulator',True)
-              opts.set_capability('safari:deviceUDID',os.environ['SIMULATOR_ID'])
-          browser=webdriver.Safari(options=opts)
-          try:
-              site='https://raphaelflipo.github.io/mercedes-w16/composants/?piece=beamWing'
-              browser.get(site)
-              by=lambda key:browser.find_element(By.ID,key)
-              wait=WebDriverWait(browser,75)
-              def tap(el):
-                  browser.execute_script("arguments[0].scrollIntoView({block:'center',inline:'center',behavior:'instant'})",el)
-                  time.sleep(.5)
-                  target=browser.execute_script("const e=arguments[0],r=e.getBoundingClientRect(),x=r.x+r.width/2,y=r.y+r.height/2;return {x,y,hit:e.contains(document.elementFromPoint(x,y)),tag:document.elementFromPoint(x,y)?.tagName}",el)
-                  print('SAFARI_TARGET',el.get_attribute('id'),target,flush=True)
-                  assert target['hit'],target
-                  action=ActionBuilder(browser,mouse=PointerInput('touch','finger'))
-                  action.pointer_action.move_to_location(round(target['x']),round(target['y']))
-                  action.pointer_action.pointer_down()
-                  action.pointer_action.pause(.1)
-                  action.pointer_action.pointer_up()
-                  action.perform()
-                  time.sleep(.4)
-              wait.until(lambda _:by('part').is_displayed())
-              result=browser.execute_script('return {ua:navigator.userAgent,width:innerWidth,height:innerHeight,dpr:devicePixelRatio}')
-              assert by('part').get_attribute('value')=='beamWing'
-              assert browser.find_element(By.CSS_SELECTOR,'[data-family=beamWing]').is_displayed()
-              result['reading']=True
-              print('SAFARI_LECTURE',json.dumps(result),flush=True)
-              browser.execute_script("window.taps=0;document.getElementById('load-parts').addEventListener('click',()=>window.taps++)")
-              tap(by('load-parts'))
-              time.sleep(2)
-              result['touch_delivered']=browser.execute_script('return window.taps>0')
-              result['centered_webdriver_click']=False
-              if not result['touch_delivered']:
-                  try:
-                      by('load-parts').click()
-                      time.sleep(.5)
-                      result['centered_webdriver_click']=browser.execute_script('return window.taps>0')
-                  except Exception as e:
-                      result['webdriver_error']=type(e).__name__
-              if not result['touch_delivered'] and not result['centered_webdriver_click']:
-                  browser.execute_script("document.getElementById('load-parts').click()")
-              wait.until(lambda _:by('stage').get_attribute('data-selection')=='beamWing' or 'Réessayer' in by('load-parts').text)
-              result['stage']=by('parts-status').text
-              if by('stage').get_attribute('data-selection')!='beamWing':
-                  result['webgl2']=browser.execute_script("try{const gl=document.createElement('canvas').getContext('webgl2');return gl?gl.getParameter(gl.VERSION):null}catch(e){return e.message}")
-                  result['resources']=browser.execute_script("return performance.getEntriesByType('resource').filter(e=>/glb|draco|scene.js|mercedes-w16.json/.test(e.name)).map(e=>e.name.split('/').pop())")
-                  browser.set_script_timeout(40)
-                  result['engine_error']=browser.execute_async_script("const done=arguments[0];(async()=>{try{const m=await import('/assets/composants/scene.js');const host=document.getElementById('stage');const sc=await m.openScene(host,'/mercedes-w16/mercedes-w16.glb',new AbortController().signal,()=>{},()=>{},()=>{});sc.dispose();done('opened')}catch(e){done(String(e))}})()")
-                  assert browser.find_element(By.CSS_SELECTOR,'[data-family=beamWing]').is_displayed()
-                  result['fallback_readable']=True
-                  print('SAFARI_FALLBACK',json.dumps(result),flush=True)
-                  if result['webgl2'] and result['engine_error']!='opened':
-                      raise RuntimeError(result['engine_error'])
-                  raise SystemExit(0)
-              Select(by('mode')).select_by_value('isolate')
-              assert 0<int(by('stage').get_attribute('data-visible'))==int(by('stage').get_attribute('data-marked'))<int(by('stage').get_attribute('data-total'))
-              result['visible']=by('stage').get_attribute('data-visible')
-              browser.execute_script("document.getElementById('parts-share').click()")
-              share=by('share-url').get_attribute('value')
-              browser.get(share)
-              browser.execute_script("document.getElementById('load-parts').click()")
-              wait.until(lambda _:by('stage').get_attribute('data-mode')=='isolate' and by('stage').get_attribute('data-selection')=='beamWing')
-              browser.execute_script("document.getElementById('parts-share').click()")
-              assert by('share-url').get_attribute('value')==share
-              result['restored']=True
-              browser.get(browser.find_element(By.CSS_SELECTOR,'.rf-lang').get_attribute('href'))
-              wait.until(lambda _:browser.find_element(By.TAG_NAME,'html').get_attribute('lang')=='en')
-              assert by('part').get_attribute('value')=='beamWing'
-              result['language']='en'
-              print('SAFARI_OK',json.dumps(result),flush=True)
-          finally:
-              browser.quit()
-          PY
-
+          set -eu
+          id=$(xcrun simctl list devices available -j | python3 -c 'import json,sys;d=json.load(sys.stdin)["devices"];print(next(v["udid"] for k in reversed(list(d)) if "iOS" in k for v in d[k] if v["name"].startswith("iPhone")))')
+          xcrun simctl boot "$id"
+          xcrun simctl bootstatus "$id" -b
+          xcrun simctl list devices available | grep -F "$id"
+          xcrun simctl openurl "$id" 'https://raphaelflipo.github.io/mercedes-w16/composants/?piece=beamWing'
+          xcodebuild -project PublicSafari.xcodeproj -scheme Receipt -destination "platform=iOS Simulator,id=$id" -parallel-testing-enabled NO -derivedDataPath /tmp/SafariTouch CODE_SIGNING_ALLOWED=NO test
