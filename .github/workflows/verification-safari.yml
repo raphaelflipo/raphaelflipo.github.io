@@ -1,0 +1,80 @@
+name: Safari du site public
+on:
+  push:
+    branches: [verification-safari-v3]
+permissions: {}
+jobs:
+  public:
+    strategy:
+      fail-fast: false
+      matrix:
+        target: [macOS, iOS]
+    runs-on: macos-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/setup-python@v5
+        with: { python-version: '3.12' }
+      - run: python3 -m pip install selenium
+      - name: Préparer Safari
+        env:
+          TARGET: ${{ matrix.target }}
+        run: |
+          set -eu
+          sudo safaridriver --enable
+          if [ "$TARGET" = iOS ]; then
+            id=$(xcrun simctl list devices available -j | python3 -c 'import json,sys;d=json.load(sys.stdin)["devices"];print(next(v["udid"] for k in reversed(list(d)) if "iOS" in k for v in d[k] if v["name"].startswith("iPhone")))')
+            xcrun simctl boot "$id"
+            xcrun simctl bootstatus "$id" -b
+            xcrun simctl list devices available | grep -F "$id"
+            xcrun simctl spawn "$id" defaults write com.apple.mobilesafari AllowRemoteAutomation -bool YES
+            xcrun simctl spawn "$id" defaults write com.apple.webinspectord RemoteAutomationEnabled -bool YES
+            xcrun simctl launch "$id" com.apple.mobilesafari
+            echo "SIMULATOR_ID=$id" >> "$GITHUB_ENV"
+          fi
+      - name: Vérifier la W16 sur le site publié
+        env:
+          TARGET: ${{ matrix.target }}
+        run: |
+          python3 - <<'PY'
+          import json,os
+          from selenium import webdriver
+          from selenium.webdriver.common.by import By
+          from selenium.webdriver.support.ui import Select,WebDriverWait
+          opts=webdriver.SafariOptions()
+          if os.environ['TARGET']=='iOS':
+              opts.set_capability('platformName','iOS')
+              opts.set_capability('safari:useSimulator',True)
+              opts.set_capability('safari:deviceUDID',os.environ['SIMULATOR_ID'])
+          browser=webdriver.Safari(options=opts)
+          try:
+              site='https://raphaelflipo.github.io/mercedes-w16/composants/'
+              browser.get(site)
+              by=lambda key:browser.find_element(By.ID,key)
+              wait=WebDriverWait(browser,75)
+              wait.until(lambda _:by('part').is_displayed())
+              result=browser.execute_script('return {ua:navigator.userAgent,width:innerWidth,height:innerHeight,dpr:devicePixelRatio}')
+              Select(by('part')).select_by_value('beamWing')
+              assert browser.find_element(By.CSS_SELECTOR,'[data-family=beamWing]').is_displayed()
+              result['reading']=True
+              print('SAFARI_LECTURE',json.dumps(result),flush=True)
+              by('load-parts').click()
+              wait.until(lambda _:by('stage').get_attribute('data-selection')=='beamWing')
+              Select(by('mode')).select_by_value('isolate')
+              assert 0<int(by('stage').get_attribute('data-visible'))==int(by('stage').get_attribute('data-marked'))<int(by('stage').get_attribute('data-total'))
+              result['visible']=by('stage').get_attribute('data-visible')
+              by('parts-share').click()
+              share=by('share-url').get_attribute('value')
+              browser.get(share)
+              by('load-parts').click()
+              wait.until(lambda _:by('stage').get_attribute('data-mode')=='isolate' and by('stage').get_attribute('data-selection')=='beamWing')
+              by('parts-share').click()
+              assert by('share-url').get_attribute('value')==share
+              result['restored']=True
+              browser.find_element(By.CSS_SELECTOR,'.rf-lang').click()
+              wait.until(lambda _:browser.find_element(By.TAG_NAME,'html').get_attribute('lang')=='en')
+              assert by('part').get_attribute('value')=='beamWing'
+              result['language']='en'
+              print('SAFARI_OK',json.dumps(result),flush=True)
+          finally:
+              browser.quit()
+          PY
