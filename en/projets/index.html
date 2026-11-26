@@ -40,12 +40,12 @@
   </header>
   <main id="contenu" class="rf-shell rf-detail" tabindex="-1">
     <div class="rf-detail__intro"><h1>Projects and case studies</h1><p class="rf-detail__lead">Software, Formula 1 models and professional experience.</p></div>
-    <form class="rf-project-filters" id="filtres" role="search" hidden>
-      <label for="projet-recherche">Search projects<input id="projet-recherche" name="q" type="search" maxlength="100" autocomplete="off"></label>
-      <label for="projet-categorie">Category<select id="projet-categorie" name="category"><option value="">All projects</option><option value="logiciel">Software</option><option value="3d">3D</option><option value="professionnel">Career</option></select></label>
-      <button type="reset" class="rf-btn rf-btn--outline">Clear</button>
+    <form class="rf-project-filters" id="filtres" role="search">
+      <label for="projet-recherche">Search projects<input id="projet-recherche" name="q" type="search" maxlength="100" autocomplete="off" disabled></label>
+      <label for="projet-categorie">Category<select id="projet-categorie" name="category" disabled><option value="">All projects</option><option value="logiciel">Software</option><option value="3d">3D</option><option value="professionnel">Career</option></select></label>
+      <button type="reset" class="rf-btn rf-btn--outline" disabled>Clear</button>
     </form>
-    <p id="projet-resultats" class="rf-resultats" role="status" hidden></p>
+    <p id="projet-resultats" class="rf-resultats" role="status"></p>
     <ul class="rf-catalogue__grid">
       <li data-project="logiciel" class="rf-catalogue__card"><img src="/img/boussole-apercu.webp" alt="" width="1800" height="862" loading="lazy" decoding="async"><div><h2><a href="/en/projets/la-boussole/">La Boussole</a></h2><p>Scout carpooling and family coordination.</p></div></li>
       <li data-project="logiciel" class="rf-catalogue__card"><img src="/img/jarvis-apercu.webp" alt="" width="1800" height="1125" loading="lazy" decoding="async"><div><h2><a href="/en/projets/jarvis/">Jarvis</a></h2><p>An assistant designed to run on the device.</p></div></li>

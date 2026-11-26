@@ -40,12 +40,12 @@
   </header>
   <main id="contenu" class="rf-shell rf-detail" tabindex="-1">
     <div class="rf-detail__intro"><h1>Projets et études de cas</h1><p class="rf-detail__lead">Applications, modélisation automobile et parcours professionnel.</p></div>
-    <form class="rf-project-filters" id="filtres" role="search" hidden>
-      <label for="projet-recherche">Rechercher un projet<input id="projet-recherche" name="q" type="search" maxlength="100" autocomplete="off"></label>
-      <label for="projet-categorie">Catégorie<select id="projet-categorie" name="category"><option value="">Tous les projets</option><option value="logiciel">Logiciels</option><option value="3d">3D</option><option value="professionnel">Parcours</option></select></label>
-      <button type="reset" class="rf-btn rf-btn--outline">Effacer</button>
+    <form class="rf-project-filters" id="filtres" role="search">
+      <label for="projet-recherche">Rechercher un projet<input id="projet-recherche" name="q" type="search" maxlength="100" autocomplete="off" disabled></label>
+      <label for="projet-categorie">Catégorie<select id="projet-categorie" name="category" disabled><option value="">Tous les projets</option><option value="logiciel">Logiciels</option><option value="3d">3D</option><option value="professionnel">Parcours</option></select></label>
+      <button type="reset" class="rf-btn rf-btn--outline" disabled>Effacer</button>
     </form>
-    <p id="projet-resultats" class="rf-resultats" role="status" hidden></p>
+    <p id="projet-resultats" class="rf-resultats" role="status"></p>
     <ul class="rf-catalogue__grid">
       <li data-project="logiciel" class="rf-catalogue__card"><img src="/img/boussole-apercu.webp" alt="" width="1800" height="862" loading="lazy" decoding="async"><div><h2><a href="/projets/la-boussole/">La Boussole</a></h2><p>Covoiturage scout et coordination des familles.</p></div></li>
       <li data-project="logiciel" class="rf-catalogue__card"><img src="/img/jarvis-apercu.webp" alt="" width="1800" height="1125" loading="lazy" decoding="async"><div><h2><a href="/projets/jarvis/">Jarvis</a></h2><p>Assistant conçu pour s’exécuter sur l’appareil.</p></div></li>

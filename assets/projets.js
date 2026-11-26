@@ -37,6 +37,5 @@ filters.addEventListener('reset', event => {
   filterProjects();
   query.focus();
 });
-filters.hidden = false;
-status.hidden = false;
+for (const control of filters.elements) control.disabled = false;
 filterProjects();
