@@ -34,7 +34,8 @@ try {
     await page.setViewportSize({ width, height: 900 });
     for (const route of routes) {
       const response = await page.goto(origin + route, { waitUntil: 'domcontentloaded' });
-      assert.equal(response.status(), 200, route);
+      const status = response.status();
+      assert(status === 200 || status === 304, route + ' HTTP ' + status);
       assert.equal(await page.locator('main').count(), 1, route);
       const fits = await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 2);
       assert(fits, `${route} déborde à ${width}px`);
