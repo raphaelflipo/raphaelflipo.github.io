@@ -9,6 +9,9 @@ const front23 = ['https://www.formula1.com/en/latest/article/tech-tuesday-the-in
 const fia24 = ['https://www.fia.com/sites/default/files/decision-document/2024%20Bahrain%20Grand%20Prix%20-%20Car%20Display%20Procedure.pdf', 'FIA · Évolutions de Bahreïn 2024'];
 const tech24 = ['https://www.mercedesamgf1.com/f1-w15-2024-technical-specifications', 'Mercedes · Fiche technique W15'];
 const gp24 = ['https://www.motorsport.com/f1/news/what-we-learned-about-the-new-f1-car-designs-in-the-bahrain-gp/10583289/', 'Motorsport · Bahreïn 2024'];
+const fia25 = ['https://www.fia.com/system/files/decision-document/2025_australian_grand_prix_-_car_presentation_submissions.pdf', 'FIA · Évolutions de Melbourne 2025'];
+const f125 = ['https://www.formula1.com/en/latest/article/tech-analysis-how-mercedes-have-targeted-their-key-weaknesses-through-the.01qX10KtcigWQeyCCLAYvm', 'Formula 1 · Analyse de la W16'];
+const tech25 = ['https://www.mercedesamgf1.com/f1-w16-2025-technical-specifications', 'Mercedes · Fiche technique W16'];
 const note = ([source, credit], text) => ({ text, source, credit });
 
 export const annotations = {
@@ -21,6 +24,7 @@ export const annotations = {
     floor: note(gp22, 'Pour la course, Mercedes présente un nouveau plancher avec un bord central relevé et des cloisons d’entrée révisées.'),
     engineCover: note(test22, 'Les prises de vue arrière montrent la sortie de refroidissement et les panneaux à ouïes sur le capot et les pontons.'),
     diffuser: note(gp22, 'L’extrémité des tunnels s’ouvre derrière le train arrière. Les sections intérieures du modèle sont estimées.'),
+    rearSuspension: note(gp22, 'Depuis trois quarts arrière, suis les bras qui relient le porte-moyeu à la transmission.'),
     rearWing: note(race22, 'Le volet supérieur s’étend entre les deux dérives. Une vue arrière permet de comparer sa silhouette à celle des versions suivantes.')
   },
   w14: {
@@ -32,6 +36,7 @@ export const annotations = {
     floor: note(fia23, 'Mercedes déclare une nouvelle cambrure des cloisons à l’avant du fond plat.'),
     engineCover: note(fia23, 'Le capot moteur de la version de Monaco s’élargit avec les pontons.'),
     diffuser: note(fia23, 'La déclaration de Monaco relie la révision des cloisons de plancher à l’écoulement vers le diffuseur. La géométrie interne reste estimée.'),
+    rearSuspension: note(gp23, 'Sur la W14, le tirant arrière rejoint son point d’ancrage intérieur bas.'),
     rearWing: note(fia23, 'À Monaco, Mercedes modifie la courbure du volet de l’aileron arrière.')
   },
   w15: {
@@ -43,6 +48,19 @@ export const annotations = {
     floor: note(fia24, 'Les cloisons d’entrée et les profils de tunnel évoluent. La coupe intérieure visible dans le modèle demeure une reconstruction.'),
     engineCover: note(fia24, 'L’épaulement entre le sommet du capot et son flanc présente un raccord plus doux.'),
     diffuser: note(fia24, 'La révision des tunnels s’accompagne de deux profils redessinés pour l’aileron inférieur qui surplombe le diffuseur.'),
+    rearSuspension: note(tech24, 'La W15 adopte des poussoirs arrière. Le poussoir remonte de la roue vers l’ancrage intérieur.'),
     rearWing: note(fia24, 'À Bahreïn, la découpe à l’extrémité du volet est agrandie et son profil revu.')
+  },
+  w16: {
+    nose: note(f125, 'À la présentation de la W16, la pointe descend jusqu’au profil principal. Compare l’espace vertical sous le museau avec celui de la W15.'),
+    frontWing: note(f125, 'La jonction centrale revue modifie le passage entre le premier profil et le dessous du nez. Les passages entre volets se lisent mieux de face.'),
+    frontSuspension: note(fia25, 'Mercedes déclare une biellette arrière abaissée dans son dossier de Melbourne. Le train avant conserve un poussoir.'),
+    sidepods: note(fia25, 'Le dégagement sous le ponton se prolonge. Laisse la lumière raser le flanc depuis trois quarts avant pour suivre le canal.'),
+    inlets: note(fia25, 'La W16 combine une ouverture verticale près du châssis et une entrée horizontale sous la lèvre. Regarde les deux conduits de trois quarts avant.'),
+    floor: note(fia25, 'Mercedes revoit la cambrure des cloisons et le profil des tunnels. Les vues publiques renseignent surtout les surfaces extérieures.'),
+    engineCover: note(fia25, 'Observe où le flanc rejoint le capot au-dessus du canal latéral, puis sa convergence à l’approche du train arrière.'),
+    diffuser: note(fia25, 'Le plancher alimente le diffuseur. À Melbourne, Mercedes reprofile aussi les deux éléments de l’aileron inférieur.'),
+    rearSuspension: note(tech25, 'Le train arrière conserve des poussoirs. La vue de trois quarts permet d’en lire les carénages autour du porte-moyeu.'),
+    rearWing: note(fia25, 'Mercedes retouche les profils de l’aileron arrière, en particulier l’écoulement près de leurs extrémités.')
   }
 };
