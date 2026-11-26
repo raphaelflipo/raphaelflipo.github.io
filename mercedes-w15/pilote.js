@@ -1,4 +1,4 @@
-import '/assets/visionneuse-monoplace.js';
+import '/assets/visionneuse-monoplace.js?v=2';
 
 const panel = document.querySelector('#car-viewer');
 const picker = panel.querySelector('#car-driver');
@@ -8,6 +8,7 @@ const controls = panel.querySelector('#car-controls');
 const expand = panel.querySelector('#car-expand');
 const load = panel.querySelector('#car-load');
 const status = panel.querySelector('#car-status');
+const english = document.documentElement.lang.startsWith('en');
 const initial = {
   src: poster.getAttribute('src'),
   srcset: poster.getAttribute('srcset')
@@ -30,9 +31,13 @@ function applyDriver() {
     poster.src = initial.src;
     if (initial.srcset) poster.srcset = initial.srcset;
   }
-  poster.alt = `Rendu Blender de la Mercedes-AMG W15 · ${option.textContent.trim()} · Trois quarts avant`;
-  viewer.alt = `Mercedes-AMG W15 · ${option.textContent.trim()} · Utilise les flèches du clavier pour pivoter.`;
-  status.textContent = `Rendu de la W15 n° ${option.value} réalisé dans Blender.`;
+  const driver = option.textContent.trim();
+  poster.alt = english ? `Blender render of the Mercedes-AMG W15 · ${driver} · Front three-quarter view`
+    : `Rendu Blender de la Mercedes-AMG W15 · ${driver} · Trois quarts avant`;
+  viewer.alt = english ? `Mercedes-AMG W15 · ${driver} · Use the arrow keys to rotate.`
+    : `Mercedes-AMG W15 · ${driver} · Utilise les flèches du clavier pour pivoter.`;
+  status.textContent = english ? `Blender render of the W15 no. ${option.value}.`
+    : `Rendu de la W15 n° ${option.value} réalisé dans Blender.`;
 }
 
 picker.value = panel.dataset.driver;

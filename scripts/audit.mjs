@@ -3,8 +3,10 @@ import { join, dirname, resolve, extname, relative, isAbsolute, sep } from 'node
 import { execFileSync } from 'node:child_process';
 
 const root = process.cwd();
+const origin = 'https://raphaelflipo.github.io';
 const errors = [];
 const files = [];
+const localized = new Map();
 function walk(dir) {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
     if (entry.name === '.git' || entry.name === 'node_modules') continue;
@@ -31,6 +33,20 @@ for (const file of files) {
   if (!/http-equiv=["']Content-Security-Policy["']/i.test(html)) errors.push(page + ' : CSP absente');
   if (/\son[a-z]+\s*=/i.test(html)) errors.push(page + ' : gestionnaire JS inline');
   if (/class=["'][^"']*["']\s+class=/i.test(html)) errors.push(page + ' : attribut class en doublon');
+  const canonical = html.match(/<link rel="canonical" href="([^"]+)">/)?.[1];
+  const alternates = new Map([...html.matchAll(/<link rel="alternate" hreflang="([^"]+)" href="([^"]+)">/g)]
+    .map(([, language, url]) => [language, url]));
+  if (alternates.size) {
+    const route = '/' + page.replace(/index\.html$/, '');
+    const language = html.match(/<html\s+lang="([^"]+)"/)?.[1];
+    if (canonical !== origin + route || alternates.get(language) !== canonical) {
+      errors.push(page + ' : URL canonique ou langue incohérente');
+    }
+    if (alternates.size !== 3 || !alternates.has('en') || alternates.get('x-default') !== alternates.get('fr')) {
+      errors.push(page + ' : alternates fr/en/x-default incomplets');
+    }
+    localized.set(canonical, { page, alternates });
+  }
   const links = [...html.matchAll(/\s(?:href|src|data-src|data-model|data-poster)=["']([^"']+)["']/gi)]
     .map(([, value]) => value);
   for (const [, sources] of html.matchAll(/\ssrcset=["']([^"']+)["']/gi)) {
@@ -56,6 +72,17 @@ for (const file of files) {
     }
     const target = existsSync(destination) && statSync(destination).isDirectory() ? join(destination, 'index.html') : destination;
     if (!existsSync(target)) errors.push(page + ' : lien local absent : ' + value);
+  }
+}
+
+const sitemap = readFileSync(join(root, 'sitemap.xml'), 'utf8');
+for (const [canonical, { page, alternates }] of localized) {
+  if (!sitemap.includes('<loc>' + canonical + '</loc>')) errors.push(page + ' : URL absente du sitemap');
+  for (const [language, url] of alternates) {
+    const counterpart = localized.get(url);
+    if (!counterpart || [...alternates].some(([key, value]) => counterpart.alternates.get(key) !== value)) {
+      errors.push(page + ' : alternate ' + language + ' non réciproque');
+    }
   }
 }
 

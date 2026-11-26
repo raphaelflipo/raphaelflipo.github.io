@@ -53,7 +53,7 @@ body:has(.w13-viewer.is-expanded) { overflow: hidden; }
   .car-gallery { grid-template-columns: 1fr; }
 }
 
-#car-viewer[data-light="light"] { --stage-background: radial-gradient(ellipse at 45% 30%, #f7f8f7, #bfc8c8 90%); }
+:is(#car-viewer, .w13-viewer)[data-light="light"] { --stage-background: radial-gradient(ellipse at 45% 30%, #f7f8f7, #bfc8c8 90%); }
 .car-inspection { width: 100%; border-top: 1px solid var(--rf-border); }
 .car-inspection summary { width: fit-content; padding: .65rem .1rem .45rem; min-height: 44px; font-weight: 650; color: var(--rf-green); cursor: pointer; }
 .car-inspection-tools { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .5rem 1rem; padding: .25rem 0 .15rem; }
@@ -67,3 +67,18 @@ body:has(.w13-viewer.is-expanded) { overflow: hidden; }
 @media (max-height: 500px) {
   .w13-viewer:fullscreen .w13-stage, .w13-viewer.is-expanded .w13-stage { min-height: 35vh; }
 }
+
+.w13-angles .car-reset { border-color: var(--rf-border); }
+.car-surface {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .2rem .85rem;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  font-size: .85rem;
+}
+.car-surface legend { float: left; padding: 0; margin-right: .85rem; font-weight: 650; }
+.car-surface label { display: inline-flex; align-items: center; gap: .25rem; min-height: 44px; cursor: pointer; }
+.car-surface input { accent-color: var(--rf-green); }

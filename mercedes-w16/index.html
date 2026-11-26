@@ -10,11 +10,15 @@
   <meta name="author" content="Raphaël Flipo">
   <title>Mercedes-AMG W16 en 3D | Raphaël Flipo</title>
   <link rel="canonical" href="https://raphaelflipo.github.io/mercedes-w16/">
+  <link rel="alternate" hreflang="fr" href="https://raphaelflipo.github.io/mercedes-w16/">
+  <link rel="alternate" hreflang="en" href="https://raphaelflipo.github.io/en/mercedes-w16/">
+  <link rel="alternate" hreflang="x-default" href="https://raphaelflipo.github.io/mercedes-w16/">
   <link rel="icon" href="/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="/assets/refonte.css">
   <link rel="stylesheet" href="/mercedes-w13/w13.css">
-  <link rel="stylesheet" href="/assets/monoplaces.css">
+  <link rel="stylesheet" href="/assets/monoplaces.css?v=2">
   <link rel="stylesheet" href="/assets/collection-mercedes.css">
+  <script src="/assets/theme.js"></script>
   <script src="/assets/menu.js" defer></script>
   <meta property="og:type" content="website">
   <meta property="og:locale" content="fr_FR">
@@ -25,7 +29,7 @@
   <meta property="og:image" content="https://raphaelflipo.github.io/mercedes-w16/studio.webp">
   <meta property="og:image:alt" content="Rendu Blender de la Mercedes-AMG W16 n° 63 de trois quarts avant">
   <meta name="twitter:card" content="summary_large_image">
-  <script type="module" src="./pilote.js"></script>
+  <script type="module" src="./pilote.js?v=2"></script>
 </head>
 <body>
   <a class="rf-skip" href="#contenu">Aller au contenu</a>
@@ -33,12 +37,12 @@
     <div class="rf-shell rf-header__inner">
       <a class="rf-brand" href="/">Raphaël <span>Flipo.</span></a>
       <nav class="rf-nav rf-nav--desktop" aria-label="Navigation principale">
-        <a href="/#projets">Projets</a><a href="/#competences">Compétences</a><a href="/#parcours">Parcours</a><a href="/cv/">CV</a><a href="/#contact" class="rf-nav__contact">Contact</a>
+        <a href="/#projets">Projets</a><a href="/#competences">Compétences</a><a href="/#parcours">Parcours</a><a href="/cv/">CV</a><a href="/#contact" class="rf-nav__contact">Contact</a><a class="rf-lang" data-language="en" href="/en/mercedes-w16/" hreflang="en" lang="en" aria-label="Read this page in English">EN</a>
       </nav>
       <details class="rf-menu">
         <summary>Menu</summary>
         <nav aria-label="Navigation mobile">
-          <a href="/#projets">Projets</a><a href="/#competences">Compétences</a><a href="/#parcours">Parcours</a><a href="/cv/">CV</a><a href="/#contact">Contact</a>
+          <a href="/#projets">Projets</a><a href="/#competences">Compétences</a><a href="/#parcours">Parcours</a><a href="/cv/">CV</a><a href="/#contact">Contact</a><a class="rf-lang" data-language="en" href="/en/mercedes-w16/" hreflang="en" lang="en" aria-label="Read this page in English">EN</a>
         </nav>
       </details>
     </div>
@@ -47,7 +51,7 @@
     <section aria-labelledby="titre">
       <div class="w13-intro">
         <div class="car-navigation">
-          <a class="w13-back" href="/#collection-mercedes">← Collection Mercedes</a>
+          <a class="w13-back" href="/studio-3d/">← Studio 3D</a>
           <nav class="car-switch" aria-label="Choisir une monoplace">
             <a href="/mercedes-w13/">W13 <span>· 2022</span></a><a href="/mercedes-w14/">W14 <span>· 2023</span></a><a href="/mercedes-w15/">W15 <span>· 2024</span></a><a href="/mercedes-w16/" aria-current="page">W16 <span>· 2025</span></a>
           </nav>
@@ -83,8 +87,10 @@
             <button type="button" data-view="side" data-target="-0.15m 0.48m 0m" data-orbit="0deg 84deg 10.8m">Profil</button>
             <button type="button" data-view="front" data-target="-0.8m 0.38m 0m" data-orbit="-90deg 84deg 7m">Face</button>
             <button type="button" data-view="top" data-target="-0.15m 0.35m 0m" data-orbit="0deg 1deg 10.5m">Dessus</button>
+            <button type="button" data-view="back" data-target="-0.15m 0.41m 0m" data-orbit="90deg 82deg 8m">Arrière</button>
             <button type="button" data-view="rear" data-target="2m 0.66m 0m" data-orbit="63deg 74deg 4m">DRS</button>
             <button type="button" data-view="under" data-target="0m 0.26m 0m" data-orbit="26deg 154deg 9.8m">Dessous</button>
+            <button class="car-reset" type="button" data-reset-camera>Réinitialiser la vue</button>
           </div>
           <div class="w13-drs" hidden>
             <label for="car-drs">Ouverture du DRS</label>
@@ -94,7 +100,7 @@
           <details class="car-inspection" id="car-inspection">
             <summary>Inspecter un détail</summary>
             <div class="car-inspection-tools">
-              <fieldset class="w16-surface">
+              <fieldset class="w16-surface car-surface">
                 <legend>Surfaces</legend>
                 <label><input type="radio" name="car-surface" value="livery" checked> Livrée</label>
                 <label><input type="radio" name="car-surface" value="clay"> Gris technique</label>

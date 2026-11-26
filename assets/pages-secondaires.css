@@ -13,28 +13,6 @@
   margin-left: 0;
 }
 
-.rf-secondary-tools summary,
-.rf-theme-button {
-  min-height: 44px;
-}
-
-.rf-theme-button {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  padding: 0;
-  border: 1px solid var(--rf-border);
-  border-radius: 50%;
-  background: var(--rf-paper);
-  color: var(--rf-green);
-  cursor: pointer;
-}
-
-.rf-theme-button[hidden] {
-  display: none;
-}
-
-.rf-theme-button:hover,
 .rf-secondary-tools .rf-menu a[aria-current="page"] {
   background: var(--rf-soft);
   color: var(--rf-green);

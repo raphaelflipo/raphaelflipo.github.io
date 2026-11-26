@@ -117,7 +117,7 @@ async function checkDriverSwitches(page, viewer, requests, car) {
   }
 }
 
-async function checkTechnicalSurface(viewer, inspection) {
+async function checkTechnicalSurface(viewer, inspection, hasDecals) {
   const snapshot = () => viewer.evaluate(el => el.model.materials.map(material => {
     const pbr = material.pbrMetallicRoughness;
     return {
@@ -132,7 +132,7 @@ async function checkTechnicalSurface(viewer, inspection) {
   const livery = await snapshot();
   await inspection.getByLabel('Gris technique', { exact: true }).check();
   const neutral = await snapshot();
-  assert(neutral.some(material => material.name.startsWith('Décal ')), 'Export sans matériel de marquage distinct');
+  if (hasDecals) assert(neutral.some(material => material.name.startsWith('Décal ')), 'Export sans matériel de marquage distinct');
   assert(neutral.every(material => material.name.startsWith('Décal ')
     ? material.alpha === 'BLEND' && material.color[3] === 0
     : material.color.every((channel, index) => Math.abs(channel - (index === 3 ? 1 : .37)) < 1e-6)
@@ -176,11 +176,13 @@ async function checkCars(page, width) {
       }));
       assert(details.materials > 1);
       assert(details.animations.includes('DRS'));
-      for (const name of ['front', 'side', 'top', 'under', 'rear', 'studio']) {
+      for (const name of ['front', 'side', 'top', 'under', 'rear', 'back']) {
         const preset = page.locator('[data-view="' + name + '"]');
         await preset.click();
         assert.equal(await preset.getAttribute('aria-pressed'), 'true');
       }
+      await page.locator('[data-reset-camera]').click();
+      assert.equal(await page.locator('[data-view="studio"]').getAttribute('aria-pressed'), 'true');
       const drs = page.getByRole('slider', { name: 'Ouverture du DRS' });
       await drs.focus();
       await drs.press('End');
@@ -211,14 +213,19 @@ async function checkCars(page, width) {
         assert.equal(await viewer.evaluate(model => model.exposure), 1.5);
         await inspection.getByLabel('Sombre', { exact: true }).check();
         assert.equal(await viewer.evaluate(model => model.exposure), 1.12);
-        if (car === 'w16' && width !== 768) await checkTechnicalSurface(viewer, inspection);
+        if (width === 390 || width === 1440 && car === 'w16') await checkTechnicalSurface(viewer, inspection, car === 'w16');
         await inspection.locator('summary').click();
-        const expand = page.locator('#car-expand');
-        await expand.click();
-        await page.waitForFunction(() => document.fullscreenElement || document.querySelector('#car-viewer.is-expanded'));
-        await expand.click();
-        await page.waitForFunction(() => !document.fullscreenElement && !document.querySelector('#car-viewer.is-expanded'));
+      } else if (width === 390) {
+        const inspection = page.locator('.car-inspection');
+        await inspection.locator('summary').click();
+        await checkTechnicalSurface(viewer, inspection, false);
+        await inspection.locator('summary').click();
       }
+      const expand = page.locator('.w13-expand');
+      await expand.click();
+      await page.waitForFunction(() => document.fullscreenElement || document.querySelector('.w13-viewer.is-expanded'));
+      await expand.click();
+      await page.waitForFunction(() => !document.fullscreenElement && !document.querySelector('.w13-viewer.is-expanded'));
       if (Object.hasOwn(drivers, car) && width === 390) await checkDriverSwitches(page, viewer, requests, car);
       await viewer.scrollIntoViewIfNeeded();
       const metrics = await measureRenderRate(viewer);

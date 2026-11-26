@@ -1,7 +1,6 @@
 'use strict';
 (() => {
   const root = document.documentElement;
-  const english = root.lang === 'en';
   const menu = document.getElementById('site-nav');
   const menuButton = document.getElementById('menu-toggle');
   if (menu && menuButton) {
@@ -45,30 +44,6 @@
     });
     matchMedia('(min-width: 761px)').addEventListener('change', () => closeMenu());
   }
-
-  const themeButton = document.getElementById('theme-toggle');
-  const darkPreference = matchMedia('(prefers-color-scheme: dark)');
-  const isDark = () => root.dataset.theme ? root.dataset.theme === 'dark' : darkPreference.matches;
-  const updateTheme = () => {
-    if (themeButton) {
-      const label = english ? (isDark() ? 'Use light theme' : 'Use dark theme') : (isDark() ? 'Activer le thème clair' : 'Activer le thème sombre');
-      themeButton.setAttribute('aria-label', label);
-      themeButton.title = label;
-      themeButton.setAttribute('aria-pressed', String(isDark()));
-    }
-    const meta = document.querySelector('meta[name="theme-color"]');
-    if (meta) meta.content = isDark() ? '#17251f' : '#f7f5ef';
-  };
-  if (themeButton) {
-    themeButton.hidden = false;
-    themeButton.addEventListener('click', () => {
-      root.dataset.theme = isDark() ? 'light' : 'dark';
-      try { localStorage.setItem('rf-theme', root.dataset.theme); } catch (_) {}
-      updateTheme();
-    });
-  }
-  updateTheme();
-  darkPreference.addEventListener('change', updateTheme);
 
   const copy = document.getElementById('copy-email');
   const copyStatus = document.getElementById('copy-status');

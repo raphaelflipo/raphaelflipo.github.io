@@ -400,7 +400,9 @@ export class Comparateur {
     if (!width || !height) return null;
     const stacked = width < 620;
     const eco = this.quality === 'eco';
-    const pixelRatio = Math.min(devicePixelRatio || 1, stacked || eco ? 1 : 1.35, (eco ? 900 : 1800) / width);
+    const pixelLimit = eco ? 650_000 : 1_750_000;
+    const pixelRatio = Math.min(devicePixelRatio || 1, stacked || eco ? 1 : 1.35,
+      (eco ? 900 : 1800) / width, Math.sqrt(pixelLimit / (width * height)));
     if (this.canvas.width !== Math.floor(width * pixelRatio) || this.canvas.height !== Math.floor(height * pixelRatio)) {
       this.renderer.setPixelRatio(pixelRatio);
       this.renderer.setSize(width, height, false);
