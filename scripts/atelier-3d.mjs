@@ -23,7 +23,9 @@ try{
       await page.selectOption('#part',key);
       assert(Number(await page.locator('#stage').getAttribute('data-marked'))>0);
     }
-    await page.selectOption('#part','frontWing');
+    await page.selectOption('#projection','ortho');
+    assert.equal(await page.locator('#stage').getAttribute('data-camera'),'OrthographicCamera');
+    await page.selectOption('#part','diffuserRamp');
     for(const mode of ['isolate','transparent','explode']){
       await page.selectOption('#mode',mode);
       const stats=await page.locator('#stage').evaluate(el=>({...el.dataset}));
@@ -33,13 +35,18 @@ try{
     }
     await page.click('#parts-right');await page.click('#parts-share');
     const url=await page.inputValue('#share-url');
+    assert.equal(new URL(url).searchParams.get('projection'),'ortho');
     const capture=page.waitForEvent('download');
     await page.click('#parts-photo');
     const bytes=await readFile(await (await capture).path());
     assert.equal(bytes.toString('ascii',1,4),'PNG');assert(bytes.readUInt32BE(16)>=1600);
     await page.goto(url);await page.click('#load-parts');
     await page.locator('#stage[data-mode=explode]').waitFor({timeout:90000});
+    assert.equal(await page.inputValue('#part'),'diffuserRamp');
+    assert.equal(await page.locator('#stage').getAttribute('data-camera'),'OrthographicCamera');
     await page.click('#parts-share');assert.equal(await page.inputValue('#share-url'),url);
+    await page.selectOption('#projection','perspective');
+    assert.equal(await page.locator('#stage').getAttribute('data-camera'),'PerspectiveCamera');
     assert.deepEqual(errors,[]);console.log(car,lang||'fr',width,bytes.readUInt32BE(16),bytes.readUInt32BE(20));
     await ctx.close();
   }

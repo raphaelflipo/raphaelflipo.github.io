@@ -18,7 +18,11 @@ import DracoPy
 import numpy as np
 from scipy.spatial import cKDTree
 
-parts = 'context frontWing nose frontSuspension wheels sidepods inlets floor diffuser cockpit airbox engineCover rearSuspension rearWing drs mainplane flaps endplates fences beamWing'.split()
+parts = 'context frontWing nose frontSuspension wheels sidepods inlets floor diffuser cockpit airbox engineCover rearSuspension rearWing drs mainplane flaps endplates fences beamWing tyres rims brakes diffuserRamp'.split()
+# X in the masters' coordinates. A sampled section already on the rear upsweep
+# marks a teaching region; it is not a physical joint or the aerodynamic throat.
+ramp_station = {'W14': 1.359, 'W15': 1.388, 'W16': 1.523}
+continuous_tunnel = 255
 
 def plain(text):
     return ''.join(c for c in unicodedata.normalize('NFKD', text.lower().replace('_', ' ')) if not unicodedata.combining(c))
@@ -36,8 +40,13 @@ def family(obj, moving):
         return 'frontWing'
     if 'aileron arriere' in c: return 'rearWing'
     if 'suspension' in c: return 'rearSuspension' if 'arriere' in c or re.match(r'^ar[gd]', n) else 'frontSuspension'
-    if 'roue' in c: return 'wheels'
+    if 'roue' in c:
+        if any(k in n for k in ('enveloppe slick','enveloppe intermediaire','nervure de moulage','rainure de','lamelle de gomme')): return 'tyres'
+        if any(k in n for k in ('jante','enjoliveur','flasque aerodynamique','embouti')): return 'rims'
+        if any(k in n for k in ('disque','etrier','ecope','frein','tambour interieur')): return 'brakes'
+        return 'wheels'
     if 'plancher' in c or 'diffuseur' in c:
+        if 'diffuseur' in n and 'rampe' in n and 'tunnel' not in n: return 'diffuserRamp'
         if 'diffuseur' in c and 'plancher' not in c: return 'diffuser'
         if ('diffuseur' in n and 'tunnel' not in n) or 'levre profilee de sortie' in n: return 'diffuser'
         if 'cloison' in n or 'fence' in n: return 'fences'
@@ -61,6 +70,9 @@ def semantic_source(blend, car):
                and (ob.get('piece_'+car) or car == 'W13' and 'studio' not in plain(' '.join(c.name for c in ob.users_collection)))]
     names = {ob.name:parts.index(family(ob, ob in moving)) for ob in sources}
     if car == 'W13': return names, None
+    tunnels = [ob for ob in sources if 'tunnel' in plain(ob.name) and 'diffuseur' in plain(ob.name)]
+    if len(tunnels) != 2: raise ValueError('Deux demi-planchers continus attendus')
+    for ob in tunnels: names[ob.name] = continuous_tunnel
     lod = [(('enveloppe slick','sièges de talon','tunnel et diffuseur'),.57),(('monocoque et museau','capot moteur','rampe et canal','arceau titane'),.66),(('volet 1','volet 2','volet 3','plan principal','volet supérieur mobile','beam wing'),.60)]
     if car == 'W16': lod.append((('enveloppe intermédiaire',),.54))
     for ob in sources:
@@ -132,6 +144,9 @@ def run(blend, model, destination):
                     same = (vd.max(axis=1)<.00018) & (owners.max(axis=1)==owners.min(axis=1))
                     labels[misses] = np.where(same, owners[:,0],0)
                     unknown += int((~same).sum())
+                tunnel = labels == continuous_tunnel
+                labels[tunnel] = np.where(coords[tunnel,:,0].mean(axis=1) >= ramp_station[car],
+                                          parts.index('diffuserRamp'), parts.index('floor'))
             if len(labels) != faces: raise ValueError('Nombre de triangles incompatible')
             counts.update(dict(zip(*np.unique(labels,return_counts=True))))
             row.append(int(labels[0]) if labels.min()==labels.max() else base64.b64encode(zlib.compress(labels.tobytes(),9)).decode())
