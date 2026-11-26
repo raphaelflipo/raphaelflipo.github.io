@@ -5,7 +5,7 @@ const viewer = panel.querySelector('model-viewer');
 const controls = panel.querySelector('.w13-controls');
 const loadButton = panel.querySelector('.car-load');
 const expand = panel.querySelector('.w13-expand');
-const status = panel.querySelector('[role="status"]');
+const status = panel.querySelector('#car-status, #w13-status');
 const views = [...controls.querySelectorAll('[data-view]')];
 const drs = controls.querySelector('.w13-drs');
 const slider = drs.querySelector('input');
