@@ -18,14 +18,15 @@ jobs:
           node-version: '22'
       - run: npm install --no-save playwright@1.55.1
       - run: npx playwright install --with-deps chromium
-      - name: Comparer les pages sur mobile et sur ordinateur
+      - name: Comparer les versions livrées
         run: |
-          git worktree add --detach /tmp/portfolio-avant "${{ github.event.pull_request.base.sha }}"
-          python3 -m http.server 8793 --bind 127.0.0.1 --directory /tmp/portfolio-avant &
-          python3 -m http.server 8794 --bind 127.0.0.1 &
-          node scripts/apercus-v4.mjs
+          git worktree add --detach /tmp/portfolio-avant 771f16e8c29a21b5e9434bce6cecdae11bd13fb9
+          git clone https://github.com/raphaelflipo/la-boussole.git /tmp/boussole-apres
+          git -C /tmp/boussole-apres checkout --detach 8cc1f4f6d36f44d8ff780161c090f7bccf2d0840
+          git -C /tmp/boussole-apres worktree add --detach /tmp/boussole-avant 8f614c8
+          node scripts/apercus-v4.cjs
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: portfolio-v4-avant-apres
-          path: apercus-v4/
+          name: portfolio-v4-captures-completes
+          path: work/captures/
