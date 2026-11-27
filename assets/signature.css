@@ -1,0 +1,92 @@
+.signature-header .rf-menu { display: block; position: static; }
+.signature-header .rf-menu summary { min-width: 48px; justify-content: center; }
+.signature-header .rf-menu nav {
+  width: min(29rem, calc(100vw - 2rem)); max-height: calc(100dvh - 6rem); overflow: auto;
+  padding: clamp(.75rem, 3vw, 1.5rem); right: max(.35rem, env(safe-area-inset-right));
+}
+.signature-header .rf-menu nav a {
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+  min-height: 48px; font-size: clamp(1.1rem, 3vw, 1.55rem); letter-spacing: -.025em;
+  border-bottom: 1px solid var(--rf-border);
+}
+.signature-header .rf-menu nav a::after {
+  content: ''; width: .5rem; height: .5rem; flex: none;
+  border-block-start: 2px solid var(--rf-green); border-inline-end: 2px solid var(--rf-green);
+  transform: rotate(45deg);
+}
+.signature-products { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(1.75rem, 6vw, 5rem); margin-block: 1rem 4rem; }
+.signature-home .signature-product {
+  display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); align-items: stretch;
+  border: 0; border-radius: 0; background: none; box-shadow: none; overflow: visible;
+}
+.signature-home .signature-product:nth-child(even) { grid-template-columns: minmax(0, 1fr) minmax(0, 1.55fr); }
+.signature-product:nth-child(even) > .portfolio-card__media { order: 2; }
+.signature-product > * { min-width: 0; max-width: 100%; }
+.signature-product .portfolio-card__media picture { display: block; width: 100%; height: 100%; }
+.signature-product .portfolio-card__media img { width: 100%; height: 100%; padding: .65rem; object-fit: contain; }
+.signature-product h4 { overflow-wrap: anywhere; }
+.signature-home .signature-product .portfolio-card__media {
+  min-height: 0; aspect-ratio: 16 / 10; border-radius: clamp(.85rem, 3vw, 2rem); overflow: hidden;
+}
+.signature-home .signature-product .portfolio-card__copy {
+  align-self: center; padding: clamp(1rem, 5vw, 4rem); border-block: 1px solid var(--rf-border);
+}
+.signature-product h4 { font-size: clamp(1.8rem, 5vw, 4rem); line-height: 1; letter-spacing: -.055em; }
+.signature-home .signature-models { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem; }
+.signature-home .signature-models .portfolio-card { border-radius: .8rem; }
+.signature-career .rf-job:first-child { border-inline-start: 3px solid var(--rf-green); background: var(--rf-soft); padding-inline: 1rem; }
+.signature-car-selector, .signature-camera-selector {
+  display: flex; flex-wrap: wrap; gap: .35rem; padding: .35rem; border-radius: .65rem;
+  background: var(--rf-paper); border: 1px solid var(--rf-border);
+}
+.signature-car-selector[hidden], .signature-camera-selector[hidden],
+.signature-select-fallback { display: none !important; }
+.signature-car-selector button, .signature-camera-selector button {
+  flex: 1 0 auto; min-height: 44px; padding: .35rem .7rem; font: inherit;
+  border: 1px solid transparent; border-radius: .45rem; color: var(--rf-text);
+  background: transparent; cursor: pointer;
+}
+.signature-car-selector button[aria-pressed="true"], .signature-camera-selector button[aria-pressed="true"] {
+  background: var(--rf-soft); border-color: var(--rf-green); font-weight: 700;
+}
+.signature-garage .garage-stage { min-height: clamp(20rem, 62svh, 42rem); }
+.signature-garage .garage-settings { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.signature-garage .garage-settings select, .signature-garage .garage-toolbar > button { min-height: 44px; }
+.signature-garage .garage-actions { gap: .6rem; }
+.signature-cv { max-width: 960px; }
+.cv-page .signature-cv .cv-document { border-block-start: 5px solid var(--rf-green); }
+.signature-cv .cv-title { align-items: center; gap: 1rem; }
+.signature-cv .cv-title h1 { letter-spacing: -.065em; }
+.signature-cv .cv-title .job-title { font-weight: 650; }
+.jarvis-page .jarvis-hero { background: #13162a; color: #f3f1ff; border-radius: 1rem; padding: clamp(1rem, 4vw, 3rem); }
+.jarvis-page .jarvis-hero :is(.rf-lead, .jarvis-tagline, .jarvis-version) { color: #d6d3ee; }
+.jarvis-page .jarvis-hero .rf-btn--outline { color: #f3f1ff; border-color: #a49bc9; }
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 170ms; }
+}
+@media (max-width: 840px) {
+  .signature-home .signature-product, .signature-home .signature-product:nth-child(even),
+  .signature-home .signature-models { grid-template-columns: minmax(0, 1fr); }
+  .signature-product:nth-child(even) > .portfolio-card__media { order: 0; }
+  .signature-home .signature-product .portfolio-card__copy { padding: 1.25rem .35rem; border-block-start: 0; }
+  .signature-garage .garage-stage { min-height: min(62svh, 28rem); }
+  .parts-stage, .cmp-stage { min-height: min(56svh, 25rem); }
+}
+@media print {
+  .signature-cv .rf-cv-index { display: none; }
+}
+
+.parts-page > nav.signature-car-links {
+  display: flex; align-items: center; flex-wrap: wrap; gap: .35rem; margin-block: 1rem;
+}
+.signature-car-links a {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 49px; min-height: 44px; padding: .3rem .75rem;
+  border: 1px solid var(--rf-border); border-radius: .55rem; text-decoration: none;
+}
+.signature-car-links a[aria-current] { background: var(--rf-soft); border-color: var(--rf-green); font-weight: 700; }
+.parts-toolbar button, .parts-fields select, .cmp-picks select, .cmp-picks button,
+.cmp-orientation button { min-height: 44px; }
+
+.signature-car-selector button[aria-disabled="true"] { opacity: .65; cursor: wait; }

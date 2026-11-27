@@ -33,8 +33,10 @@
   <meta property="og:image:alt" content="Front three-quarter Blender render of the silver and turquoise Mercedes W16">
   <meta name="twitter:card" content="summary_large_image">
   <script src="/assets/menu.js" defer></script>
-  <script type="module" src="/assets/garage-3d.js"></script>
-  <link rel="stylesheet" href="/assets/portfolio-v4.css">
+  <script type="module" src="/assets/garage-3d.js?v=4.1"></script>
+  <link rel="stylesheet" href="/assets/portfolio-v4.css?v=4.1">
+  <link rel="stylesheet" href="/assets/signature.css?v=4.1">
+  <script type="module" src="/assets/signature.js?v=4.1"></script>
 </head>
 <body class="portfolio studio">
   <a class="rf-skip" href="#contenu">Skip to content</a>
@@ -82,7 +84,7 @@
           <a class="rf-btn rf-btn--outline" href="/en/mercedes-w16/composants/">Explore the components</a>
         <p>Change car, viewpoint and lighting. The model loads when you open the 3D scene.</p>
       </div>
-      <div class="garage-frame">
+      <div class="garage-frame signature-garage">
         <div class="garage-stage" data-backdrop="graphite">
           <img class="garage-poster" src="/mercedes-w16/studio-800.webp" alt="Blender render of the W16" width="800" height="450" loading="lazy" decoding="async">
           <model-viewer alt="Mercedes-AMG W16" camera-controls touch-action="pan-y" interaction-prompt="none"
@@ -91,6 +93,8 @@
             field-of-view="28deg" max-field-of-view="38deg" shadow-softness=".78"><span slot="ar-button" hidden></span></model-viewer>
         </div>
         <div class="garage-actions" hidden>
+          <div data-signature-selector="garage-car" class="signature-car-selector" hidden></div>
+          <div data-signature-selector="garage-view" class="signature-camera-selector" hidden></div>
           <div class="garage-settings" role="group" aria-label="Scene settings">
         <label for="garage-car"><span>Car</span><select id="garage-car"><option value="w13">W13</option><option value="w14">W14</option><option value="w15">W15</option><option value="w16" selected>W16</option></select></label>
         <label for="garage-view"><span>View</span><select id="garage-view"><option value="studio" selected>Three-quarter</option><option value="front">Front</option><option value="side">Side</option><option value="top">Top</option><option value="rear">Rear</option></select></label>

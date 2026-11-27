@@ -23,9 +23,14 @@ jobs:
           git worktree add --detach /tmp/portfolio-avant "${{ github.event.pull_request.base.sha }}"
           python3 -m http.server 8793 --bind 127.0.0.1 --directory /tmp/portfolio-avant &
           python3 -m http.server 8794 --bind 127.0.0.1 &
-          node scripts/apercus-v4.mjs
+          git clone https://github.com/raphaelflipo/la-boussole.git /tmp/boussole-v41
+          git -C /tmp/boussole-v41 checkout --detach 23d2b6a38382c4ac489ea1acfb496e893ec9a685
+          git -C /tmp/boussole-v41 worktree add --detach /tmp/boussole-v4 8cc1f4f6d36f44d8ff780161c090f7bccf2d0840
+          python3 -m http.server 8795 --bind 127.0.0.1 --directory /tmp/boussole-v4 &
+          python3 -m http.server 8796 --bind 127.0.0.1 --directory /tmp/boussole-v41 &
+          node scripts/recette-signature.mjs
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
-          name: portfolio-v4-avant-apres
-          path: apercus-v4/
+          name: portfolio-v41-avant-apres
+          path: signature-receipt/

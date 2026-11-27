@@ -4,7 +4,7 @@ let args = CommandLine.arguments
 let src = try String(contentsOfFile: args[1], encoding: .utf8)
 let page = NSRect(x: 0, y: 0, width: 595.28, height: 841.89)
 let paper = NSView(frame: page)
-let body = NSTextView(frame: NSRect(x: 39, y: 37, width: 517, height: 768))
+let body = NSTextView(frame: NSRect(x: 39, y: 44, width: 517, height: 750))
 body.textContainerInset = .zero
 body.textContainer?.lineFragmentPadding = 0
 body.drawsBackground = false
@@ -14,13 +14,13 @@ for row in src.split(separator: "\n") {
     let role = String(segments[0])
     let line = String(segments[1])
     let title = role == "name", heading = role == "heading", position = role == "position"
-    let font = NSFont.systemFont(ofSize: title ? 29 : heading ? 10.4 : position ? 10.4 : 9.3,
+    let font = NSFont.systemFont(ofSize: title ? 34 : heading ? 10.4 : position ? 10.4 : 9.3,
                                  weight: title || heading || position ? .semibold : .regular)
     let style = NSMutableParagraphStyle()
-    style.paragraphSpacingBefore = heading ? 7 : 0
-    style.paragraphSpacing = title ? 4 : position || heading ? 3 : 2
+    style.paragraphSpacingBefore = heading ? 10 : 0
+    style.paragraphSpacing = title ? 7 : position || heading ? 3 : 2
     style.lineSpacing = 0.6
-    let color = heading ? NSColor(srgbRed: 0.06, green: 0.32, blue: 0.31, alpha: 1) : NSColor.black
+    let color = heading ? NSColor(srgbRed: 0.04, green: 0.34, blue: 0.34, alpha: 1) : NSColor.black
     content.append(NSAttributedString(string: line + "\n", attributes: [.font: font, .foregroundColor: color, .paragraphStyle: style]))
 }
 body.textStorage?.setAttributedString(content)

@@ -33,8 +33,10 @@
   <meta property="og:image:alt" content="Rendu Blender de la Mercedes W16 argent et turquoise en vue de trois-quarts avant">
   <meta name="twitter:card" content="summary_large_image">
   <script src="/assets/menu.js" defer></script>
-  <script type="module" src="/assets/garage-3d.js"></script>
-  <link rel="stylesheet" href="/assets/portfolio-v4.css">
+  <script type="module" src="/assets/garage-3d.js?v=4.1"></script>
+  <link rel="stylesheet" href="/assets/portfolio-v4.css?v=4.1">
+  <link rel="stylesheet" href="/assets/signature.css?v=4.1">
+  <script type="module" src="/assets/signature.js?v=4.1"></script>
 </head>
 <body class="portfolio studio">
   <a class="rf-skip" href="#contenu">Aller au contenu</a>
@@ -82,7 +84,7 @@
           <a class="rf-btn rf-btn--outline" href="/mercedes-w16/composants/">Comprendre les composants</a>
         <p>Choisissez une monoplace, un cadrage et un éclairage. Le modèle se charge à l’ouverture de la scène 3D.</p>
       </div>
-      <div class="garage-frame">
+      <div class="garage-frame signature-garage">
         <div class="garage-stage" data-backdrop="graphite">
           <img class="garage-poster" src="/mercedes-w16/studio-800.webp" alt="Rendu Blender de la W16" width="800" height="450" loading="lazy" decoding="async">
           <model-viewer alt="Mercedes-AMG W16" camera-controls touch-action="pan-y" interaction-prompt="none"
@@ -91,6 +93,8 @@
             field-of-view="28deg" max-field-of-view="38deg" shadow-softness=".78"><span slot="ar-button" hidden></span></model-viewer>
         </div>
         <div class="garage-actions" hidden>
+          <div data-signature-selector="garage-car" class="signature-car-selector" hidden></div>
+          <div data-signature-selector="garage-view" class="signature-camera-selector" hidden></div>
           <div class="garage-settings" role="group" aria-label="Réglages de la scène">
         <label for="garage-car"><span>Monoplace</span><select id="garage-car"><option value="w13">W13</option><option value="w14">W14</option><option value="w15">W15</option><option value="w16" selected>W16</option></select></label>
         <label for="garage-view"><span>Cadrage</span><select id="garage-view"><option value="studio" selected>Trois quarts</option><option value="front">Face</option><option value="side">Profil</option><option value="top">Dessus</option><option value="rear">Arrière</option></select></label>
