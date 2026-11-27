@@ -108,7 +108,7 @@
 .portfolio .portfolio-card__media { border-radius: 0; }
 .portfolio .portfolio-grid--mercedes .portfolio-card__media { background: var(--v4-ink); }
 @media (max-width: 720px) {
-  .portfolio .rf-hero { padding: 1.35rem 1.15rem 3rem; min-height: max(660px, 90svh); }
+  .portfolio .rf-hero { padding: 1.35rem 1.15rem 3rem; min-height: 640px; }
   .portfolio .rf-hero__copy { padding-block-end: 0; }
   .rf-launch img { height: 66%; object-position: 55% top; }
   .rf-launch::after { background: linear-gradient(0deg,#080b0f 30%,#080b0fd6 49%,transparent 82%); }
@@ -158,6 +158,6 @@
   .portfolio .rf-hero h1 { font-size: clamp(2.75rem, 12.75vw, 3.25rem); }
 }
 @media (max-width: 720px) and (max-height: 760px) {
-  .portfolio .rf-hero { min-height: max(530px, calc(100svh - 70px)); }
+  .portfolio .rf-hero { min-height: clamp(530px, calc(100svh - 70px), 640px); }
   .portfolio .rf-hero__copy { padding-block-end: .75rem; }
 }
