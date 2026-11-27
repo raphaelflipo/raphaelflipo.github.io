@@ -1,0 +1,7 @@
+.dev.vars
+.env*
+node_modules/
+.wrangler/
+private/*
+!private/.gitkeep
+src/pro.generated.mjs

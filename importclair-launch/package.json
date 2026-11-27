@@ -1,0 +1,11 @@
+{
+  "name": "importclair-launch",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "check": "node scripts/preflight.mjs",
+    "preview": "node scripts/preview.mjs"
+  },
+  "engines": { "node": ">=22" }
+}

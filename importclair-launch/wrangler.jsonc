@@ -1,0 +1,17 @@
+{
+  "name": "importclair-pro",
+  "main": "src/worker.mjs",
+  "compatibility_date": "2026-11-15",
+  "workers_dev": true,
+  "observability": { "enabled": false },
+  "vars": {
+    "SALES_ENABLED": "false",
+    "PUBLIC_ORIGIN": "",
+    "SELLER_NAME": "",
+    "SELLER_ADDRESS": "",
+    "SELLER_SIREN": "",
+    "SUPPORT_EMAIL": "",
+    "TERMS_TEXT": "",
+    "PRIVACY_TEXT": ""
+  }
+}
