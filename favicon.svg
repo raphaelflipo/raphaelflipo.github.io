@@ -1,1 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="#163c2a"/><text x="32" y="43" text-anchor="middle" font-size="32" font-weight="700" letter-spacing="-3" font-family="Arial,Helvetica,sans-serif" fill="#ffffff">rf.</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="10" fill="#080b0f"/>
+  <rect x="8" y="8" width="48" height="48" rx="2" fill="none" stroke="#00d2be"/>
+  <path d="M18 44V20h9a6 6 0 0 1 0 12h-9m8 0 8 12m5 0V20h11M39 31h9" fill="none" stroke="#eef3f5" stroke-linecap="square" stroke-linejoin="round" stroke-width="3"/>
+</svg>

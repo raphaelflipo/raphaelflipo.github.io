@@ -95,3 +95,14 @@ Le répertoire `local-app` de [raphaelflipo/jarvis](https://github.com/raphaelfl
 ### Reproduction des ateliers de composants
 
 Les six exports dans `assets/composants/mercedes-*.json` relient les triangles des GLB d’origine aux objets des projets Blender. Le script `scripts/composants/exporter.py` lit un maître Blender, son GLB publié et un chemin JSON de sortie. L’index conserve les groupes par primitive et l’empreinte SHA-256 du GLB. Le navigateur partage les attributs de sommets et les matériaux d’origine et partitionne uniquement la liste des triangles. Le mode éclaté déplace des ensembles existants. Les marquages non attribués restent des éléments de contexte. Sur la W13, la rampe correspond aux objets Blender nommés. Sur les W14, W15 et W16, une section sur la remontée arrière de chaque demi-tunnel délimite une région pédagogique. Le barycentre des faces détermine leur côté de cette limite. Les roues proposent trois sélections supplémentaires, pneumatiques, jantes et flasques, freins et écopes. La projection orthographique utilise une caméra à rayons parallèles et se conserve dans le lien partagé. Les fentes sont des vides entre profils.
+
+### Mettre à jour les CV
+
+Les pages `cv/index.html` et `cv/en/index.html` alimentent les versions web. Les deux documents Word du dossier `cv/` sont les sources des PDF. Sur macOS, extraire le texte du Word puis l’imprimer en PDF permet de conserver un document sélectionnable.
+
+```sh
+python3 scripts/lire-cv-word.py cv/CV-Raphael-Flipo.docx > /tmp/cv-flipo.txt
+swift scripts/exporter-cv.swift /tmp/cv-flipo.txt cv/CV-Raphael-Flipo.pdf
+```
+
+Répéter avec les noms de fichiers anglais contenant `-EN`.

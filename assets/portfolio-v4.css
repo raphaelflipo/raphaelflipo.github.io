@@ -1,0 +1,163 @@
+/* Shared surface and typography for the portfolio and its technical pages. */
+:root {
+  --v4-ink: #080b0f;
+  --v4-metal: #eef3f5;
+  --v4-accent: #00d2be;
+  --v4-rule: #51616c;
+}
+:root {
+  --rf-bg: #f2f5f6; --rf-paper: #fff; --rf-text: #121c24;
+  --rf-muted: #455761; --rf-green: #006a61; --rf-dark: #12232b;
+  --rf-soft: #e5eeee; --rf-border: #cdd9dc; --header: #f2f5f6f2;
+  --bg: var(--rf-bg); --surface: var(--rf-paper); --ink: var(--rf-text);
+}
+:root[data-theme="dark"] {
+  --rf-bg: #0b1016; --rf-paper: #151e26; --rf-text: #eef3f5;
+  --rf-muted: #b4c4cd; --rf-green: #6de5d6; --rf-dark: #172c34;
+  --rf-soft: #13252b; --rf-border: #3b4b54; --header: #0b1016f2;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --rf-bg: #0b1016; --rf-paper: #151e26; --rf-text: #eef3f5;
+    --rf-muted: #b4c4cd; --rf-green: #6de5d6; --rf-dark: #172c34;
+    --rf-soft: #13252b; --rf-border: #3b4b54; --header: #0b1016f2;
+  }
+}
+.rf-header {
+  border-block-end: 1px solid #34404a;
+}
+.rf-brand {
+  letter-spacing: -.065em;
+}
+.rf-brand span { color: inherit; }
+.rf-brand::before {
+  content: "RF";
+  display: inline-grid;
+  place-items: center;
+  width: 2.35em;
+  aspect-ratio: 1;
+  margin-inline-end: .7em;
+  border: 1px solid currentColor;
+  font: 600 .65em/1 system-ui, sans-serif;
+  letter-spacing: -.04em;
+  vertical-align: middle;
+}
+.rf-nav a, .rf-lang, .rf-menu summary { min-height: 44px; align-items: center; }
+.rf-menu summary { display: flex; }
+.rf-nav a { display: inline-flex; }
+.portfolio .rf-hero {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template: "launch" 1fr / minmax(0, 1fr);
+  align-content: end;
+  align-items: end;
+  min-height: clamp(620px, 80svh, 880px);
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: clamp(36px, 7vw, 120px);
+  overflow: clip;
+  background: var(--v4-ink);
+  color: var(--v4-metal);
+}
+.portfolio .rf-hero__copy { grid-area: launch; align-self: end; z-index: 2; max-width: 42rem; padding-block-end: 2.2rem; }
+.portfolio .rf-hero h1 {
+  font: 600 clamp(3.4rem, 8.6vw, 9.5rem)/.89 Geist, system-ui, sans-serif;
+  letter-spacing: -.097em;
+  margin: .18em 0;
+  color: inherit;
+}
+.portfolio .rf-hero h1 span { color: var(--v4-accent); }
+.portfolio .rf-hero .rf-lead { color: #d3dfe4; max-width: 42ch; }
+.portfolio .rf-hero .portfolio-hero__role { color: #fff; }
+.rf-launch-label {
+  font: 600 .72rem/1.5 monospace;
+  letter-spacing: .16em;
+  color: #90f5e8;
+}
+.rf-launch { position: absolute; z-index: 0; inset: 0; margin: 0; }
+.rf-launch picture, .rf-launch img { display: block; width: 100%; height: 100%; }
+.rf-launch img { object-fit: cover; object-position: 54% center; }
+.rf-launch::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(90deg,#080b0ff5 0%,#080b0f9e 31%,transparent 76%),
+              linear-gradient(0deg,#080b0f 0%, transparent 72%);
+}
+.rf-launch figcaption {
+  position: absolute;
+  z-index: 2;
+  bottom: 1.2rem;
+  right: clamp(20px, 5vw, 80px);
+}
+.rf-launch figcaption a, .portfolio .rf-hero .rf-link { color: var(--v4-metal); }
+.portfolio .rf-hero .rf-btn {
+  background: var(--v4-accent);
+  color: #071411;
+  border: 1px solid var(--v4-accent);
+  border-radius: 4px;
+}
+.portfolio .rf-hero .rf-btn--outline { background: #080b0f88; color: white; border-color: #96a4ad; }
+.portfolio .rf-section__head h2, .rf-page-hero h1 {
+  letter-spacing: -.07em;
+}
+.portfolio .portfolio-card { border-radius: 5px; }
+.portfolio .portfolio-card__media { border-radius: 0; }
+.portfolio .portfolio-grid--mercedes .portfolio-card__media { background: var(--v4-ink); }
+@media (max-width: 720px) {
+  .portfolio .rf-hero { padding: 1.35rem 1.15rem 3rem; min-height: 640px; }
+  .portfolio .rf-hero__copy { padding-block-end: 0; }
+  .rf-launch img { height: 66%; object-position: 55% top; }
+  .rf-launch::after { background: linear-gradient(0deg,#080b0f 30%,#080b0fd6 49%,transparent 82%); }
+  .rf-launch figcaption a { font-size: .78rem; }
+  .portfolio .rf-hero .rf-actions { gap: .5rem; }
+  .rf-brand::before { margin-inline-end: .45em; }
+}
+@media print {
+  .cv-page { color: #142229; }
+  .cv-page h2 { color: #235652; }
+}
+
+.studio-hero, .jarvis-hero, .parts-hero, .cmp-intro {
+  border-block-end: 1px solid #51616c;
+}
+.studio-hero h1, .jarvis-hero h1, .parts-page h1, .cmp-intro h1 {
+  letter-spacing: -.075em;
+  text-wrap: balance;
+}
+.studio-hero, .jarvis-page .jarvis-hero {
+  margin-block-end: clamp(1.8rem, 5vw, 5rem);
+}
+.studio-hero {
+  background-color: #0c1319;
+}
+.parts-panel, .cmp-panel {
+  border-color: #707f87;
+  border-radius: 6px;
+}
+.parts-panel button, .parts-panel select, .cmp-panel button, .cmp-panel select {
+  min-height: 44px;
+}
+.cv-page .cv-document {
+  border-radius: 3px;
+}
+.cv-page .cv-title {
+  border-block-end: 2px solid #427b75;
+  padding-block-end: .8rem;
+}
+.cv-page .cv-document h2 { letter-spacing: -.04em; }
+
+@media (max-width: 360px) {
+  .rf-header .rf-brand { font-size: .95rem; }
+  .rf-header .rf-brand::before { display: none; }
+  .rf-header .rf-nav-tools { gap: 4px; }
+  .rf-header .rf-menu summary { padding-inline: 9px; }
+  .portfolio .rf-hero h1 { font-size: clamp(2.75rem, 12.75vw, 3.25rem); }
+}
+@media (max-width: 720px) and (max-height: 760px) {
+  .portfolio .rf-hero { min-height: clamp(530px, calc(100svh - 70px), 640px); }
+  .portfolio .rf-hero__copy { padding-block-end: .75rem; }
+}
