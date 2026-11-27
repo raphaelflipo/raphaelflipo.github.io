@@ -1,0 +1,31 @@
+name: Aperçus du portfolio V4
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  captures:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5
+        with:
+          fetch-depth: 0
+          persist-credentials: false
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        with:
+          node-version: '22'
+      - run: npm install --no-save playwright@1.55.1
+      - run: npx playwright install --with-deps chromium
+      - name: Comparer les pages sur mobile et sur ordinateur
+        run: |
+          git worktree add --detach /tmp/portfolio-avant "${{ github.event.pull_request.base.sha }}"
+          python3 -m http.server 8793 --bind 127.0.0.1 --directory /tmp/portfolio-avant &
+          python3 -m http.server 8794 --bind 127.0.0.1 &
+          node scripts/apercus-v4.mjs
+      - uses: actions/upload-artifact@ea165f8d65b5b540449e92b4886f43607fa02
+        if: always()
+        with:
+          name: portfolio-v4-avant-apres
+          path: apercus-v4/
