@@ -10,13 +10,17 @@
   border-bottom: 1px solid var(--rf-border);
 }
 .signature-header .rf-menu nav a::after { content: '↗'; color: var(--rf-green); font-size: .75em; }
-.signature-products { display: grid; gap: clamp(1.75rem, 6vw, 5rem); margin-block: 1rem 4rem; }
+.signature-products { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(1.75rem, 6vw, 5rem); margin-block: 1rem 4rem; }
 .signature-home .signature-product {
   display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); align-items: stretch;
   border: 0; border-radius: 0; background: none; box-shadow: none; overflow: visible;
 }
 .signature-home .signature-product:nth-child(even) { grid-template-columns: minmax(0, 1fr) minmax(0, 1.55fr); }
 .signature-product:nth-child(even) > .portfolio-card__media { order: 2; }
+.signature-product > * { min-width: 0; max-width: 100%; }
+.signature-product .portfolio-card__media picture { display: block; width: 100%; height: 100%; }
+.signature-product .portfolio-card__media img { width: 100%; height: 100%; padding: .65rem; object-fit: contain; }
+.signature-product h4 { overflow-wrap: anywhere; }
 .signature-home .signature-product .portfolio-card__media {
   min-height: 0; aspect-ratio: 16 / 10; border-radius: clamp(.85rem, 3vw, 2rem); overflow: hidden;
 }
@@ -57,7 +61,7 @@
   @view-transition { navigation: auto; }
   ::view-transition-old(root), ::view-transition-new(root) { animation-duration: 170ms; }
 }
-@media (max-width: 680px) {
+@media (max-width: 840px) {
   .signature-home .signature-product, .signature-home .signature-product:nth-child(even),
   .signature-home .signature-models { grid-template-columns: minmax(0, 1fr); }
   .signature-product:nth-child(even) > .portfolio-card__media { order: 0; }
@@ -68,3 +72,15 @@
 @media print {
   .signature-cv .rf-cv-index { display: none; }
 }
+
+.parts-page > nav.signature-car-links {
+  display: flex; align-items: center; flex-wrap: wrap; gap: .35rem; margin-block: 1rem;
+}
+.signature-car-links a {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 49px; min-height: 44px; padding: .3rem .75rem;
+  border: 1px solid var(--rf-border); border-radius: .55rem; text-decoration: none;
+}
+.signature-car-links a[aria-current] { background: var(--rf-soft); border-color: var(--rf-green); font-weight: 700; }
+.parts-toolbar button, .parts-fields select, .cmp-picks select, .cmp-picks button,
+.cmp-orientation button { min-height: 44px; }
