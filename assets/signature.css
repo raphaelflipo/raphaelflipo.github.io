@@ -9,7 +9,11 @@
   min-height: 48px; font-size: clamp(1.1rem, 3vw, 1.55rem); letter-spacing: -.025em;
   border-bottom: 1px solid var(--rf-border);
 }
-.signature-header .rf-menu nav a::after { content: '↗'; color: var(--rf-green); font-size: .75em; }
+.signature-header .rf-menu nav a::after {
+  content: ''; width: .5rem; height: .5rem; flex: none;
+  border-block-start: 2px solid var(--rf-green); border-inline-end: 2px solid var(--rf-green);
+  transform: rotate(45deg);
+}
 .signature-products { display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(1.75rem, 6vw, 5rem); margin-block: 1rem 4rem; }
 .signature-home .signature-product {
   display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); align-items: stretch;
