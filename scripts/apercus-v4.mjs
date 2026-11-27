@@ -10,8 +10,8 @@ const routes = {
 const browser = await chromium.launch();
 await mkdir('apercus-v4', { recursive: true });
 try {
-  for (const width of [390, 1440]) {
-    const page = await browser.newPage({ viewport: { width, height: 900 }, colorScheme: 'light' });
+  for (const [width, height] of [[320, 720], [390, 720], [1440, 900]]) {
+    const page = await browser.newPage({ viewport: { width, height }, colorScheme: 'light' });
     for (const [name, path] of Object.entries(routes)) {
       for (const [version, port] of [['avant', 8793], ['apres', 8794]]) {
         const response = await page.goto('http://127.0.0.1:' + port + path);
