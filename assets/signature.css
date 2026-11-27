@@ -90,3 +90,23 @@
 .cmp-orientation button { min-height: 44px; }
 
 .signature-car-selector button[aria-disabled="true"] { opacity: .65; cursor: wait; }
+
+.signature-index {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: .35rem;
+  margin-block: clamp(.7rem, 2vw, 1.7rem); border-block: 1px solid var(--rf-border);
+}
+.signature-index a {
+  display: flex; align-items: center; justify-content: space-between; gap: .45rem;
+  min-height: 48px; padding: .6rem clamp(.45rem, 2vw, 1.1rem);
+  color: var(--rf-text); text-decoration: none; font-weight: 650;
+}
+.signature-index a::after {
+  content: ''; flex: none; width: .45rem; height: .45rem;
+  border-block-end: 2px solid var(--rf-green); border-inline-end: 2px solid var(--rf-green);
+  transform: rotate(45deg);
+}
+.signature-index a:hover { background: var(--rf-soft); }
+@media (max-width: 540px) {
+  .signature-index { gap: 0; }
+  .signature-index a { font-size: .83rem; overflow-wrap: anywhere; }
+}

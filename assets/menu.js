@@ -51,16 +51,31 @@ if (englishRecovery) {
 }
 
 const searchOpeners = [...document.querySelectorAll('[data-search-open]')];
+const menuLinks = document.querySelector('.rf-menu nav');
+const searchFallback = document.createElement('a');
+if (menuLinks) {
+  const english = document.documentElement.lang === 'en';
+  searchFallback.href = english ? '/en/projets/' : '/projets/';
+  searchFallback.textContent = english ? 'Search' : 'Rechercher';
+  menuLinks.append(searchFallback);
+}
 const canOpenSearch = typeof HTMLDialogElement !== 'undefined' && typeof HTMLDialogElement.prototype.showModal === 'function';
 async function openQuickSearch(opener) {
   try {
-    const { openSearch } = await import('/assets/recherche-rapide.js');
+    const { openSearch } = await import('/assets/recherche-rapide.js?v=5');
     openSearch(opener);
   } catch {
     location.assign(document.documentElement.lang === 'en' ? '/en/projets/' : '/projets/');
   }
 }
 if (canOpenSearch) {
+  if (menuLinks) searchFallback.addEventListener('click', event => {
+    if (event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return;
+    event.preventDefault();
+    const disclosure = menuLinks.closest('details');
+    disclosure.open = false;
+    openQuickSearch(disclosure.querySelector('summary'));
+  });
   for (const opener of searchOpeners) {
     opener.hidden = false;
     opener.addEventListener('click', () => openQuickSearch(opener));
