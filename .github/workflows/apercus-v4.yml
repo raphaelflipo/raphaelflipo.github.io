@@ -24,7 +24,7 @@ jobs:
           python3 -m http.server 8793 --bind 127.0.0.1 --directory /tmp/portfolio-avant &
           python3 -m http.server 8794 --bind 127.0.0.1 &
           node scripts/apercus-v4.mjs
-      - uses: actions/upload-artifact@ea165f8d65b5b540449e92b4886f43607fa02
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
         if: always()
         with:
           name: portfolio-v4-avant-apres
