@@ -103,13 +103,14 @@ export async function openScene(host, model, signal, onLoss, onPick, label) {
     const canvas=renderer.domElement; canvas.setAttribute('aria-hidden','true'); host.prepend(canvas);
     canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();onLoss();},{once:true,signal});
     const marker=host.querySelector('.parts-marker');
-    const projector=new T.Vector3(), raycaster=new T.Raycaster();
+    const projector=new T.Vector3(), raycaster=new T.Raycaster(), renderSize=new T.Vector2();
     const ids=new WeakMap(pieces.map(p=>[p.mesh,p.id]));
     let anchor, anchorMesh;
     const target=new T.Vector3();let yaw=-.85,pitch=.34,radius=6;
     function draw(){
       frame=0;const width=Math.max(1,host.clientWidth),height=Math.max(1,host.clientHeight);
-      renderer.setSize(width,height,false);
+      const current = renderer.getSize(renderSize);
+      if (current.x !== width || current.y !== height) renderer.setSize(width,height,false);
       const aspect=width/height;
       if(camera.isOrthographicCamera){
         const halfHeight=radius*halfFov;

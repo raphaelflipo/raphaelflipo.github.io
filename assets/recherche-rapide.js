@@ -1,3 +1,5 @@
+import { editorial } from './index-recherche.js?v=5';
+
 const entries = [
   ['/projets/', 'Tous les projets', 'All projects', 'portfolio recherche search'],
   ['/projets/la-boussole/', 'Étude de cas La Boussole', 'La Boussole case study', 'covoiturage scout carpool'],
@@ -15,9 +17,15 @@ const entries = [
   ['/telechargements/', 'Téléchargements', 'Downloads', 'cv jarvis install pdf apk'],
   ['/cv/', 'Curriculum vitæ', 'Curriculum vitae', 'cv pdf expérience experience'],
   ['/journal/', 'Journal de développement', 'Development log', 'nouveautés updates'],
-  ['/statut/', 'État des services', 'Service checks', 'disponibilité status'],
+  ...['w13', 'w14', 'w15', 'w16'].flatMap(car => [
+    [`/mercedes-${car}/composants/`, `Inspecter la ${car.toUpperCase()}`, `Inspect the ${car.toUpperCase()}`, 'composants components DRS coupe cutaway'],
+    [`/ingenierie/${car}/`, `Dossier ${car.toUpperCase()}`, `${car.toUpperCase()} engineering dossier`, 'aérodynamique aerodynamics'],
+  ]),
+  ...editorial,
+  ['/statut/',  'État des services', 'Service checks', 'disponibilité status'],
 ];
 
+const limit = 18;
 const searchText = text => text.toLowerCase().normalize('NFD').replace(/\p{Diacritic}/gu, '');
 let dialog;
 let input;
@@ -56,8 +64,10 @@ function createSearch() {
   function render() {
     const terms = searchText(input.value).trim().split(/\s+/).filter(Boolean);
     const visible = entries.filter(([,fr,en,keywords]) => terms.every(term => searchText(fr + ' ' + en + ' ' + keywords).includes(term)));
-    status.textContent = visible.length ? '' : (english ? 'No matching pages.' : 'Aucune page correspondante.');
-    list.replaceChildren(...visible.map(([path,fr,en]) => {
+    status.textContent = visible.length > limit && terms.length
+      ? (english ? 'Refine the search to see more specific results.' : 'Précisez la recherche pour affiner les résultats.')
+      : visible.length ? '' : (english ? 'No matching pages.' : 'Aucune page correspondante.');
+    list.replaceChildren(...visible.slice(0, limit).map(([path,fr,en]) => {
       const item = document.createElement('li');
       const link = document.createElement('a');
       link.href = linkPath(path, english);
