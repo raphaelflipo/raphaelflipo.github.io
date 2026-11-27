@@ -2,10 +2,13 @@ const menu = document.querySelector('.rf-menu');
 const navigation = menu?.querySelector('nav');
 if (navigation) {
   const english = document.documentElement.lang === 'en';
-  const studio = document.createElement('a');
-  studio.href = english ? '/en/projets/' : '/projets/';
-  studio.textContent = english ? 'Project catalogue' : 'Catalogue des projets';
-  navigation.append(studio);
+  const catalogue = english ? '/en/projets/' : '/projets/';
+  if (!navigation.querySelector(`a[href="${catalogue}"]`)) {
+    const link = document.createElement('a');
+    link.href = catalogue;
+    link.textContent = english ? 'Project catalogue' : 'Catalogue des projets';
+    navigation.append(link);
+  }
   navigation.setAttribute('aria-label', english ? 'Explore the portfolio' : 'Explorer le portfolio');
   menu.closest('.rf-header')?.classList.add('signature-header');
   menu.addEventListener('click', event => {
@@ -24,7 +27,7 @@ for (const group of document.querySelectorAll('[data-signature-selector]')) {
     button.type = 'button';
     button.textContent = option.text;
     button.addEventListener('click', () => {
-      if (select.value === option.value) return;
+      if (select.disabled || select.value === option.value) return;
       select.value = option.value;
       select.dispatchEvent(new Event('change', { bubbles: true }));
     });
@@ -32,11 +35,16 @@ for (const group of document.querySelectorAll('[data-signature-selector]')) {
     return [option.value, button];
   });
   const sync = () => {
-    for (const [value, button] of buttons) button.setAttribute('aria-pressed', String(select.value === value));
+    for (const [value, button] of buttons) {
+      button.setAttribute('aria-pressed', String(select.value === value));
+      button.setAttribute('aria-disabled', String(select.disabled));
+    }
   };
   select.addEventListener('change', sync);
   group.closest('.studio-garage').addEventListener('garage-selection', sync);
-  new MutationObserver(sync).observe(group.closest('.garage-actions'), { attributes: true, attributeFilter: ['hidden'] });
+  const observer = new MutationObserver(sync);
+  observer.observe(group.closest('.garage-actions'), { attributeFilter: ['hidden'] });
+  observer.observe(select, { attributeFilter: ['disabled'] });
   window.addEventListener('pageshow', sync);
   sync();
   group.hidden = false;

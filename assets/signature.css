@@ -84,3 +84,5 @@
 .signature-car-links a[aria-current] { background: var(--rf-soft); border-color: var(--rf-green); font-weight: 700; }
 .parts-toolbar button, .parts-fields select, .cmp-picks select, .cmp-picks button,
 .cmp-orientation button { min-height: 44px; }
+
+.signature-car-selector button[aria-disabled="true"] { opacity: .65; cursor: wait; }
