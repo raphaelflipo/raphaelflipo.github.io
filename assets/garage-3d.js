@@ -106,6 +106,7 @@ function scheduleTour() {
 function visitCar(index) {
   model.value = tourCars[index];
   view.value = ['studio', 'front', 'side', 'studio'][index];
+  garage.dispatchEvent(new Event('garage-selection'));
   state.restoreCamera = false;
   useCar();
   if (stage.classList.contains('is-live') && viewer.loaded && state.car === model.value) scheduleTour();
@@ -148,7 +149,10 @@ viewer.addEventListener('load', () => {
   state.restoreCamera = false;
   status.textContent = messages.loaded;
   scheduleTour();
-  if (restoreFocus) view.focus({ preventScroll: true });
+  if (restoreFocus) {
+    const camera = garage.querySelector('.signature-camera-selector:not([hidden]) button[aria-pressed="true"]');
+    (camera || view).focus({ preventScroll: true });
+  }
 });
 viewer.addEventListener('error', showError);
 load.addEventListener('click', openModel);

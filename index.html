@@ -35,9 +35,11 @@
   <meta property="og:image:alt" content="Raphaël Flipo, commerce, marketing et projets numériques">
   <meta name="twitter:card" content="summary_large_image">
   <script src="/assets/menu.js" defer></script>
-  <link rel="stylesheet" href="/assets/portfolio-v4.css">
+  <link rel="stylesheet" href="/assets/portfolio-v4.css?v=4.1">
+  <link rel="stylesheet" href="/assets/signature.css?v=4.1">
+  <script src="/assets/signature.js?v=4.1" defer></script>
 </head>
-<body class="portfolio">
+<body class="portfolio signature-home">
   <a class="rf-skip" href="#contenu">Aller au contenu</a>
   <header class="rf-header">
     <div class="rf-shell rf-header__inner">
@@ -89,8 +91,8 @@
     <div class="rf-project-shortcuts"><a class="rf-link" href="/projets/">Parcourir tous les projets</a><button type="button" class="rf-shortcut-button" data-search-open hidden>Recherche rapide <kbd aria-hidden="true">⌘ K</kbd></button></div>
       <section class="portfolio-group" aria-labelledby="titre-applications">
         <h3 class="portfolio-group__title" id="titre-applications">Applications</h3>
-        <div class="portfolio-grid">
-          <article class="portfolio-card">
+        <div class="signature-products">
+          <article class="portfolio-card signature-product" data-reveal>
             <div class="portfolio-card__media portfolio-card__media--app">
               <picture>
                 <source srcset="/img/boussole-apercu.webp" type="image/webp">
@@ -103,7 +105,7 @@
               <p class="portfolio-card__tools">C++ · Qt / QML · Firebase</p>
             </div>
           </article>
-          <article class="portfolio-card">
+          <article class="portfolio-card signature-product" data-reveal>
             <div class="portfolio-card__media portfolio-card__media--jarvis">
               <picture>
                 <source srcset="/img/jarvis-apercu.webp" type="image/webp">
@@ -127,7 +129,7 @@
             <a class="rf-link" href="/mercedes-comparateur/?gauche=w15&amp;droite=w16">Comparer les monoplaces</a>
           </div>
         </div>
-        <ol class="portfolio-grid portfolio-grid--models portfolio-grid--mercedes mercedes-timeline">
+        <ol class="portfolio-grid portfolio-grid--models portfolio-grid--mercedes mercedes-timeline signature-models">
           <li class="portfolio-card">
             <div class="portfolio-card__media">
               <img src="/img/mercedes-w13.webp" alt="Rendu Blender de la Mercedes-AMG W13 à Bahreïn" width="1152" height="633" loading="lazy" decoding="async">
@@ -199,7 +201,7 @@
     </section>
     <section class="rf-shell rf-section" id="parcours" aria-labelledby="titre-parcours">
       <div class="rf-section__head"><h2 id="titre-parcours">Mon parcours professionnel</h2></div>
-      <div class="rf-timeline">
+      <div class="rf-timeline signature-career" data-reveal>
         <article class="rf-job"><time datetime="2026-09">Depuis septembre 2026</time><div><h3>Assistant commercial et marketing</h3><p class="rf-company">Florimond Desprez · Cappelle-en-Pévèle</p><details><summary>Voir les missions</summary><p>Je participe au suivi commercial des betteraves fourragères et sucrières. Je prépare aussi des supports de communication et je travaille sur un outil de suivi des clients pour l’équipe.</p></details></div></article>
         <article class="rf-job"><time datetime="2025-06">Juin 2025 à juin 2026</time><div><h3>Commercial terrain et communication</h3><p class="rf-company">Brasserie des Lys · Roubaix</p><details><summary>Voir les missions</summary><p>Je prospectais auprès des professionnels et des particuliers. Je m’occupais aussi des actions marketing et de la communication de la brasserie.</p></details></div></article>
         <article class="rf-job"><time datetime="2024-12">Décembre 2024 à janvier 2025</time><div><h3>Stage commercial</h3><p class="rf-company">Renault · Roubaix</p><details><summary>Voir les missions</summary><p>Accueil en concession, conseil, prospection et remise des véhicules aux clients.</p></details></div></article>
